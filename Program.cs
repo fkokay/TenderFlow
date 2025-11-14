@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using TenderFlow.Data;
+using TenderFlow.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +20,8 @@ builder.Services.AddDbContext<TenderFlowContext>(options =>
 
 
 builder.Services.AddHttpContextAccessor();
+builder.Services.AddHttpClient();
+builder.Services.AddScoped<RagService>();
 
 var app = builder.Build();
 
