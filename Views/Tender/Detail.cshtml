@@ -1,0 +1,130 @@
+﻿@model TenderModel
+@{
+    ViewData["title"] = "İhale Detayı";
+}
+
+<h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">İhale #@Model.TenderCode</span></h4>
+<div class="row">
+    <div class="col-xl-4 col-lg-5 col-md-5 order-1 order-md-0">
+        <div class="card">
+            <div class="card-body">
+                <div class="customer-avatar-section">
+                    <div class="d-flex align-items-center flex-column">
+                        <div class="mb-4">
+                            <div class="avatar-initial rounded bg-label-primary p-3">
+                                <i class="tf-icons ti ti-user ti-xl"></i>
+                            </div>
+                        </div>
+                        <div class="customer-info text-center mb-5">
+                            <h5 class="mb-2">@Model.PublicAuthorityName</h5>
+                            <span>Müşteri No #@Model.PublicAuthorityCode</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col d-flex">
+                        <div class="avatar me-2">
+                            <div class="avatar-initial rounded bg-label-primary">
+                                <i class="tf-icons ti ti-gavel ti-lg"></i>
+                            </div>
+                        </div>
+                        <div>
+                            <h5 class="mb-0">@Model.TenderCode</h5>
+                            <span>İhale No</span>
+                        </div>
+                    </div>
+                    <div class="col d-flex">
+                        <div class="avatar me-2">
+                            <div class="avatar-initial rounded bg-label-primary">
+                                <i class="tf-icons ti ti-archive ti-lg"></i>
+                            </div>
+                        </div>
+                        <div>
+                            <h5 class="mb-0">@Model.TenderAmount.ToString("n2") @Model.Currency</h5>
+                            <span>İhale Tutarı</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-5">
+                    <div class="col d-flex">
+                        <div class="avatar me-2">
+                            <div class="avatar-initial rounded bg-label-primary">
+                                <i class="tf-icons ti ti-calendar ti-lg"></i>
+                            </div>
+                        </div>
+                        <div>
+                            <h5 class="mb-0">@Model.TenderStartDate.ToShortDateString()</h5>
+                            <span>İhale Başlangıç Tarihi</span>
+                        </div>
+                    </div>
+                    <div class="col d-flex">
+                        <div class="avatar me-2">
+                            <div class="avatar-initial rounded bg-label-primary">
+                                <i class="tf-icons ti ti-calendar ti-lg"></i>
+                            </div>
+                        </div>
+                        <div>
+                            <h5 class="mb-0">@Model.TenderEndDate.ToShortDateString()</h5>
+                            <span>İhale Bitiş Tarihi</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="info-container">
+                    <h5 class="pb-4 border-bottom text-capitalize mt-6 mb-4">Detaylar</h5>
+                    <ul class="list-unstyled mb-6">
+                        <li class="mb-2">
+                            <span class="h6 me-1">İhale Adı:</span>
+                            <span>@Model.TenderName</span>
+                        </li>
+                        <li class="mb-2">
+                            <span class="h6 me-1">İhale Başlangıç Tarihi:</span>
+                            <span>@Model.TenderStartDate</span>
+                        </li>
+                        <li class="mb-2">
+                            <span class="h6 me-1">İhale Bitiş Tarihi:</span>
+                            <span>@Model.TenderEndDate</span>
+                        </li>
+                        <li class="mb-2">
+                            <span class="h6 me-1">İhale Türü:</span>
+                            <span class="badge bg-label-success">@Model.TenderType</span>
+                        </li>
+                        <li class="mb-2">
+                            <span class="h6 me-1">İhale Metodu:</span>
+                            <span>@Model.TenderMethod</span>
+                        </li>
+
+                        <li class="mb-2">
+                            <span class="h6 me-1">İhale Miktarı:</span>
+                            <span>@Model.TenderQuantity</span>
+                        </li>
+                        <li class="mb-2">
+                            <span class="h6 me-1">Sözleşme Tarihi:</span>
+                            <span>@(Model.ContractDate.HasValue? Model.ContractDate.Value.ToShortDateString(): "")</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-8 col-lg-7 col-md-7 order-0 order-md-1">
+        <div class="nav-align-top">
+            <ul class="nav nav-pills flex-column flex-md-row mb-6 row-gap-2 flex-wrap">
+                <li class="nav-item">
+                    <a class="nav-link active waves-effect waves-light" href="javascript:void(0);"><i class="icon-base ti tabler-user icon-sm me-1_5"></i>Cihazlar</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link waves-effect waves-light" href="app-ecommerce-customer-details-security.html"><i class="icon-base ti tabler-lock icon-sm me-1_5"></i>Reaktif</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link waves-effect waves-light" href="app-ecommerce-customer-details-billing.html"><i class="icon-base ti tabler-map-pin icon-sm me-1_5"></i>Opex</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link waves-effect waves-light" href="app-ecommerce-customer-details-notifications.html"><i class="icon-base ti tabler-bell icon-sm me-1_5"></i>Capex</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link waves-effect waves-light" href="app-ecommerce-customer-details-notifications.html"><i class="icon-base ti tabler-bell icon-sm me-1_5"></i>Zorunlu Belgeler</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

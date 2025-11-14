@@ -1,0 +1,56 @@
+@{
+    TempData.Keep();
+    string? path = Context.Request.Path;
+}
+
+<!-- Menu -->
+@* ! Do this simple *@
+<aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+
+    @* ! Hide app brand if navbar-full *@
+    <div class='app-brand demo @((@ViewData["navbarFull"] != null && Convert.ToBoolean(@ViewData["navbarFull"])) ? "d-xl-none" : "")'>
+        <a asp-page="/Index" class="app-brand-link">
+            <span class="app-brand-logo demo">
+                @await Html.PartialAsync("Partials/_Macros")
+            </span>
+            <span class="app-brand-text demo menu-text fw-bold">@TempData.Peek("appName")</span>
+        </a>
+
+        <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
+            <i class="ti menu-toggle-icon d-none d-xl-block ti-sm align-middle"></i>
+            <i class="ti ti-x d-block d-xl-none ti-sm align-middle"></i>
+        </a>
+    </div>
+
+    <div class="menu-inner-shadow"></div>
+
+    @* ! Starter Kit menu-items *@
+    <ul class="menu-inner py-1">
+        <li class='menu-item@((path == "/Home/Index" || path == "/") ? " active" : "")'>
+            <a asp-controller="Home" asp-action="Index" class="menu-link">
+                <i class="menu-icon tf-icons ti ti-smart-home"></i>
+                <div data-i18n="Dashboard">Dashboard</div>
+            </a>
+        </li>
+        <li class='menu-item@(path == "/Guarantee/List" ? " active" : "")'>
+            <a asp-controller="Guarantee" asp-action="List" class="menu-link">
+                <i class="menu-icon tf-icons ti ti-certificate"></i>
+                <div data-i18n="Teminatlar">Teminatlar</div>
+            </a>
+        </li>
+        <li class='menu-item@(path == "/Tender/List" ? " active" : "")'>
+            <a asp-controller="Tender" asp-action="List" class="menu-link">
+                <i class="menu-icon tf-icons ti ti-gavel"></i>
+                <div data-i18n="Ýhaleler">Ýhaleler</div>
+            </a>
+        </li>
+        <li class='menu-item@(path == "/Asset/List" ? " active" : "")'>
+            <a asp-controller="Asset" asp-action="List" class="menu-link">
+                <i class="menu-icon tf-icons ti ti-archive"></i>
+                <div data-i18n="Demirbaþlar">Demirbaþlar</div>
+            </a>
+        </li>
+    </ul>
+
+</aside>
+<!-- / Menu -->

@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="TenderFlow.Core\**" />
+    <Compile Remove="TenderFlow.Data\**" />
+    <Content Remove="TenderFlow.Core\**" />
+    <Content Remove="TenderFlow.Data\**" />
+    <EmbeddedResource Remove="TenderFlow.Core\**" />
+    <EmbeddedResource Remove="TenderFlow.Data\**" />
+    <None Remove="TenderFlow.Core\**" />
+    <None Remove="TenderFlow.Data\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.10" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="9.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="9.0.6" />
+    <PackageReference Include="System.Net.Http.Formatting.Extension" Version="5.2.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="TenderFlow.Core\TenderFlow.Core.csproj" />
+    <ProjectReference Include="TenderFlow.Data\TenderFlow.Data.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="NetOpenX.Rest.Client">
+      <HintPath>..\ToyaERPConnect\ToyaERPConnect\bin\Debug\NetOpenX.Rest.Client.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>
