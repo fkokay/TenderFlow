@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using TenderFlow.Services;
+using TenderFlow.AI.Rag;
+using TenderFlow.Models.Api;
 
 namespace TenderFlow.Controllers.Api
 {
@@ -7,11 +8,11 @@ namespace TenderFlow.Controllers.Api
     [ApiController]
     public class AiController : ControllerBase
     {
-        private readonly RagService _rag;
+        private readonly IRagService _ragService;
 
-        public AiController(RagService rag)
+        public AiController(IRagService ragService)
         {
-            _rag = rag;
+            _ragService = ragService;
         }
 
         public class AskRequest
@@ -19,21 +20,35 @@ namespace TenderFlow.Controllers.Api
             public string Question { get; set; } = string.Empty;
         }
 
-        [HttpPost("index-tenders")]
+        [HttpPost]
         public async Task<IActionResult> IndexTenders()
         {
-            await _rag.IndexTendersAsync();
-            return Ok(new { status = "ok" });
+            try
+            {
+                await _ragService.IndexTendersAsync();
+                return Ok(new { status = "ok", message = "Tüm ihaleler indexlendi." });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { error = ex.Message });
+            }
         }
 
-        [HttpPost("ask")]
+        [HttpPost]
         public async Task<IActionResult> Ask([FromBody] AskRequest req)
         {
             if (string.IsNullOrWhiteSpace(req.Question))
                 return BadRequest("Soru boş olamaz.");
 
-            var answer = await _rag.AskAsync(req.Question);
-            return Ok(new { answer });
+            try
+            {
+                var answer = await _ragService.AskAsync(req.Question);
+                return Ok(answer);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { error = ex.Message });
+            }
         }
     }
 }

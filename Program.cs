@@ -1,8 +1,15 @@
 using Microsoft.EntityFrameworkCore;
+using Npgsql;
+using TenderFlow.AI.Embedding;
+using TenderFlow.AI.Orchestration;
+using TenderFlow.AI.Providers;
+using TenderFlow.AI.Rag;
 using TenderFlow.Data;
-using TenderFlow.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+
+NpgsqlConnection.GlobalTypeMapper.UseVector();
+
 
 //Swagger
 builder.Services.AddEndpointsApiExplorer();
@@ -19,9 +26,20 @@ builder.Services.AddDbContext<TenderFlowContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 
+builder.Services.AddHttpClient("Gemini");
+builder.Services.AddHttpClient("OpenAI");
+builder.Services.AddScoped<IRagService, RagService>();
+builder.Services.AddScoped<PgVectorRagService>();
+
+builder.Services.AddScoped<IAiEmbeddingProvider, GeminiEmbeddingProvider>();
+builder.Services.AddScoped<IAiEmbeddingProvider, OpenAiEmbeddingProvider>();
+builder.Services.AddScoped<IEmbeddingSelector, EmbeddingSelector>();
+
+builder.Services.AddScoped<IAiProvider, OpenAiProvider>();
+builder.Services.AddScoped<IAiProvider, GeminiProvider>();
+builder.Services.AddScoped<IAiOrchestrator, AiOrchestrator>();
+
 builder.Services.AddHttpContextAccessor();
-builder.Services.AddHttpClient();
-builder.Services.AddScoped<RagService>();
 
 var app = builder.Build();
 

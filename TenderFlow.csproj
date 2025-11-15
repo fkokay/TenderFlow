@@ -7,12 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="TenderFlow.AI\**" />
     <Compile Remove="TenderFlow.Core\**" />
     <Compile Remove="TenderFlow.Data\**" />
+    <Content Remove="TenderFlow.AI\**" />
     <Content Remove="TenderFlow.Core\**" />
     <Content Remove="TenderFlow.Data\**" />
+    <EmbeddedResource Remove="TenderFlow.AI\**" />
     <EmbeddedResource Remove="TenderFlow.Core\**" />
     <EmbeddedResource Remove="TenderFlow.Data\**" />
+    <None Remove="TenderFlow.AI\**" />
     <None Remove="TenderFlow.Core\**" />
     <None Remove="TenderFlow.Data\**" />
   </ItemGroup>
@@ -26,6 +30,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="TenderFlow.AI\TenderFlow.AI.csproj" />
     <ProjectReference Include="TenderFlow.Core\TenderFlow.Core.csproj" />
     <ProjectReference Include="TenderFlow.Data\TenderFlow.Data.csproj" />
   </ItemGroup>

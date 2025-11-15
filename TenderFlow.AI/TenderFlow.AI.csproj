@@ -6,4 +6,16 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="9.0.11" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="9.0.11" />
+    <PackageReference Include="Npgsql" Version="8.0.8" />
+    <PackageReference Include="Pgvector" Version="0.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TenderFlow.Core\TenderFlow.Core.csproj" />
+    <ProjectReference Include="..\TenderFlow.Data\TenderFlow.Data.csproj" />
+  </ItemGroup>
+
 </Project>
