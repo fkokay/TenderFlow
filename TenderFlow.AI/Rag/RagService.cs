@@ -31,10 +31,7 @@ namespace TenderFlow.AI.Rag
         public async Task IndexTendersAsync()
         {
             // 1. Tüm ihaleleri çek
-            var tenders = await _db.Tenders
-                .Include(x => x.FinalGuarantee)
-                .AsNoTracking()
-                .ToListAsync();
+            var tenders = await _db.Database.SqlQueryRaw<TenderModel>($"SELECT * FROM VW_Tender").ToListAsync();
 
             foreach (var tender in tenders)
             {
@@ -55,6 +52,30 @@ namespace TenderFlow.AI.Rag
                 {
                     // Burada log eklenebilir
                     Console.WriteLine($"Tender {tender.Id} indexlenirken hata: {ex.Message}");
+                }
+            }
+
+            var guarantees = await _db.Database.SqlQueryRaw<GuaranteeModel>($"SELECT * FROM VW_Guarantee").ToListAsync();
+
+            foreach (var guarantee in guarantees)
+            {
+                try
+                {
+                    // 2. İhale metnini oluştur
+                    string text = GuaranteeTextBuilder.BuildGuaranteeText(guarantee);
+
+                    // 3. IndexTextAsync ile embedding + pgvector kaydı
+                    await _pg.InsertAsync(
+                        sourceSystem: "TenderFlow",
+                        sourceTable: "Guarantee",
+                        sourceKey: guarantee.Id.ToString(),
+                        content: text
+                    );
+                }
+                catch (Exception ex)
+                {
+                    // Burada log eklenebilir
+                    Console.WriteLine($"Guarantee {guarantee.Id} indexlenirken hata: {ex.Message}");
                 }
             }
         }
