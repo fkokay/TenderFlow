@@ -38,7 +38,6 @@ namespace TenderFlow.Data
         public DbSet<TenderReaktif> TenderReaktifs { get; set; }
         public DbSet<TenderReaktifStatistics> TenderReaktifStatistics { get; set; }
         public DbSet<TenderRequiredDocument> TenderRequiredDocuments { get; set; }
-        public DbSet<AiEmbedding> AiEmbeddings { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

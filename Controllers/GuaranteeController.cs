@@ -20,6 +20,17 @@ namespace TenderFlow.Controllers
             return View();
         }
 
+        public async Task<IActionResult> Detail(int id)
+        {
+            var model = await _db.Database.SqlQueryRaw<GuaranteeModel>($"SELECT * FROM VW_Guarantee WHERE Id={id}").FirstOrDefaultAsync();
+            if (model == null)
+            {
+                return NotFound();
+            }
+
+            return View(model);
+        }
+
         [HttpPost]
         public async Task<IActionResult> GuaranteeListAsync([FromBody] GridCommand gridCommand)
         {
@@ -62,5 +73,6 @@ namespace TenderFlow.Controllers
                 data = pagedData
             });
         }
+
     }
 }
