@@ -1,4 +1,6 @@
-﻿namespace TenderFlow.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace TenderFlow.Models
 {
     public class GuaranteeModel
     {
@@ -25,5 +27,8 @@
         public string PublicAuthorityName { get; set; }
         public string TakasbankReferenceNo { get; set; }
         public DateTime CreatedAt { get; set; }
+
+        [NotMapped]
+        public List<GuaranteeCommissionModel> GuaranteeCommissions { get; set; } = new List<GuaranteeCommissionModel>();
     }
 }

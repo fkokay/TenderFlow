@@ -18,6 +18,6 @@ namespace TenderFlow.Core.Domain.Entities
 
         public Tender Tender { get; set; }
         public TenderDocument Document { get; set; }
-        public ICollection<TenderDocumentFile> Files { get; set; }
+        public ICollection<TenderRequiredDocumentFile> Files { get; set; }
     }
 }

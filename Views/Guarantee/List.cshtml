@@ -4,12 +4,12 @@
 
 <!-- Content -->
 
-<h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Teminatlar</span></h4>
+<h4 class="fw-bold mb-4 py-3"><span class="text-muted fw-light">Teminatlar</span></h4>
 
 <!-- DataTable with Buttons -->
 <div class="card">
     <div class="card-datatable text-nowrap pt-0">
-        <table id="Table" class="table table-bordered">
+        <table id="Table" class="table-bordered table">
             <thead>
                 <tr>
                     <th>Id</th>
@@ -32,8 +32,6 @@
     </div>
 </div>
 <!--/ DataTable with Buttons -->
-
-
 @section VendorStyles {
     <link href="~/vendor/libs/datatables-bs5/datatables.bootstrap5.css" rel="stylesheet" />
     <link href="~/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css" rel="stylesheet" />
@@ -44,11 +42,11 @@
     <link href="~/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css" rel="stylesheet" />
 }
 
-@section VendorScripts{
+@section VendorScripts {
     <script src="~/vendor/libs/datatables-bs5/datatables-bootstrap5.js"></script>
 }
 
-@section PageScripts{
+@section PageScripts {
     <script>
         const table = $('#Table').DataTable({
             language: {
@@ -74,7 +72,11 @@
                 { data: 'Id', visible: false },
                 { data: 'FirmName' },
                 { data: 'Subject' },
-                { data: 'GuaranteeNumber' },
+                { data: 'GuaranteeNumber',
+                  render: (data, type, row) => {
+                    return `<a href="/Guarantee/Detail?id=${row.Id}">${row.GuaranteeNumber}</a>`;
+                  }
+                },
                 { data: 'GuaranteeType' },
                 { data: 'GuaranteeForm' },
                 { data: 'GuaranteeAmount' },
@@ -147,7 +149,7 @@
                                 ]
                             },
                             {
-                                text: `<i class="icon-base ti ti-plus me-0 me-sm-1 icon-16px"></i>
+                                text: `<i class="icon-base ti ti-plus me-sm-1 icon-16px me-0"></i>
                                         <span class="d-none d-sm-inline-block">Yeni Ekle</span>`,
                                 className: "add-new btn btn-primary",
                                 action: function () {

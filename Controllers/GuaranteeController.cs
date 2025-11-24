@@ -28,6 +28,23 @@ namespace TenderFlow.Controllers
                 return NotFound();
             }
 
+            model.GuaranteeCommissions = await _db.GuaranteeCommissions.Where(m => m.GuaranteeId == id).Select(m => new GuaranteeCommissionModel()
+            {
+                Id = m.Id,
+                GuaranteeId = m.GuaranteeId,
+                BankReferenceNo = m.BankReferenceNo,
+                CommissionAmount = m.CommissionAmount,
+                CommissionEndDate = m.CommissionEndDate,
+                CommissionStartDate = m.CommissionStartDate,
+                CommissionRate = m.CommissionRate,
+                CreatedAt = m.CreatedAt,
+                CreatedBy = m.CreatedBy,
+                Currency = m.Currency,
+                Note = m.Note,
+                PaymentDate = m.PaymentDate,
+                PaymentStatus = m.PaymentStatus,
+            }).ToListAsync();
+
             return View(model);
         }
 

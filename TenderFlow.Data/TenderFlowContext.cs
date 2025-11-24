@@ -31,13 +31,14 @@ namespace TenderFlow.Data
         public DbSet<TenderDevice> TenderDevices { get; set; }
         public DbSet<TenderDeviceService> TenderDeviceServices { get; set; }
         public DbSet<TenderDocument> TenderDocuments { get; set; }
-        public DbSet<TenderDocumentFile> TenderDocumentFiles { get; set; }
+        public DbSet<TenderRequiredDocument> TenderRequiredDocuments { get; set; }
+        public DbSet<TenderRequiredDocumentFile> TenderRequiredDocumentFiles { get; set; }
+        public DbSet<TenderRequiredDocumentExpense> TenderRequiredDocumentExpenses { get; set; }
         public DbSet<TenderExternalQuality> TenderExternalQualities { get; set; }
         public DbSet<TenderCapex> TenderCapex { get; set; }
         public DbSet<TenderOpex> TenderOpex { get; set; }
         public DbSet<TenderReaktif> TenderReaktifs { get; set; }
         public DbSet<TenderReaktifStatistics> TenderReaktifStatistics { get; set; }
-        public DbSet<TenderRequiredDocument> TenderRequiredDocuments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -145,7 +146,7 @@ namespace TenderFlow.Data
                 .HasForeignKey(rd => rd.DocumentId);
 
             // TenderDocumentFile
-            modelBuilder.Entity<TenderDocumentFile>()
+            modelBuilder.Entity<TenderRequiredDocumentFile>()
                 .HasOne(df => df.RequiredDocument)
                 .WithMany(rd => rd.Files)
                 .HasForeignKey(df => df.TenderRequiredDocumentId);

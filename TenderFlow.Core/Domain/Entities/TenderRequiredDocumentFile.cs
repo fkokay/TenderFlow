@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace TenderFlow.Core.Domain.Entities
 {
     [Table("TenderDocumentFile")]
-    public class TenderDocumentFile : BaseEntity
+    public class TenderRequiredDocumentFile : BaseEntity
     {
         public int TenderRequiredDocumentId { get; set; }
         public string FileName { get; set; }

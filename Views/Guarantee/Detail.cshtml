@@ -2,3 +2,193 @@
 @{
     ViewData["title"] = "Teminat Detayı";
 }
+
+<h4 class="fw-bold mb-4 py-3">
+    <span class="text-muted fw-light">Teminat Detayı #@Model.GuaranteeNumber</span>
+</h4>
+
+<div class="row">
+    <div class="col-xl-5 col-lg-5 col-md-6 order-md-0 order-1">
+        <div class="card">
+            <div class="card-body">
+                <div class="customer-avatar-section">
+                    <div class="d-flex align-items-center flex-column">
+                        <div class="mb-4">
+                            <div class="avatar-initial bg-label-primary rounded p-3">
+                                <i class="tf-icons ti ti-user ti-xl"></i>
+                            </div>
+                        </div>
+                        <div class="customer-info mb-5 text-center">
+                            <h5 class="mb-2">@Model.PublicAuthorityName</h5>
+                            <span>Müşteri No #@Model.PublicAuthorityCode</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-6 d-flex">
+                        <div class="avatar me-2">
+                            <div class="avatar-initial bg-label-primary rounded">
+                                <i class="tf-icons ti ti-gavel ti-lg"></i>
+                            </div>
+                        </div>
+                        <div>
+                            <h5 class="mb-0">@Model.GuaranteeNumber</h5>
+                            <span>Teminat No</span>
+                        </div>
+                    </div>
+                    <div class="col-6 d-flex">
+                        <div class="avatar me-2">
+                            <div class="avatar-initial bg-label-primary rounded">
+                                <i class="tf-icons ti ti-archive ti-lg"></i>
+                            </div>
+                        </div>
+                        <div>
+                            <h5 class="mb-0">@Model.GuaranteeAmount.ToString("n2") @Model.Currency</h5>
+                            <span>Teminat Tutarı</span>
+                        </div>
+                    </div>
+                    <div class="col-6 d-flex">
+                        <div class="avatar me-2">
+                            <div class="avatar-initial bg-label-primary rounded">
+                                <i class="tf-icons ti ti-calendar ti-lg"></i>
+                            </div>
+                        </div>
+                        <div>
+                            <h5 class="mb-0">@Model.GuaranteeDate.ToShortDateString()</h5>
+                            <span>Teminat Başlangıç Tarihi</span>
+                        </div>
+                    </div>
+                    <div class="col-6 d-flex">
+                        <div class="avatar me-2">
+                            <div class="avatar-initial bg-label-primary rounded">
+                                <i class="tf-icons ti ti-calendar ti-lg"></i>
+                            </div>
+                        </div>
+                        <div>
+                            <h5 class="mb-0">@Model.ExpiryDate.ToShortDateString()</h5>
+                            <span>Teminat Bitiş Tarihi</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="info-container">
+                    <h5 class="border-bottom text-capitalize mb-4 mt-6 pb-4">Detaylar</h5>
+                    <ul class="list-unstyled mb-6">
+                        <li class="mb-2">
+                            <span class="h6 me-1">Teminat Konusu:</span>
+                            <span>@Model.Subject</span>
+                        </li>
+                        <li class="mb-2">
+                            <span class="h6 me-1">Teminat Türü:</span>
+                            <span>@Model.GuaranteeType</span>
+                        </li>
+                        <li class="mb-2">
+                            <span class="h6 me-1">Teminat Metodu:</span>
+                            <span>@Model.GuaranteeForm</span>
+                        </li>
+                        <li class="mb-2">
+                            <span class="h6 me-1">Teminat No:</span>
+                            <span>@Model.GuaranteeNumber</span>
+                        </li>
+                        <li class="mb-2">
+                            <span class="h6 me-1">Düzenleyen Banka:</span>
+                            <span>@Model.BankName</span>
+                        </li>
+                        <li class="mb-2">
+                            <span class="h6 me-1">Düzenleyen Şube:</span>
+                            <span>@Model.BankBranchName</span>
+                        </li>
+                        <li class="mb-2">
+                            <span class="h6 me-1">Başlangıç Tarihi:</span>
+                            <span>@Model.GuaranteeDate.ToShortDateString()</span>
+                        </li>
+                        <li class="mb-2">
+                            <span class="h6 me-1">Bitiş Tarihi:</span>
+                            <span>@Model.ExpiryDate.ToShortDateString()</span>
+                        </li>
+                        <li class="mb-2">
+                            <span class="h6 me-1">Teminat Tutarı:</span>
+                            <span>@Model.GuaranteeAmount.ToString("n2")</span>
+                        </li>
+                        <li class="mb-2">
+                            <span class="h6 me-1">Komisyon Periyodu:</span>
+                            <span>@Model.GuaranteeCommissionPeriodName</span>
+                        </li>
+                        <li class="mb-2">
+                            <span class="h6 me-1">Teminat Komisyon Oranı:</span>
+                            <span>@Model.CommissionRate.ToString("n4")</span>
+                        </li>
+                        <li class="mb-2">
+                            <span class="h6 me-1">Teminat Komisyonu:</span>
+                            <span>@Model.CommissionAmount.ToString("n2")</span>
+                        </li>
+                        <li class="mb-2">
+                            <span class="h6 me-1">Takasbank Referans No:</span>
+                            <span>@Model.TakasbankReferenceNo</span>
+                        </li>
+                        <li class="mb-2">
+                            <span class="h6 me-1">Düzenlenen Kurum:</span>
+                            <span>@Model.PublicAuthorityName</span>
+                        </li>
+                        <li class="mb-2">
+                            <span class="h6 me-1">Kayut Tarihi:</span>
+                            <span>@Model.CreatedAt.ToString()</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-7 col-lg-7 col-md-6 order-0 order-md-1">
+        <div class="nav-align-top">
+            <ul class="nav nav-pills flex-column flex-md-row row-gap-2 mb-4 flex-wrap">
+                <li class="nav-item">
+                    <button type="button" class="nav-link active waves-effect waves-light" role="tab" data-bs-toggle="tab" data-bs-target="#navs-guarantee-commissions" aria-controls="navs-guarantee-commissions" aria-selected="true">
+                        <i class="icon-base ti tabler-user icon-sm me-1_5"></i>Komisyonlar
+                    </button>
+                </li>
+            </ul>
+            <div class="tab-content p-0">
+                <div class="tab-pane fade show active" id="navs-guarantee-commissions" role="tabpanel">
+                    <table id="Table" class="table-bordered table">
+                        <thead>
+                            <tr>
+                                <th>Başlangıç Tarihi</th>
+                                <th>Bitiş Tarihi</th>
+                                <th>Komisyon Oranı</th>
+                                <th>Komisyon Tutarı</th>
+                                <th>Ödeme Durumu</th>
+                                <th>Ödeme Tarihi</th>
+                                <th>Banka Referans No</th>
+                                <th>Kayıt Tarihi</th>
+                                <th>Kayıt Eden</th>
+                                <th>Not</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.GuaranteeCommissions)
+                            {
+                                <tr>
+                                    <td>@item.CommissionStartDate.ToShortDateString()</td>
+                                    <td>@item.CommissionEndDate.ToShortDateString()</td>
+                                    <td>@item.CommissionRate.ToString("n4")</td>
+                                    <td>@item.CommissionAmount.ToString("n2") @item.Currency</td>
+                                    <td>@item.PaymentStatus</td>
+                                    <td>
+                                        @if (item.PaymentDate.HasValue)
+                                        {
+                                            item.PaymentDate.ToString();
+                                        }
+                                    </td>
+                                    <td>@item.BankReferenceNo</td>
+                                    <td>@item.CreatedAt.ToString()</td>
+                                    <td>@item.CreatedBy</td>
+                                    <td>@item.Note</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
