@@ -1,4 +1,6 @@
-﻿namespace TenderFlow.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace TenderFlow.Models
 {
     public class TenderModel
     {
@@ -26,5 +28,8 @@
         public DateTime? DocumentUploadDate { get; set; }
         public DateTime? ContractDate { get; set; }
         public DateTime CreatedAt { get; set; }
+
+        [NotMapped]
+        public List<TenderDeviceModel> Devices { get; set; } = new List<TenderDeviceModel>();
     }
 }

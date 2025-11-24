@@ -28,6 +28,8 @@ namespace TenderFlow.Controllers
                 return NotFound();
             }
 
+            model.Devices = await _db.Database.SqlQueryRaw<TenderDeviceModel>($"SELECT * FROM VW_TenderDevice WHERE TenderId={id}").ToListAsync();
+
             return View(model);
         }
 

@@ -3,19 +3,19 @@
     ViewData["title"] = "İhale Detayı";
 }
 
-<h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">İhale #@Model.TenderCode</span></h4>
+<h4 class="fw-bold mb-4 py-3"><span class="text-muted fw-light">İhale #@Model.TenderCode</span></h4>
 <div class="row">
-    <div class="col-xl-4 col-lg-5 col-md-5 order-1 order-md-0">
+    <div class="col-xl-4 col-lg-5 col-md-5 order-md-0 order-1">
         <div class="card">
             <div class="card-body">
                 <div class="customer-avatar-section">
                     <div class="d-flex align-items-center flex-column">
                         <div class="mb-4">
-                            <div class="avatar-initial rounded bg-label-primary p-3">
+                            <div class="avatar-initial bg-label-primary rounded p-3">
                                 <i class="tf-icons ti ti-user ti-xl"></i>
                             </div>
                         </div>
-                        <div class="customer-info text-center mb-5">
+                        <div class="customer-info mb-5 text-center">
                             <h5 class="mb-2">@Model.PublicAuthorityName</h5>
                             <span>Müşteri No #@Model.PublicAuthorityCode</span>
                         </div>
@@ -24,7 +24,7 @@
                 <div class="row mb-2">
                     <div class="col d-flex">
                         <div class="avatar me-2">
-                            <div class="avatar-initial rounded bg-label-primary">
+                            <div class="avatar-initial bg-label-primary rounded">
                                 <i class="tf-icons ti ti-gavel ti-lg"></i>
                             </div>
                         </div>
@@ -35,7 +35,7 @@
                     </div>
                     <div class="col d-flex">
                         <div class="avatar me-2">
-                            <div class="avatar-initial rounded bg-label-primary">
+                            <div class="avatar-initial bg-label-primary rounded">
                                 <i class="tf-icons ti ti-archive ti-lg"></i>
                             </div>
                         </div>
@@ -48,7 +48,7 @@
                 <div class="row mb-5">
                     <div class="col d-flex">
                         <div class="avatar me-2">
-                            <div class="avatar-initial rounded bg-label-primary">
+                            <div class="avatar-initial bg-label-primary rounded">
                                 <i class="tf-icons ti ti-calendar ti-lg"></i>
                             </div>
                         </div>
@@ -59,7 +59,7 @@
                     </div>
                     <div class="col d-flex">
                         <div class="avatar me-2">
-                            <div class="avatar-initial rounded bg-label-primary">
+                            <div class="avatar-initial bg-label-primary rounded">
                                 <i class="tf-icons ti ti-calendar ti-lg"></i>
                             </div>
                         </div>
@@ -70,7 +70,7 @@
                     </div>
                 </div>
                 <div class="info-container">
-                    <h5 class="pb-4 border-bottom text-capitalize mt-6 mb-4">Detaylar</h5>
+                    <h5 class="border-bottom text-capitalize mb-4 mt-6 pb-4">Detaylar</h5>
                     <ul class="list-unstyled mb-6">
                         <li class="mb-2">
                             <span class="h6 me-1">İhale Adı:</span>
@@ -108,23 +108,53 @@
     </div>
     <div class="col-xl-8 col-lg-7 col-md-7 order-0 order-md-1">
         <div class="nav-align-top">
-            <ul class="nav nav-pills flex-column flex-md-row mb-6 row-gap-2 flex-wrap">
+            <ul class="nav nav-pills flex-column flex-md-row row-gap-2 mb-4 flex-wrap">
                 <li class="nav-item">
-                    <a class="nav-link active waves-effect waves-light" href="javascript:void(0);"><i class="icon-base ti tabler-user icon-sm me-1_5"></i>Cihazlar</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link waves-effect waves-light" href="app-ecommerce-customer-details-security.html"><i class="icon-base ti tabler-lock icon-sm me-1_5"></i>Reaktif</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link waves-effect waves-light" href="app-ecommerce-customer-details-billing.html"><i class="icon-base ti tabler-map-pin icon-sm me-1_5"></i>Opex</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link waves-effect waves-light" href="app-ecommerce-customer-details-notifications.html"><i class="icon-base ti tabler-bell icon-sm me-1_5"></i>Capex</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link waves-effect waves-light" href="app-ecommerce-customer-details-notifications.html"><i class="icon-base ti tabler-bell icon-sm me-1_5"></i>Zorunlu Belgeler</a>
+                    <button type="button" class="nav-link active waves-effect waves-light" role="tab" data-bs-toggle="tab" data-bs-target="#navs-devices" aria-controls="navs-devices" aria-selected="true">
+                        <i class="icon-base ti tabler-user icon-sm me-1_5"></i>Cihazlar
+                    </button>
                 </li>
             </ul>
+
+            <div class="tab-content p-0">
+                <div class="tab-pane fade show active" id="navs-devices" role="tabpanel">
+                    <table id="Table" class="table-bordered table">
+                        <thead>
+                            <tr>
+                                <th>Tedarik Türü</th>
+                                <th>Stok Kodu</th>
+                                <th>Miktar</th>
+                                <th>Müşteri Kodu</th>
+                                <th>Müşteri Ünvanı</th>
+                                <th>Kira</th>
+                                <th>Servis</th>
+                                <th>Link</th>
+                                <th>Satınlama</th>
+                                <th>Para Birimi</th>
+                                <th>Kayıt Tarihi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Devices)
+                            {
+                                <tr>
+                                    <td>@item.SupplyType</td>
+                                    <td>@item.StockCode</td>
+                                    <td>@item.Quantity</td>
+                                    <td>@item.CustomerCode</td>
+                                    <td>@item.CustomerName</td>
+                                    <td>@item.RentUnitPrice.ToString("n2")</td>
+                                    <td>@item.ServiceUnitPrice.ToString("n2")</td>
+                                    <td>@item.LinkUnitPrice.ToString("n2")</td>
+                                    <td>@item.PurchasePrice.ToString("n2")</td>
+                                    <td>@item.Currency</td>
+                                    <td>@item.CreatedAt.ToString()</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 </div>
