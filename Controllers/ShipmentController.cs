@@ -1,6 +1,12 @@
 ﻿using Azure.Core;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
+using NetOpenX.Rest.Client;
+using NetOpenX.Rest.Client.BLL;
+using NetOpenX.Rest.Client.Model;
+using NetOpenX.Rest.Client.Model.Enums;
+using NetOpenX.Rest.Client.Model.NetOpenX;
+using Newtonsoft.Json;
 using System.Data;
 using System.Diagnostics;
 using System.Text;
@@ -182,13 +188,14 @@ namespace TenderFlow.Controllers
             }
         }
 
+        [HttpGet]
         public IActionResult ShipmentOrderManagement()
         {
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> ShipmentOrderList([FromBody] GridCommand gridCommand)
+        public async Task<IActionResult> CreateDocumentAsync([FromBody] DocumentRequestModel request)
         {
             var config = new NetsisConfig
             {
@@ -203,15 +210,128 @@ namespace TenderFlow.Controllers
             var con = netsis.Open();
 
             var shipmentService = new ShipmentService(con);
-            var list = await shipmentService.GerOrdersAsync(cariKodu: "");
-            return Json(new
+            var shipments = await shipmentService.GetOrderManagementsByDocumentNumbersAsync(request.DocumentNumbers);
+
+            foreach (var shipment in shipments)
             {
-                data = list
-            });
+                var shipmentLines = await shipmentService.GetShipmentLines(shipment.BELGE_NO);
+
+                oAuth2 auth2 = new oAuth2("http://192.168.1.100:7070");
+                var token = await auth2.LoginAsync(new JLogin()
+                {
+                    BranchCode = 0,
+                    DbName = "TEST2025",
+                    DbPassword = "",
+                    DbType = JNVTTipi.vtMSSQL,
+                    DbUser = "TEMELSET",
+                    NetsisUser = "Netsis",
+                    NetsisPassword = "net2"
+                });
+
+                ItemSlipsManager InvoiceManager = new ItemSlipsManager(auth2);
+                var fatNo = InvoiceManager.NewEWaybillNumber(new NetOpenX.Rest.Client.Model.Custom.ItemSlipsCodeParam()
+                {
+                    DocumentType = JTFaturaTip.ftSIrs,
+                    Code = "IRS"
+                });
+
+
+                ItemSlips itemSlip = new ItemSlips();
+                itemSlip.FaturaTip = JTFaturaTip.ftSIrs;
+                itemSlip.SeriliHesapla = false;
+                itemSlip.FatUst = new ItemSlipsHeader()
+                {
+                    FATIRS_NO = fatNo.Data.ToString(),
+                    CariKod = shipment.CARI_KODU,
+                    Tarih = DateTime.Now,
+                    TIPI = JTFaturaTipi.ft_Acik,
+                    KDV_DAHILMI = false,
+                    Tip = JTFaturaTip.ftSIrs
+                };
+
+                itemSlip.Kalems = new List<ItemSlipLines>();
+                foreach (var shipmentLine in shipmentLines)
+                {
+                    itemSlip.Kalems.Add(new ItemSlipLines()
+                    {
+                        StokKodu = shipmentLine.STOKKODU,
+                        DEPO_KODU = shipmentLine.DEPO,
+                        STra_GCMIK = Convert.ToDouble(shipmentLine.MIKTAR),
+                    });
+                }
+
+                itemSlip.EIrsEkBilgi = new EWaybillInfo()
+                {
+                    PLAKA = "35IUP35",
+                    TASIYICIVKN = "0010079308",
+                    TASIYICIADI = "Ahmet",
+                    TASIYICIILCE = "Bornova",
+                    TASIYICIIL = "İzmir",
+                    TASIYICIULKE = "TR",
+                    TASIYICIPOSTAKODU = "35100",
+                    SOFOR1ADI = "Mehmet",
+                    SOFOR1SOYADI = "Ata",
+                    SOFOR1ACIKLAMA = "Kamyoncu",
+                    SOFOR1TCKN = "12345678910",
+                    SEVKTAR = DateTime.Now,
+                    DORSEPLAKA1 = "35IUP35",
+                    DORSEPLAKA2 = "35MRP35"
+                };
+
+                var result = InvoiceManager.PostInternal(itemSlip);
+
+
+            }
+
+            return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> ShipmentOrderManagementListAsync([FromBody] GridCommand gridCommand)
+        public async Task<IActionResult> ShipmentOrderList()
+        {
+            using var reader = new StreamReader(Request.Body);
+            var body = await reader.ReadToEndAsync();
+
+            dynamic json = JsonConvert.DeserializeObject(body);
+
+            GridCommand grid = JsonConvert.DeserializeObject<GridCommand>(Convert.ToString(json));
+
+            // STRING olarak çekiyoruz
+            string cari = Convert.ToString(json.Filters?.cari);
+            string start = Convert.ToString(json.Filters?.startDate);
+            string end = Convert.ToString(json.Filters?.endDate);
+            string depo = Convert.ToString(json.Filters?.depo);
+            bool hasBalance = json.Filters?.hasBalance ?? false;
+
+            DateTime? startDate = string.IsNullOrWhiteSpace(start) ? null : Convert.ToDateTime(start);
+            DateTime? endDate = string.IsNullOrWhiteSpace(end) ? null : Convert.ToDateTime(end);
+
+            var config = new NetsisConfig
+            {
+                Server = "192.168.1.100",
+                Database = "MAKROLAB25",
+                User = "sa",
+                Password = "sapass",
+            };
+
+            var netsis = new NetsisConnection(config);
+            var con = netsis.Open();
+
+            var shipmentService = new ShipmentService(con);
+
+            var list = await shipmentService.GerOrdersAsync(
+                cariKodu: cari,
+                startDate: startDate,
+                endDate: endDate,
+                depo: depo,
+                hasBalance: hasBalance
+            );
+
+            return Json(new { data = list });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ShipmentOrderManagementList([FromBody] GridCommand gridCommand)
         {
             var config = new NetsisConfig
             {

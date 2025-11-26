@@ -6,11 +6,62 @@
     <span class="text-muted fw-light">@ViewData["title"]</span>
 </h4>
 
+<div class="card mb-4">
+    <div class="card-body row g-3">
+
+        <!-- Cari Hesap -->
+        <div class="col-md-3">
+            <label class="form-label">Cari Hesap</label>
+            <input type="text" id="filterCari" class="form-control" placeholder="Cari Kodu">
+        </div>
+
+        <!-- Başlangıç Tarihi -->
+        <div class="col-md-2">
+            <label class="form-label">Başlangıç Tarihi</label>
+            <input type="date" id="filterStart" class="form-control">
+        </div>
+
+        <!-- Bitiş Tarihi -->
+        <div class="col-md-2">
+            <label class="form-label">Bitiş Tarihi</label>
+            <input type="date" id="filterEnd" class="form-control">
+        </div>
+
+        <!-- Depo -->
+        <div class="col-md-2">
+            <label class="form-label">Depo</label>
+            <select id="filterDepo" class="form-select">
+                <option value="">Tümü</option>
+                <option value="1">Depo 1</option>
+                <option value="2">Depo 2</option>
+                <option value="3">Depo 3</option>
+            </select>
+        </div>
+
+        <!-- Bakiyesi Olanlar -->
+        <div class="col-md-2 d-flex align-items-end">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="filterHasBalance">
+                <label class="form-check-label">Bakiyesi Olanlar</label>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="card-footer text-end">
+        <button type="button" class="btn btn-primary" id="btnFilter">Filtrele</button>
+        <button type="button" class="btn btn-secondary" id="btnClearFilters">Temizle</button>
+    </div>
+</div>
 <div class="card">
     <div class="card-header">
         <button class="btn btn-primary" onclick="createShipment()">Sevkiyat Oluştur</button>
     </div>
     <div class="card-datatable table-responsive">
+        <div class="table-loading" id="tableLoading" style="display:none;">
+            <div class="spinner-border text-light" style="width:3rem; height:3rem;"></div>
+            <div class="mt-2 text-white">Yükleniyor...</div>
+        </div>
         <table id="Table" class="dt-fixedheader table-bordered dataTable dtr-column table">
             <thead>
                 <tr>
@@ -71,215 +122,261 @@
 
 @section PageScripts {
     <script>
-        const table = $('#Table').DataTable({
-            language: {
-                paginate: {
-                    next: '<i class="icon-base ti ti-chevron-right scaleX-n1-rtl icon-18px"></i>',
-                    previous: '<i class="icon-base ti ti-chevron-left scaleX-n1-rtl icon-18px"></i>',
-                    first: '<i class="icon-base ti ti-chevrons-left scaleX-n1-rtl icon-18px"></i>',
-                    last: '<i class="icon-base ti ti-chevrons-right scaleX-n1-rtl icon-18px"></i>'
-                },
-                url: 'https://cdn.datatables.net/plug-ins/2.3.2/i18n/tr.json',
-            },
-            serverSide: false,
-            paging: false,
-            searching: false,
-            order: [[2, 'asc']],
-            ajax: {
-                url: '/Shipment/ShipmentOrderList',
-                type: 'POST',
-                contentType: 'application/json',
-                data: function (d) {
-                    return JSON.stringify(d);
-                },
-                dataSrc: function (json) {
-                    json.data.forEach(x => {
-                        x.CARI_KEY = `${x.CARI_KODU} - ${x.CARI_ADI}`;
-                    });
-                    return json.data;
-                }
-            },
-            columns: [
-                {
-                    data: null,
-                    orderable: false,
-                    searchable: false,
-                    render: function () {
-                        return '<input type="checkbox" class="row-checkbox"/>';
+                const table = $('#Table').DataTable({
+                    language: {
+                        paginate: {
+                            next: '<i class="icon-base ti ti-chevron-right scaleX-n1-rtl icon-18px"></i>',
+                            previous: '<i class="icon-base ti ti-chevron-left scaleX-n1-rtl icon-18px"></i>',
+                            first: '<i class="icon-base ti ti-chevrons-left scaleX-n1-rtl icon-18px"></i>',
+                            last: '<i class="icon-base ti ti-chevrons-right scaleX-n1-rtl icon-18px"></i>'
+                        },
+                        url: 'https://cdn.datatables.net/plug-ins/2.3.2/i18n/tr.json',
+                    },
+                    processing: false,
+                    serverSide: true,
+                    paging: false,
+                    searching: false,
+                    order: [[2, 'asc']],
+                    ajax: {
+                        url: '/Shipment/ShipmentOrderList',
+                        type: 'POST',
+                        contentType: 'application/json',
+                        data: function (d) {
+
+                            d.Filters = {
+                                cari: $("#filterCari").val(),
+                                startDate: $("#filterStart").val(),
+                                endDate: $("#filterEnd").val(),
+                                depo: $("#filterDepo").val(),
+                                hasBalance: $("#filterHasBalance").is(":checked")
+                            };
+                            return JSON.stringify(d);
+                        },
+                        dataSrc: function (json) {
+                            json.data.forEach(x => {
+                                x.CARI_KEY = `${x.CARI_KODU} - ${x.CARI_ADI}`;
+                            });
+                            return json.data;
+                        }
+                    },
+                    deferLoading: 0,
+                    columns: [
+                        {
+                            data: null,
+                            orderable: false,
+                            searchable: false,
+                            render: function () {
+                                return '<input type="checkbox" class="row-checkbox"/>';
+                            }
+                        },
+                        {   data: 'ID', visible: false },
+                        {   data: 'SIPARIS_NO' },
+                        {   data: 'SIRA'},
+                        {   data: 'CARI_KODU', visible: false },
+                        {   data: 'CARI_ADI', visible: false },
+                        {
+                            data: 'TARIH',
+                            render: function (data, type) {
+                                if (type === "sort" || type === "type") return data;
+                                return moment(data).format("DD.MM.YYYY");
+                            }
+                        },
+                        {
+                            data: 'TESLIM_TARIHI',
+                            render: function (data, type) {
+                                if (type === "sort" || type === "type") return data;
+                                return moment(data).format("DD.MM.YYYY");
+                            }
+                        },
+                        {   data: 'STOK_KODU' },
+                        {   data: 'STOK_ADI' },
+                        {   data: 'SIPARIS_MIKTAR' },
+                        {   data: 'GONDERILEN_MIKTAR' },
+                        {   data: 'MIKTAR' },
+                        {   data: 'DEPO_BAKIYE' }
+                    ],
+                    rowGroup: {
+                        dataSrc: 'CARI_KEY',
+                        startRender: function (rows, group) {
+                            return `
+                                <div class="group-row"
+                                     style="font-weight:bold; padding:4px; display:flex; align-items:center; gap:10px;">
+                                    <input type="checkbox" class="group-checkbox" data-group="${group}">
+                                    ${group}
+                                </div>
+                            `;
+                        }
+                    },
+                    displayLength: 10,
+                    scrollX: false,
+                    initComplete: function () {
                     }
-                },
-                {   data: 'ID', visible: false },
-                {   data: 'SIPARIS_NO' },
-                {   data: 'SIRA'},
-                {   data: 'CARI_KODU', visible: false },
-                {   data: 'CARI_ADI', visible: false },
-                {
-                    data: 'TARIH',
-                    render: function (data, type) {
-                        if (type === "sort" || type === "type") return data;
-                        return moment(data).format("DD.MM.YYYY");
-                    }
-                },
-                {
-                    data: 'TESLIM_TARIHI',
-                    render: function (data, type) {
-                        if (type === "sort" || type === "type") return data;
-                        return moment(data).format("DD.MM.YYYY");
-                    }
-                },
-                {   data: 'STOK_KODU' },
-                {   data: 'STOK_ADI' },
-                {   data: 'SIPARIS_MIKTAR' },
-                {   data: 'GONDERILEN_MIKTAR' },
-                {   data: 'MIKTAR' },
-                {   data: 'DEPO_BAKIYE' }
-            ],
-            rowGroup: {
-                dataSrc: 'CARI_KEY',
-                startRender: function (rows, group) {
-                    return `
-                        <div class="group-row"
-                             style="font-weight:bold; padding:4px; display:flex; align-items:center; gap:10px;">
-                            <input type="checkbox" class="group-checkbox" data-group="${group}">
-                            ${group}
-                        </div>
-                    `;
-                }
-            },
-            displayLength: 10,
-            scrollX: false,
-            initComplete: function () {
-            }
-        });
-
-        $('#Table tbody').on('change', '.group-checkbox', function () {
-
-            const groupName = $(this).data("group");
-            const checked = $(this).is(":checked");
-
-            table.rows().every(function () {
-                const rowData = this.data();
-                if (rowData.CARI_KEY === groupName) {
-                    $(this.node()).find('.row-checkbox').prop('checked', checked);
-                }
-            });
-        });
-
-        // Görsel sınıf düzeltmeleri
-        setTimeout(() => {
-            const adjustments = [
-                { selector: ".dt-buttons .btn", classToRemove: "btn-secondary" },
-                { selector: ".dt-buttons.btn-group", classToAdd: "mb-md-0 mb-6" },
-                { selector: ".dt-search .form-control", classToRemove: "form-control-sm", classToAdd: "ms-0" },
-                { selector: ".dt-search", classToAdd: "mb-0 mb-md-6" },
-                { selector: ".dt-length .form-select", classToRemove: "form-select-sm" },
-                { selector: ".dt-layout-end", classToAdd: "gap-md-2 gap-0 mt-0" },
-                { selector: ".dt-layout-start", classToAdd: "mt-0" },
-                { selector: ".dt-layout-table", classToRemove: "row mt-2" },
-                { selector: ".dt-layout-full", classToRemove: "col-md col-12", classToAdd: "table-responsive" }
-            ];
-            adjustments.forEach(({ selector, classToRemove, classToAdd }) => {
-                document.querySelectorAll(selector).forEach(el => {
-                    if (classToRemove) classToRemove.split(" ").forEach(cls => el.classList.remove(cls));
-                    if (classToAdd) classToAdd.split(" ").forEach(cls => el.classList.add(cls));
                 });
-            });
-        }, 100);
 
-        function getSelectedIds() {
-            const ids = [];
+                table.on('change', '.group-checkbox', function () {
 
-            table.rows().every(function () {
-                const node = this.node();
-                if ($(node).find('.row-checkbox').is(':checked')) {
-                    ids.push(this.data().ID);
-                }
-            });
+                    const groupName = $(this).data("group");
+                    const checked = $(this).is(":checked");
 
-            return ids;
-        }
-        function createShipment(){
-            var selectedIds = getSelectedIds();
-            if(selectedIds.length < 1){
-                alert("Sevk edilebilecek bir sipariş seçiniz");
-                return;
-            }
+                    table.rows().every(function () {
+                        const rowData = this.data();
+                        if (rowData.CARI_KEY === groupName) {
+                            $(this.node()).find('.row-checkbox').prop('checked', checked);
+                        }
+                    });
+                });
+                // AJAX başlamadan önce
+                table.on('preXhr.dt', function () {
+                    $("#tableLoading").show();
+                });
 
-            $.ajax({
-                url: "/Shipment/CreateShipment",
-                type: "POST",
-                contentType: "application/json",
-                data: JSON.stringify({ ids: selectedIds }),
-                success: function (response) {
-                    $("#shipmentModal .modal-body").html(response);
-                    var modal = new bootstrap.Modal(document.getElementById('shipmentModal'));
-                    modal.show();
-                    console.log(response);
-                },
-                error: function (xhr) {
-                    console.error(xhr);
-                    alert("Sevk oluşturulurken bir hata oluştu");
-                }
-            });
-        }
+                // AJAX bittikten sonra
+                table.on('xhr.dt', function () {
+                    $("#tableLoading").hide();
+                });
 
-        $("#shipmentForm").on("submit", function (e) {
-            e.preventDefault();
-
-            $.ajax({
-                url: this.action,
-                type: "POST",
-                data: $(this).serialize(),
-                success: function (res) {
-                    // modal kapat
-                    var modal = bootstrap.Modal.getInstance(document.getElementById('shipmentModal'));
-                    modal.hide();
-
-                    if (res.success) {
-                        showToast("Sevk başarıyla oluşturuldu. Sevk No: " + res.shipmentNo, "success");
+                table.on('processing.dt', function (e, settings, processing) {
+                    if (processing) {
+                        $("#tableLoading").show();
+                    } else {
+                        $("#tableLoading").hide();
                     }
-                    else {
-                        showToast(res.errorMessage, "danger");
-                    }
-                },
-                error: function () {
-                    alert("Sevk oluşturulurken bir hata oluştu.");
+                });
+
+                // Görsel sınıf düzeltmeleri
+                setTimeout(() => {
+                    const adjustments = [
+                        { selector: ".dt-buttons .btn", classToRemove: "btn-secondary" },
+                        { selector: ".dt-buttons.btn-group", classToAdd: "mb-md-0 mb-6" },
+                        { selector: ".dt-search .form-control", classToRemove: "form-control-sm", classToAdd: "ms-0" },
+                        { selector: ".dt-search", classToAdd: "mb-0 mb-md-6" },
+                        { selector: ".dt-length .form-select", classToRemove: "form-select-sm" },
+                        { selector: ".dt-layout-end", classToAdd: "gap-md-2 gap-0 mt-0" },
+                        { selector: ".dt-layout-start", classToAdd: "mt-0" },
+                        { selector: ".dt-layout-table", classToRemove: "row mt-2" },
+                        { selector: ".dt-layout-full", classToRemove: "col-md col-12", classToAdd: "table-responsive" }
+                    ];
+                    adjustments.forEach(({ selector, classToRemove, classToAdd }) => {
+                        document.querySelectorAll(selector).forEach(el => {
+                            if (classToRemove) classToRemove.split(" ").forEach(cls => el.classList.remove(cls));
+                            if (classToAdd) classToAdd.split(" ").forEach(cls => el.classList.add(cls));
+                        });
+                    });
+                }, 100);
+
+                function getSelectedIds() {
+                    const ids = [];
+
+                    table.rows().every(function () {
+                        const node = this.node();
+                        if ($(node).find('.row-checkbox').is(':checked')) {
+                            ids.push(this.data().ID);
+                        }
+                    });
+
+                    return ids;
                 }
-            });
-        });
+                function createShipment(){
+                    var selectedIds = getSelectedIds();
+                    if(selectedIds.length < 1){
+                        alert("Sevk edilebilecek bir sipariş seçiniz");
+                        return;
+                    }
 
-        function showToast(message, type = "success") {
+                  $("#tableLoading").show();
 
-            const toastEl = document.getElementById("globalToast");
-            const toastMessage = document.getElementById("toastMessage");
+                    $.ajax({
+                        url: "/Shipment/CreateShipment",
+                        type: "POST",
+                        contentType: "application/json",
+                        data: JSON.stringify({ ids: selectedIds }),
+                        success: function (response) {
+                            $("#shipmentModal .modal-body").html(response);
+                            var modal = new bootstrap.Modal(document.getElementById('shipmentModal'));
+                            modal.show();
+                            console.log(response);
 
-            // Renk sınıflarını resetle
-            toastEl.classList.remove("bg-success", "bg-danger", "bg-warning", "bg-info");
+                          $("#tableLoading").hide();
+                        },
+                        error: function (xhr) {
+                            console.error(xhr);
+                            alert("Sevk oluşturulurken bir hata oluştu");
+                            $("#tableLoading").hide();
+                        }
+                    });
+                }
 
-            // Tipine göre renk ata
-            switch (type) {
-                case "success":
-                    toastEl.classList.add("bg-success");
-                    break;
-                case "danger":
-                case "error":
-                    toastEl.classList.add("bg-danger");
-                    break;
-                case "warning":
-                    toastEl.classList.add("bg-warning");
-                    break;
-                default:
-                    toastEl.classList.add("bg-info");
-                    break;
-            }
+                $("#shipmentForm").on("submit", function (e) {
+                    e.preventDefault();
 
-            // Mesajı doldur
-            toastMessage.innerText = message;
+                    $.ajax({
+                        url: this.action,
+                        type: "POST",
+                        data: $(this).serialize(),
+                        success: function (res) {
+                            // modal kapat
+                            var modal = bootstrap.Modal.getInstance(document.getElementById('shipmentModal'));
+                            modal.hide();
 
-            // Bootstrap toast nesnesini göster
-            const bsToast = new bootstrap.Toast(toastEl, { delay: 3000 });
-            bsToast.show();
-        }
+                            if (res.success) {
+                                showToast("Sevk başarıyla oluşturuldu. Sevk No: " + res.shipmentNo, "success");
+                            }
+                            else {
+                                showToast(res.errorMessage, "danger");
+                            }
+                        },
+                        error: function () {
+                            alert("Sevk oluşturulurken bir hata oluştu.");
+                        }
+                    });
+                });
+
+                $("#btnFilter").on("click", function () {
+                    table.ajax.reload();
+                });
+
+                $("#btnClearFilters").on("click", function () {
+                    $("#filterCari").val("");
+                    $("#filterStart").val("");
+                    $("#filterEnd").val("");
+                    $("#filterDepo").val("");
+                    $("#filterHasBalance").prop("checked", false);
+
+                    table.ajax.reload();
+                });
+
+                function showToast(message, type = "success") {
+
+                    const toastEl = document.getElementById("globalToast");
+                    const toastMessage = document.getElementById("toastMessage");
+
+                    // Renk sınıflarını resetle
+                    toastEl.classList.remove("bg-success", "bg-danger", "bg-warning", "bg-info");
+
+                    // Tipine göre renk ata
+                    switch (type) {
+                        case "success":
+                            toastEl.classList.add("bg-success");
+                            break;
+                        case "danger":
+                        case "error":
+                            toastEl.classList.add("bg-danger");
+                            break;
+                        case "warning":
+                            toastEl.classList.add("bg-warning");
+                            break;
+                        default:
+                            toastEl.classList.add("bg-info");
+                            break;
+                    }
+
+                    // Mesajı doldur
+                    toastMessage.innerText = message;
+
+                    // Bootstrap toast nesnesini göster
+                    const bsToast = new bootstrap.Toast(toastEl, { delay: 3000 });
+                    bsToast.show();
+                }
     </script>
 }
 
@@ -293,4 +390,12 @@
                     data-bs-dismiss="toast" aria-label="Close"></button>
         </div>
     </div>
+</div>
+
+<div class="dt-loader"
+     style="display:none; position:absolute; top:50%; left:50%;
+            transform:translate(-50%, -50%); background:#000000b8;
+            color:#fff; padding:10px 20px; border-radius:6px;
+            z-index:9999;">
+    Yükleniyor...
 </div>

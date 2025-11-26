@@ -6,11 +6,72 @@
     <span class="text-muted fw-light">@ViewData["title"]</span>
 </h4>
 
+<div class="card mb-4">
+    <div class="card-header pb-1">
+        <h5 class="mb-0">Filtreler</h5>
+    </div>
+    <div class="card-body pb-2">
+        <div class="row g-3">
+
+            <!-- Başlangıç Tarihi -->
+            <div class="col-md-3">
+                <label class="form-label">Başlangıç Tarihi</label>
+                <input type="date" id="startDate" class="form-control">
+            </div>
+
+            <!-- Bitiş Tarihi -->
+            <div class="col-md-3">
+                <label class="form-label">Bitiş Tarihi</label>
+                <input type="date" id="endDate" class="form-control">
+            </div>
+
+            <!-- Durum -->
+            <div class="col-md-3">
+                <label class="form-label">Durum</label>
+                <select id="status" class="form-select">
+                    <option value="">Tümü</option>
+                    <option value="Bekliyor">Bekliyor</option>
+                    <option value="Toplanıyor">Toplanıyor</option>
+                    <option value="Tamamlandı">Tamamlandı</option>
+                </select>
+            </div>
+
+            <!-- Tamamlananları Göster -->
+            <div class="col-md-3 d-flex align-items-end">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="showCompleted">
+                    <label class="form-check-label" for="showCompleted">
+                        Tamamlanan Kayıtları Göster
+                    </label>
+                </div>
+            </div>
+
+            <!-- Sıfır Fiyatlıları Renklendir -->
+            <div class="col-md-3 d-flex align-items-end">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="highlightZeroPrice">
+                    <label class="form-check-label" for="highlightZeroPrice">
+                        Sıfır Fiyatlıları Renklendir
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer text-end">
+            <button type="button" class="btn btn-primary" id="btnFilter">Filtrele</button>
+            <button type="button" class="btn btn-secondary" id="btnClearFilters">Temizle</button>
+        </div>
+    </div>
+</div>
+
 <div class="card">
+    <div class="card-header">
+        <button class="btn btn-primary" onclick="createDocument()">İrsaliye Oluştur</button>
+    </div>
     <div class="card-datatable text-nowrap pt-0">
         <table id="Table" class="table-bordered table">
             <thead>
                 <tr>
+                    <th></th>
                     <th>Sevk Emri No.</th>
                     <th>Sipariş No</th>
                     <th>Tarih</th>
@@ -19,7 +80,7 @@
                     <th>E-Fatura Carisi</th>
                     <th>Durum</th>
                     <th>Kullanıcı</th>
-                    <th>Kapalu</th>
+                    <th>Kapalı</th>
                     <th>Kısmi Teslimat</th>
                     <th>Miktar</th>
                     <th>Toplanan</th>
@@ -70,9 +131,23 @@
                 },
             },
             columns: [
+                {
+                    data: null,
+                    orderable: false,
+                    searchable: false,
+                    render: function () {
+                        return '<input type="checkbox" class="row-checkbox"/>';
+                    }
+                },
                 { data: 'BELGE_NO' },
                 { data: 'SIPARIS_NO'},
-                { data: 'TARIH' },
+                {
+                    data: 'TARIH',
+                    render: function (data, type) {
+                        if (type === "sort" || type === "type") return data;
+                        return moment(data).format("DD.MM.YYYY");
+                    }
+                },
                 { data: 'CARI_KODU' },
                 { data: 'CARI_ADI' },
                 { data: 'EFATURA_CARISI' },
@@ -202,5 +277,86 @@
                 });
             });
         }, 100);
+
+        function getSelectedDocumentNumbers() {
+            const documentNumbers = [];
+
+            table.rows().every(function () {
+                const node = this.node();
+                if ($(node).find('.row-checkbox').is(':checked')) {
+                    documentNumbers.push(this.data().BELGE_NO);
+                }
+            });
+
+            return documentNumbers;
+        }
+
+        function createDocument(){
+            var selectedDocumentNumbers = getSelectedDocumentNumbers();
+            if(selectedDocumentNumbers.length < 1){
+                alert("İrsaliye oluşturmak için bir sevkiyet seçiniz.");
+                return;
+            }
+
+            $.ajax({
+                url: "/Shipment/CreateDocument",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify({ documentNumbers: selectedDocumentNumbers }),
+                success: function (response) {
+                    if (res.success) {
+                        showToast("İrsaliye başarıyla oluşturuldu. İrsaliye No: " + res.documentNo, "success");
+                    }
+                    else {
+                        showToast(res.errorMessage, "danger");
+                    }
+                },
+                error: function (xhr) {
+                    console.error(xhr);
+                    alert("İrsaliye oluşturulurken bir hata oluştu");
+                }
+            });
+        }
+
+        function showToast(message, type = "success") {
+
+            const toastEl = document.getElementById("globalToast");
+            const toastMessage = document.getElementById("toastMessage");
+
+            toastEl.classList.remove("bg-success", "bg-danger", "bg-warning", "bg-info");
+
+            switch (type) {
+                case "success":
+                    toastEl.classList.add("bg-success");
+                    break;
+                case "danger":
+                case "error":
+                    toastEl.classList.add("bg-danger");
+                    break;
+                case "warning":
+                    toastEl.classList.add("bg-warning");
+                    break;
+                default:
+                    toastEl.classList.add("bg-info");
+                    break;
+            }
+
+            toastMessage.innerText = message;
+
+            const bsToast = new bootstrap.Toast(toastEl, { delay: 3000 });
+            bsToast.show();
+        }
     </script>
 }
+
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index:1080;">
+    <div id="globalToast" class="toast border-0 text-white" role="alert">
+        <div class="d-flex">
+            <div id="toastMessage" class="toast-body">
+                <!-- JS ile doldurulacak -->
+            </div>
+            <button type="button" class="btn-close btn-close-white m-auto me-2"
+                    data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>
+</div>
