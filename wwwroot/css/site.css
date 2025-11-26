@@ -1,2 +1,33 @@
-﻿body {
+﻿.modal-shipment {
+    max-width: 90% !important; /* Modal genişliği */
+}
+
+    .modal-shipment .modal-content {
+        border-radius: 12px;
+        padding: 10px;
+    }
+
+    .modal-shipment .modal-body {
+        max-height: 70vh;
+        overflow-y: auto;
+        padding-right: 10px;
+    }
+
+    .modal-shipment input[readonly] {
+        background-color: #f5f5f5 !important;
+        color: #555 !important;
+        cursor: not-allowed;
+    }
+
+@media (max-width: 1200px) {
+    .modal-shipment {
+        max-width: 95% !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .modal-shipment {
+        max-width: 100% !important;
+        margin: 10px;
+    }
 }

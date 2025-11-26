@@ -50,6 +50,26 @@
                 <div data-i18n="Demirbaşlar">Demirbaşlar</div>
             </a>
         </li>
+        <li class='menu-item@(path.Contains("Shipment") ? " open" : "")'>
+            <a href="javascript:void(0)" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons ti ti-brand-tabler"></i>
+                <div data-i18n="Sevkiyat">Sevkiyat</div>
+            </a>
+            <ul class="menu-sub">
+                <li class='menu-item@(path == "/Shipment/ShipmentOrder" ? " active" : "")'>
+                    <a asp-controller="Shipment" asp-action="ShipmentOrder" class="menu-link">
+                        <i class="menu-icon tf-icons ti ti-archive"></i>
+                        <div data-i18n="Sevkiyat Emri">Sevkiyat Emri</div>
+                    </a>
+                </li>
+                <li class='menu-item@(path == "/Shipment/ShipmentOrderManagement" ? " active" : "")'>
+                    <a asp-controller="Shipment" asp-action="ShipmentOrderManagement" class="menu-link">
+                        <i class="menu-icon tf-icons ti ti-archive"></i>
+                        <div data-i18n="Sevkiyat Emri Yönetimi">Sevkiyat Emri Yönetimi</div>
+                    </a>
+                </li>
+            </ul>
+        </li>
     </ul>
 
 </aside>

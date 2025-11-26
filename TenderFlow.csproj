@@ -31,6 +31,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\TenderFlow.Netsis\TenderFlow.Netsis.csproj" />
     <ProjectReference Include="TenderFlow.AI\TenderFlow.AI.csproj" />
     <ProjectReference Include="TenderFlow.Core\TenderFlow.Core.csproj" />
     <ProjectReference Include="TenderFlow.Data\TenderFlow.Data.csproj" />
