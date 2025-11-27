@@ -39,13 +39,13 @@ namespace TenderFlow.Controllers
             var netsis = new NetsisConnection(config);
             var con = netsis.Open();
 
-            var shipmentService = new ShipmentService(con);
-            var orders = await shipmentService.GetOrdersByIdsAsync(request.Ids);
+            var shipmentService = new ShipmentManager(con);
+            var orders = await shipmentService.GetShipmentOrdersByIdsAsync(request.Ids);
 
             ShipmentModel model = new ShipmentModel();
             model.SUBE_KODU = 0;
             model.TIP = 1;
-            model.BELGENO = await shipmentService.NextShipmentDocumentNo(new Netsis.Models.ShipmentModel { SUBE_KODU = 0, TIP = 1 });
+            model.BELGENO = await shipmentService.CreateShipmentDocumentNoAsync(new Netsis.Models.ShipmentModel { SUBE_KODU = 0, TIP = 1 });
             model.TARIH = DateTime.Now;
             model.SEVKTARIHI = DateTime.Now;
             model.KOD1 = null;
@@ -135,11 +135,11 @@ namespace TenderFlow.Controllers
                 var netsis = new NetsisConnection(config);
                 var con = netsis.Open();
 
-                var shipmentService = new ShipmentService(con);
+                var shipmentManager = new ShipmentManager(con);
                 short rowNumber = 1;
                 foreach (var line in model.ShipmentLines)
                 {
-                    var order = await shipmentService.GetOrdersByIdAsync(line.ID);
+                    var order = await shipmentManager.GetShipmentOrderAsync(line.ID);
 
                     line.ID = order.ID;
                     line.SUBE_KODU = 0;
@@ -171,7 +171,7 @@ namespace TenderFlow.Controllers
                 }
 
 
-                var shipmentNo = await shipmentService.SaveShipmentAsync(model);
+                var shipmentNo = await shipmentManager.CreateShipmentAsync(model);
 
                 if (!string.IsNullOrEmpty(shipmentNo))
                 {
@@ -209,12 +209,12 @@ namespace TenderFlow.Controllers
             var netsis = new NetsisConnection(config);
             var con = netsis.Open();
 
-            var shipmentService = new ShipmentService(con);
-            var shipments = await shipmentService.GetOrderManagementsByDocumentNumbersAsync(request.DocumentNumbers);
+            var shipmentService = new ShipmentManager(con);
+            var shipments = await shipmentService.GetShipmentManagementsByDocumentNumbersAsync(request.DocumentNumbers);
 
             foreach (var shipment in shipments)
             {
-                var shipmentLines = await shipmentService.GetShipmentLines(shipment.BELGE_NO);
+                var shipmentLines = await shipmentService.GetShipmentLinesAsync(shipment.BELGE_NO);
 
                 oAuth2 auth2 = new oAuth2("http://192.168.1.100:7070");
                 var token = await auth2.LoginAsync(new JLogin()
@@ -279,8 +279,6 @@ namespace TenderFlow.Controllers
                 };
 
                 var result = InvoiceManager.PostInternal(itemSlip);
-
-
             }
 
             return View();
@@ -317,9 +315,9 @@ namespace TenderFlow.Controllers
             var netsis = new NetsisConnection(config);
             var con = netsis.Open();
 
-            var shipmentService = new ShipmentService(con);
+            var shipmentManager = new ShipmentManager(con);
 
-            var list = await shipmentService.GerOrdersAsync(
+            var list = await shipmentManager.GetShipmentOrdersAsync(
                 cariKodu: cari,
                 startDate: startDate,
                 endDate: endDate,
@@ -331,25 +329,48 @@ namespace TenderFlow.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> ShipmentOrderManagementList([FromBody] GridCommand gridCommand)
+        public async Task<IActionResult> ShipmentOrderManagementList()
         {
+            using var reader = new StreamReader(Request.Body);
+            var body = await reader.ReadToEndAsync();
+
+            dynamic json = JsonConvert.DeserializeObject(body);
+
+            var grid = JsonConvert.DeserializeObject<GridCommand>(body);
+
+            // Filtreler
+            string start = Convert.ToString(json.Filters?.startDate);
+            string end = Convert.ToString(json.Filters?.endDate);
+            int status = Convert.ToInt32(json.Filters?.status);
+            bool showCompleted = json.Filters?.showCompleted ?? false;
+            bool highlightZeroPrice = json.Filters?.highlightZeroPrice ?? false;
+
+            DateTime? startDate = string.IsNullOrWhiteSpace(start) ? null : Convert.ToDateTime(start);
+            DateTime? endDate = string.IsNullOrWhiteSpace(end) ? null : Convert.ToDateTime(end);
+
             var config = new NetsisConfig
             {
                 Server = "192.168.1.100",
                 Database = "MAKROLAB25",
                 User = "sa",
                 Password = "sapass",
-
             };
 
             var netsis = new NetsisConnection(config);
             var con = netsis.Open();
 
-            var shipmentService = new ShipmentService(con);
-            var list = await shipmentService.GetOrderManagementsAsync();
+            var shipmentManager = new ShipmentManager(con);
+
+            var list = await shipmentManager.GetShipmentManagementsAsync(
+                startDate: startDate,
+                endDate: endDate,
+                status: status,
+                showCompleted: showCompleted
+            );
+
             return Json(new
             {
-                data = list
+                data = list 
             });
         }
     }

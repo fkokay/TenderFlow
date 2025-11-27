@@ -122,7 +122,7 @@
 
 @section PageScripts {
     <script>
-                const table = $('#Table').DataTable({
+        const table = $('#Table').DataTable({
                     language: {
                         paginate: {
                             next: '<i class="icon-base ti ti-chevron-right scaleX-n1-rtl icon-18px"></i>',
@@ -213,7 +213,7 @@
                     }
                 });
 
-                table.on('change', '.group-checkbox', function () {
+        table.on('change', '.group-checkbox', function () {
 
                     const groupName = $(this).data("group");
                     const checked = $(this).is(":checked");
@@ -225,26 +225,26 @@
                         }
                     });
                 });
-                // AJAX başlamadan önce
-                table.on('preXhr.dt', function () {
-                    $("#tableLoading").show();
-                });
+        // AJAX başlamadan önce
+        table.on('preXhr.dt', function () {
+            $("#tableLoading").show();
+        });
 
-                // AJAX bittikten sonra
-                table.on('xhr.dt', function () {
-                    $("#tableLoading").hide();
-                });
+        // AJAX bittikten sonra
+        table.on('xhr.dt', function () {
+            $("#tableLoading").hide();
+        });
 
-                table.on('processing.dt', function (e, settings, processing) {
-                    if (processing) {
-                        $("#tableLoading").show();
-                    } else {
-                        $("#tableLoading").hide();
-                    }
-                });
+        table.on('processing.dt', function (e, settings, processing) {
+            if (processing) {
+                $("#tableLoading").show();
+            } else {
+                $("#tableLoading").hide();
+            }
+        });
 
-                // Görsel sınıf düzeltmeleri
-                setTimeout(() => {
+        // Görsel sınıf düzeltmeleri
+        setTimeout(() => {
                     const adjustments = [
                         { selector: ".dt-buttons .btn", classToRemove: "btn-secondary" },
                         { selector: ".dt-buttons.btn-group", classToAdd: "mb-md-0 mb-6" },
@@ -264,7 +264,7 @@
                     });
                 }, 100);
 
-                function getSelectedIds() {
+        function getSelectedIds() {
                     const ids = [];
 
                     table.rows().every(function () {
@@ -276,37 +276,37 @@
 
                     return ids;
                 }
-                function createShipment(){
-                    var selectedIds = getSelectedIds();
-                    if(selectedIds.length < 1){
-                        alert("Sevk edilebilecek bir sipariş seçiniz");
-                        return;
-                    }
+        function createShipment(){
+            var selectedIds = getSelectedIds();
+            if(selectedIds.length < 1){
+                alert("Sevk edilebilecek bir sipariş seçiniz");
+                return;
+            }
 
-                  $("#tableLoading").show();
+            $("#tableLoading").show();
 
-                    $.ajax({
-                        url: "/Shipment/CreateShipment",
-                        type: "POST",
-                        contentType: "application/json",
-                        data: JSON.stringify({ ids: selectedIds }),
-                        success: function (response) {
-                            $("#shipmentModal .modal-body").html(response);
-                            var modal = new bootstrap.Modal(document.getElementById('shipmentModal'));
-                            modal.show();
-                            console.log(response);
+            $.ajax({
+                url: "/Shipment/CreateShipment",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify({ ids: selectedIds }),
+                success: function (response) {
+                    $("#shipmentModal .modal-body").html(response);
+                    var modal = new bootstrap.Modal(document.getElementById('shipmentModal'));
+                    modal.show();
+                    console.log(response);
 
-                          $("#tableLoading").hide();
-                        },
-                        error: function (xhr) {
-                            console.error(xhr);
-                            alert("Sevk oluşturulurken bir hata oluştu");
-                            $("#tableLoading").hide();
-                        }
-                    });
+                  $("#tableLoading").hide();
+                },
+                error: function (xhr) {
+                    console.error(xhr);
+                    alert("Sevk oluşturulurken bir hata oluştu");
+                    $("#tableLoading").hide();
                 }
+            });
+        }
 
-                $("#shipmentForm").on("submit", function (e) {
+        $("#shipmentForm").on("submit", function (e) {
                     e.preventDefault();
 
                     $.ajax({
@@ -331,21 +331,21 @@
                     });
                 });
 
-                $("#btnFilter").on("click", function () {
-                    table.ajax.reload();
-                });
+        $("#btnFilter").on("click", function () {
+            table.ajax.reload();
+        });
 
-                $("#btnClearFilters").on("click", function () {
-                    $("#filterCari").val("");
-                    $("#filterStart").val("");
-                    $("#filterEnd").val("");
-                    $("#filterDepo").val("");
-                    $("#filterHasBalance").prop("checked", false);
+        $("#btnClearFilters").on("click", function () {
+            $("#filterCari").val("");
+            $("#filterStart").val("");
+            $("#filterEnd").val("");
+            $("#filterDepo").val("");
+            $("#filterHasBalance").prop("checked", false);
 
-                    table.ajax.reload();
-                });
+            table.ajax.reload();
+        });
 
-                function showToast(message, type = "success") {
+        function showToast(message, type = "success") {
 
                     const toastEl = document.getElementById("globalToast");
                     const toastMessage = document.getElementById("toastMessage");
@@ -390,12 +390,4 @@
                     data-bs-dismiss="toast" aria-label="Close"></button>
         </div>
     </div>
-</div>
-
-<div class="dt-loader"
-     style="display:none; position:absolute; top:50%; left:50%;
-            transform:translate(-50%, -50%); background:#000000b8;
-            color:#fff; padding:10px 20px; border-radius:6px;
-            z-index:9999;">
-    Yükleniyor...
 </div>
