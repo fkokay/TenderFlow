@@ -113,41 +113,29 @@
 </div>
 
 <div class="modal fade" id="customerSelectModal" tabindex="-1">
-    <div class="modal-dialog modal-sm modal-shipment modal-dialog-centered">
-        <div class="modal-header">
-            Cari Rehberi
-        </div>
+    <div class="modal-dialog modal-lg modal-shipment modal-dialog-centered">
         <div class="modal-content">
-            <table id="TableCustomer" class="dt-fixedheader table-bordered dataTable dtr-column table">
-                <thead>
-                    <tr>
-                        <th>Cari Kodu</th>
-                        <th>Cari Adı</th>
-                    </tr>
-                    <tr class="filters">
-                        <th><input type="text" class="form-control form-control-sm" placeholder="Cari Kodu"></th>
-                        <th><input type="text" class="form-control form-control-sm" placeholder="Cari Adı"></th>
-                    </tr>
-                </thead>
-            </table>
+            <div class="modal-header">
+                <h5 class="modal-title mb-3">Cari Rehberi</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-0">
+                <table id="TableCustomer" class="dt-fixedheader table-bordered dataTable dtr-column table" style="border-top: 1px solid #dbdade;">
+                    <thead>
+                        <tr class="dt-header" role="row">
+                            <th>Cari Kodu</th>
+                            <th>Cari Adı</th>
+                        </tr>
+                        <tr class="dt-filter-row" role="row">
+                            <th data-orderable="false"><input type="text" class="form-control form-control-sm" placeholder="Cari Kodu"></th>
+                            <th data-orderable="false"><input type="text" class="form-control form-control-sm" placeholder="Cari Adı"></th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
         </div>
     </div>
 </div>
-
-@section VendorStyles {
-    <link href="~/vendor/libs/datatables-bs5/datatables.bootstrap5.css" rel="stylesheet" />
-    <link href="~/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css" rel="stylesheet" />
-    <link href="~/vendor/libs/datatables-select-bs5/select.bootstrap5.css" rel="stylesheet" />
-    <link href="~/vendor/libs/datatables-checkboxes-jquery/datatables.checkboxes.css" rel="stylesheet" />
-    <link href="~/vendor/libs/datatables-fixedcolumns-bs5/fixedcolumns.bootstrap5.css" rel="stylesheet" />
-    <link href="~/vendor/libs/datatables-fixedheader-bs5/fixedheader.bootstrap5.css" rel="stylesheet" />
-    <link href="~/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css" rel="stylesheet" />
-}
-
-@section VendorScripts {
-    <script src="~/vendor/libs/datatables-bs5/datatables-bootstrap5.js"></script>
-    <script src="~/vendor/libs/moment/moment.js"></script>
-}
 
 @section PageScripts {
     <script>
@@ -389,6 +377,7 @@
                         url: 'https://cdn.datatables.net/plug-ins/2.3.2/i18n/tr.json',
                 },
                 processing: false,
+                orderCellsTop: true,
                 serverSide: false,
                 paging: true,
                 dom: 'tp',
@@ -415,7 +404,7 @@
                     let api = this.api();
 
                     // filter row'daki inputları bağla
-                    $('#TableCustomer thead tr.filters th').each(function (i) {
+                    $('#TableCustomer thead tr.dt-filter-row th').each(function (i) {
 
                         $('input', this).off().on('keyup change', function () {
 

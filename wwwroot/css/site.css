@@ -66,3 +66,19 @@
         margin: 10px;
     }
 }
+
+
+#TableCustomer thead .dt-filter-row th {
+    padding: 4px !important;
+    background: #f7f7f7 !important; /* başlık ile uyumlu açık renk */
+    border-bottom: 1px solid #ddd !important;
+}
+
+#TableCustomer thead .dt-header th {
+    background: #fafafa !important;
+    border-bottom: 1px solid #ccc !important;
+}
+
+#TableCustomer input.form-control-sm {
+    height: 30px !important;
+}

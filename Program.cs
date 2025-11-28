@@ -1,10 +1,17 @@
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
+using Quartz;
+using Quartz.Impl;
+using Quartz.Spi;
 using TenderFlow.AI.Embedding;
 using TenderFlow.AI.Orchestration;
 using TenderFlow.AI.Providers;
 using TenderFlow.AI.Rag;
 using TenderFlow.Data;
+using TenderFlow.Helpers;
+using TenderFlow.Jobs;
+using TenderFlow.Services;
+using QuartzHostedService = TenderFlow.Services.QuartzHostedService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -40,6 +47,11 @@ builder.Services.AddScoped<IAiProvider, GeminiProvider>();
 builder.Services.AddScoped<IAiOrchestrator, AiOrchestrator>();
 
 builder.Services.AddHttpContextAccessor();
+
+builder.Services.AddScoped<ShipmentJob>();
+builder.Services.AddSingleton<IJobFactory, QuartzJobFactory>();
+builder.Services.AddSingleton<ISchedulerFactory, StdSchedulerFactory>();
+builder.Services.AddHostedService<QuartzHostedService>();
 
 var app = builder.Build();
 

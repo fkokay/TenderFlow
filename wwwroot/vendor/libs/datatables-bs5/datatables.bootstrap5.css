@@ -674,12 +674,10 @@ div.dataTables_wrapper div.dataTables_filter {
 }
 
 div.dataTables_wrapper div.dataTables_paginate ul.pagination .page-link {
-  padding: 0.594rem 0.35rem;
-  min-width: calc(
-    1.938rem + 0px
-  );
-  font-size: 0.75rem;
-  line-height: 1;
+    padding: .4809rem;
+    font-size: .9375rem;
+    line-height: 1.375;
+    border-radius: .375rem;
 }
 div.dataTables_wrapper div.dataTables_paginate ul.pagination .page-link div:not(.table-responsive) div.dataTables_wrapper .dataTables_paginate {
   margin-right: 0;

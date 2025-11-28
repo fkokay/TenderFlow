@@ -39,7 +39,7 @@ namespace TenderFlow.Data
         public DbSet<TenderOpex> TenderOpex { get; set; }
         public DbSet<TenderReaktif> TenderReaktifs { get; set; }
         public DbSet<TenderReaktifStatistics> TenderReaktifStatistics { get; set; }
-
+        public DbSet<ActivityLog> ActivityLogs { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
