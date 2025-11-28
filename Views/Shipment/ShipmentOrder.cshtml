@@ -12,7 +12,10 @@
         <!-- Cari Hesap -->
         <div class="col-md-3">
             <label class="form-label">Cari Hesap</label>
-            <input type="text" id="filterCari" class="form-control" placeholder="Cari Kodu">
+            <div class="input-group">
+                <input type="text" id="filterCari" class="form-control" placeholder="Cari Kodu">
+                <button type="button" class="btn btn-outline-primary waves-effect" onclick="selectCustomer()">...</button>
+            </div>
         </div>
 
         <!-- Başlangıç Tarihi -->
@@ -32,9 +35,13 @@
             <label class="form-label">Depo</label>
             <select id="filterDepo" class="form-select">
                 <option value="">Tümü</option>
-                <option value="1">Depo 1</option>
-                <option value="2">Depo 2</option>
-                <option value="3">Depo 3</option>
+                @if (ViewBag.Warehouses is List<WarehouseModel> warehouses && warehouses != null)
+                {
+                    foreach (var item in warehouses)
+                    {
+                        <option value="@item.DEPO_KODU">@item.DEPO_KODU - @item.DEPO_TANIMI</option>
+                    }
+                }
             </select>
         </div>
 
@@ -105,6 +112,28 @@
     </div>
 </div>
 
+<div class="modal fade" id="customerSelectModal" tabindex="-1">
+    <div class="modal-dialog modal-sm modal-shipment modal-dialog-centered">
+        <div class="modal-header">
+            Cari Rehberi
+        </div>
+        <div class="modal-content">
+            <table id="TableCustomer" class="dt-fixedheader table-bordered dataTable dtr-column table">
+                <thead>
+                    <tr>
+                        <th>Cari Kodu</th>
+                        <th>Cari Adı</th>
+                    </tr>
+                    <tr class="filters">
+                        <th><input type="text" class="form-control form-control-sm" placeholder="Cari Kodu"></th>
+                        <th><input type="text" class="form-control form-control-sm" placeholder="Cari Adı"></th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
+
 @section VendorStyles {
     <link href="~/vendor/libs/datatables-bs5/datatables.bootstrap5.css" rel="stylesheet" />
     <link href="~/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css" rel="stylesheet" />
@@ -133,8 +162,8 @@
                         url: 'https://cdn.datatables.net/plug-ins/2.3.2/i18n/tr.json',
                     },
                     processing: false,
-                    serverSide: true,
-                    paging: false,
+                    serverSide: false,
+                    paging: true,
                     searching: false,
                     order: [[2, 'asc']],
                     ajax: {
@@ -344,6 +373,95 @@
 
             table.ajax.reload();
         });
+
+        var tableCustomer;
+        function selectCustomer(){
+            var modal = new bootstrap.Modal(document.getElementById('customerSelectModal'));
+            if ($.fn.dataTable.isDataTable('#TableCustomer') == false) {
+                tableCustomer = $("#TableCustomer").DataTable({
+                language: {
+                        paginate: {
+                            next: '<i class="icon-base ti ti-chevron-right scaleX-n1-rtl icon-18px"></i>',
+                            previous: '<i class="icon-base ti ti-chevron-left scaleX-n1-rtl icon-18px"></i>',
+                            first: '<i class="icon-base ti ti-chevrons-left scaleX-n1-rtl icon-18px"></i>',
+                            last: '<i class="icon-base ti ti-chevrons-right scaleX-n1-rtl icon-18px"></i>'
+                        },
+                        url: 'https://cdn.datatables.net/plug-ins/2.3.2/i18n/tr.json',
+                },
+                processing: false,
+                serverSide: false,
+                paging: true,
+                dom: 'tp',
+                searching: true,
+                order: [[0, 'asc']],
+                ajax: {
+                    url: '/Shipment/CustomerList',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    dataSrc: '',
+                    data: function (d) {
+                        return JSON.stringify(d);
+                    },
+                },
+                columns: [
+                    {   data: 'CARI_KOD' },
+                    {   data: 'CARI_ISIM' },
+                ],
+                displayLength: 10,
+                scrollX: false,
+                select: true,
+                initComplete: function () {
+
+                    let api = this.api();
+
+                    // filter row'daki inputları bağla
+                    $('#TableCustomer thead tr.filters th').each(function (i) {
+
+                        $('input', this).off().on('keyup change', function () {
+
+                            if (api.column(i).search() !== this.value) {
+                                api.column(i).search(this.value).draw();
+                            }
+
+                        });
+
+                    });
+                }
+            });
+
+                setTimeout(() => {
+                    const adjustments = [
+                        { selector: ".dt-buttons .btn", classToRemove: "btn-secondary" },
+                        { selector: ".dt-buttons.btn-group", classToAdd: "mb-md-0 mb-6" },
+                        { selector: ".dt-search .form-control", classToRemove: "form-control-sm", classToAdd: "ms-0" },
+                        { selector: ".dt-search", classToAdd: "mb-0 mb-md-6" },
+                        { selector: ".dt-length .form-select", classToRemove: "form-select-sm" },
+                        { selector: ".dt-layout-end", classToAdd: "gap-md-2 gap-0 mt-0" },
+                        { selector: ".dt-layout-start", classToAdd: "mt-0" },
+                        { selector: ".dt-layout-table", classToRemove: "row mt-2" },
+                        { selector: ".dt-layout-full", classToRemove: "col-md col-12", classToAdd: "table-responsive" }
+                    ];
+                    adjustments.forEach(({ selector, classToRemove, classToAdd }) => {
+                        document.querySelectorAll(selector).forEach(el => {
+                            if (classToRemove) classToRemove.split(" ").forEach(cls => el.classList.remove(cls));
+                            if (classToAdd) classToAdd.split(" ").forEach(cls => el.classList.add(cls));
+                        });
+                    });
+                }, 100);
+            }
+
+            $('#TableCustomer tbody').on('dblclick', 'tr', function () {
+                var row = tableCustomer.row(this);
+
+                // satırı seç
+                row.select();
+                var data = row.data();
+               $("#filterCari").val(row.data().CARI_KOD);
+               modal.hide();
+            });
+
+            modal.show();
+        }
 
         function showToast(message, type = "success") {
 

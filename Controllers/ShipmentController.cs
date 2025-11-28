@@ -20,9 +20,28 @@ namespace TenderFlow.Controllers
 {
     public class ShipmentController : Controller
     {
-        public IActionResult ShipmentOrder()
+        public async Task<IActionResult> ShipmentOrder()
         {
+            await PrepareShipmentOrder();
             return View();
+        }
+
+        private async Task PrepareShipmentOrder()
+        {
+            var config = new NetsisConfig
+            {
+                Server = "192.168.1.100",
+                Database = "MAKROLAB25",
+                User = "sa",
+                Password = "sapass",
+            };
+
+            var netsis = new NetsisConnection(config);
+            var con = netsis.Open();
+
+            var shipmentManager = new ShipmentManager(con);
+
+            ViewBag.Warehouses = (await shipmentManager.GetWarehousesAsync()).ToList();
         }
 
         [HttpPost]
@@ -372,6 +391,27 @@ namespace TenderFlow.Controllers
             {
                 data = list 
             });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CustomerList([FromBody] GridCommand command)
+        {
+            var config = new NetsisConfig
+            {
+                Server = "192.168.1.100",
+                Database = "MAKROLAB25",
+                User = "sa",
+                Password = "sapass",
+            };
+
+            var netsis = new NetsisConnection(config);
+            var con = netsis.Open();
+
+            var shipmentManager = new ShipmentManager(con);
+
+            var list = await shipmentManager.GetCustomersAsync();
+
+            return Json(list);
         }
     }
 }
