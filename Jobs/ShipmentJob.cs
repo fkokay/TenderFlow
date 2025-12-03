@@ -54,7 +54,7 @@ namespace TenderFlow.Jobs
                         var token = await auth2.LoginAsync(new JLogin()
                         {
                             BranchCode = 0,
-                            DbName = "TEST2025",
+                            DbName = "MAKROLAB25",
                             DbPassword = "",
                             DbType = JNVTTipi.vtMSSQL,
                             DbUser = "TEMELSET",
@@ -91,6 +91,8 @@ namespace TenderFlow.Jobs
                                 StokKodu = shipmentLine.STOKKODU,
                                 DEPO_KODU = shipmentLine.DEPO,
                                 STra_GCMIK = Convert.ToDouble(shipmentLine.MIKTAR),
+                                STra_SIPNUM = shipmentLine.SIPNO,
+                                Sira = shipmentLine.SIRA
                             });
                         }
 
@@ -107,6 +109,37 @@ namespace TenderFlow.Jobs
 
                                 _context.ActivityLogs.Add(activityLog);
                                 await _context.SaveChangesAsync();
+
+                                EDocumentManager EDocumentManager = new EDocumentManager(auth2);
+                                EDocument eDocument = new EDocument();
+
+                                eDocument.Tip = JTEBelgeTip.ebtEIrs;
+                                eDocument.BelgeNo = fatNo.Data.ToString();
+                                eDocument.DizaynKontrol = false;
+
+                                var eDocumentResult = EDocumentManager.PostInternal(eDocument);
+                                if (eDocumentResult.IsSuccessful)
+                                {
+                                    ActivityLog activityLogEBelge = new ActivityLog();
+                                    activityLogEBelge.ActivityLogType = "İrsaliye E-Belge Oluşturma";
+                                    activityLogEBelge.UserId = null;
+                                    activityLogEBelge.Comment = "İrsaliye başarılı bir şekilde oluşturuldu. Belge No:" + fatNo.Data.ToString();
+                                    activityLogEBelge.CreatedOn = DateTime.Now;
+
+                                    _context.ActivityLogs.Add(activityLogEBelge);
+                                    await _context.SaveChangesAsync();
+                                }
+                                else
+                                {
+                                    ActivityLog activityLogEBelge = new ActivityLog();
+                                    activityLogEBelge.ActivityLogType = "İrsaliye E-Belge Oluşturma Hata";
+                                    activityLogEBelge.UserId = null;
+                                    activityLogEBelge.Comment = result.ErrorCode + " " + result.ErrorDesc;
+                                    activityLogEBelge.CreatedOn = DateTime.Now;
+
+                                    _context.ActivityLogs.Add(activityLogEBelge);
+                                    await _context.SaveChangesAsync();
+                                }
                             }
                             else
                             {

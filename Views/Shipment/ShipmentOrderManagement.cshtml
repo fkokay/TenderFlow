@@ -65,9 +65,9 @@
 </div>
 
 <div class="card">
-    <div class="card-header">
+    @*     <div class="card-header">
         <button class="btn btn-primary" onclick="createDocument()">İrsaliye Oluştur</button>
-    </div>
+    </div> *@
     <div class="card-datatable text-nowrap pt-0">
         <div class="table-loading" id="tableLoading" style="display:none;">
             <div class="spinner-border text-light" style="width:3rem; height:3rem;"></div>
@@ -76,7 +76,6 @@
         <table id="Table" class="table-bordered table">
             <thead>
                 <tr>
-                    <th></th>
                     <th>Sevk Emri No.</th>
                     <th>Sipariş No</th>
                     <th>Tarih</th>
@@ -92,9 +91,54 @@
                     <th>Kalan</th>
                     <th>F/I Edilen</th>
                     <th>F/I Edilemeyen</th>
+                    <th>İşlemler</th>
                 </tr>
             </thead>
         </table>
+    </div>
+</div>
+
+<div class="modal fade" id="DocumentsModal" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-shipment modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title mb-3">Belge Listesi</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-0">
+                <table id="TableDocument" class="dt-fixedheader table-bordered dataTable dtr-column table" style="border-top: 1px solid #dbdade;">
+                    <thead>
+                        <tr class="dt-header" role="row">
+                            <th>Belge No</th>
+                            <th>Belge Tipi</th>
+                            <th>Tarih</th>
+                            <th>Cari Kodu</th>
+                            <th>Cari Adı</th>
+                            <th>İşlemler</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="DocumentViewModal" tabindex="-1">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-fullscreen-md-down">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Belge Görüntüle</h5>
+                <div class="d-flex gap-2">
+                    <button class="btn btn-primary btn-sm" onclick="printDocument()">
+                        <i class="ti ti-printer me-1"></i> Yazdır
+                    </button>
+                    <button class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+            </div>
+            <div class="modal-body p-0" style="height:80vh">
+                <iframe id="documentFrame" src="" style="width:100%; height:100%; border:0"></iframe>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -133,14 +177,7 @@
                 },
             },
             deferLoading: 0,
-            columns: [{
-                    data: null,
-                    orderable: false,
-                    searchable: false,
-                    render: function() {
-                        return '<input type="checkbox" class="row-checkbox"/>';
-                    }
-                },
+            columns: [
                 {
                     data: 'BELGE_NO'
                 },
@@ -189,6 +226,16 @@
                 },
                 {
                     data: 'TOPLAM_IRS_EDILMEYEN'
+                },
+                {
+                    data: 'BELGE_NO',
+                    render: function (data, type, row) {
+                        return `
+                            <button class="btn btn-sm btn-info view-shipment" onclick="showDocuments('${row.BELGE_NO}')">
+                                <i class="ti ti-eye me-1"></i> Belgeler
+                            </button>
+                        `;
+                    }
                 }
             ],
             displayLength: 10,
@@ -449,6 +496,107 @@
                 return `${year}-${month}-${day}`;
             }
         });
+
+
+        function showDocuments(shipmentNo){
+            if ($.fn.DataTable.isDataTable('#TableDocument')) {
+                $('#TableDocument').DataTable().clear().destroy();
+            }
+
+            var modal = new bootstrap.Modal(document.getElementById('DocumentsModal'));
+            var tableDocument = $("#TableDocument").DataTable({
+                        language: {
+                                paginate: {
+                                    next: '<i class="icon-base ti ti-chevron-right scaleX-n1-rtl icon-18px"></i>',
+                                    previous: '<i class="icon-base ti ti-chevron-left scaleX-n1-rtl icon-18px"></i>',
+                                    first: '<i class="icon-base ti ti-chevrons-left scaleX-n1-rtl icon-18px"></i>',
+                                    last: '<i class="icon-base ti ti-chevrons-right scaleX-n1-rtl icon-18px"></i>'
+                                },
+                                url: 'https://cdn.datatables.net/plug-ins/2.3.2/i18n/tr.json',
+                        },
+                        processing: false,
+                        orderCellsTop: true,
+                        serverSide: false,
+                        paging: true,
+                        dom: 'tp',
+                        searching: true,
+                        order: [[0, 'asc']],
+                        ajax: {
+                            url: '/Shipment/DocumentList?shipmentNo='+shipmentNo,
+                            type: 'POST',
+                            contentType: 'application/json',
+                            dataSrc: '',
+                            data: function (d) {
+                                return JSON.stringify(d);
+                            },
+                        },
+                        columns: [
+                            {   data: 'BELGE_NO' },
+                            {   data: 'BELGE_TIPI' },
+                            {   data: 'TARIH' },
+                            {   data: 'CARI_KODU' },
+                            {   data: 'CARI_ADI' },
+                            {
+                                data: 'BELGE_NO',
+                                render: function (data, type, row) {
+                                    return `
+                                        <a href="#" onclick="viewDocumentPopup('${row.RESMI_BELGE_NO}', '${row.BELGE_TIPI}')" class="btn btn-sm btn-info">
+                                            <i class="ti ti-eye me-1"></i> Görüntüle
+                                        </a>
+                                    `;
+                                }
+                            }
+                        ],
+                        displayLength: 10,
+                        scrollX: false,
+                        select: true,
+                        initComplete: function () {
+
+                        }
+                    });
+
+                        setTimeout(() => {
+                            const adjustments = [
+                                { selector: ".dt-buttons .btn", classToRemove: "btn-secondary" },
+                                { selector: ".dt-buttons.btn-group", classToAdd: "mb-md-0 mb-6" },
+                                { selector: ".dt-search .form-control", classToRemove: "form-control-sm", classToAdd: "ms-0" },
+                                { selector: ".dt-search", classToAdd: "mb-0 mb-md-6" },
+                                { selector: ".dt-length .form-select", classToRemove: "form-select-sm" },
+                                { selector: ".dt-layout-end", classToAdd: "gap-md-2 gap-0 mt-0" },
+                                { selector: ".dt-layout-start", classToAdd: "mt-0" },
+                                { selector: ".dt-layout-table", classToRemove: "row mt-2" },
+                                { selector: ".dt-layout-full", classToRemove: "col-md col-12", classToAdd: "table-responsive" }
+                            ];
+                            adjustments.forEach(({ selector, classToRemove, classToAdd }) => {
+                                document.querySelectorAll(selector).forEach(el => {
+                                    if (classToRemove) classToRemove.split(" ").forEach(cls => el.classList.remove(cls));
+                                    if (classToAdd) classToAdd.split(" ").forEach(cls => el.classList.add(cls));
+                                });
+                            });
+                        }, 100);
+            modal.show();
+        }
+
+        function viewDocumentPopup(documentNumber, documentType) {
+
+            let url = `/Shipment/DocumentView?documentNumber=${documentNumber}&documentType=${documentType}`;
+
+            // iframe içine belgeyi yükle
+            $("#documentFrame").attr("src", url);
+
+            // modal aç
+            var modal = new bootstrap.Modal(document.getElementById('DocumentViewModal'));
+            modal.show();
+        }
+
+        function printDocument() {
+            const frame = document.getElementById('documentFrame');
+
+            if (frame && frame.contentWindow) {
+                frame.contentWindow.focus();
+                frame.contentWindow.print();
+            }
+        }
 
         function showToast(message, type = "success") {
 

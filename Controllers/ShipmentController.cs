@@ -4,12 +4,14 @@ using Microsoft.Data.SqlClient;
 using NetOpenX.Rest.Client;
 using NetOpenX.Rest.Client.BLL;
 using NetOpenX.Rest.Client.Model;
+using NetOpenX.Rest.Client.Model.Custom;
 using NetOpenX.Rest.Client.Model.Enums;
 using NetOpenX.Rest.Client.Model.NetOpenX;
 using Newtonsoft.Json;
 using System.Data;
 using System.Diagnostics;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using TenderFlow.Core.Grid;
 using TenderFlow.Models.Picker;
@@ -281,26 +283,66 @@ namespace TenderFlow.Controllers
 
                 itemSlip.EIrsEkBilgi = new EWaybillInfo()
                 {
-                    PLAKA = "35IUP35",
-                    TASIYICIVKN = "0010079308",
-                    TASIYICIADI = "Ahmet",
-                    TASIYICIILCE = "Bornova",
-                    TASIYICIIL = "İzmir",
-                    TASIYICIULKE = "TR",
-                    TASIYICIPOSTAKODU = "35100",
-                    SOFOR1ADI = "Mehmet",
-                    SOFOR1SOYADI = "Ata",
-                    SOFOR1ACIKLAMA = "Kamyoncu",
-                    SOFOR1TCKN = "12345678910",
+                    PLAKA = "",
+                    TASIYICIVKN = "",
+                    TASIYICIADI = "",
+                    TASIYICIILCE = "",
+                    TASIYICIIL = "",
+                    TASIYICIULKE = "",
+                    TASIYICIPOSTAKODU = "",
+                    SOFOR1ADI = "",
+                    SOFOR1SOYADI = "",
+                    SOFOR1ACIKLAMA = "",
+                    SOFOR1TCKN = "",
                     SEVKTAR = DateTime.Now,
-                    DORSEPLAKA1 = "35IUP35",
-                    DORSEPLAKA2 = "35MRP35"
+                    DORSEPLAKA1 = "",
+                    DORSEPLAKA2 = ""
                 };
 
                 var result = InvoiceManager.PostInternal(itemSlip);
             }
 
             return View();
+        }
+
+        public async Task<IActionResult> DocumentView(string documentNumber,string documentType)
+        {
+            oAuth2 auth2 = new oAuth2("http://192.168.1.100:7070");
+            var token = await auth2.LoginAsync(new JLogin()
+            {
+                BranchCode = 0,
+                DbName = "MAKROLAB25",
+                DbPassword = "",
+                DbType = JNVTTipi.vtMSSQL,
+                DbUser = "TEMELSET",
+                NetsisUser = "Netsis",
+                NetsisPassword = "net2"
+            });
+
+            EDocumentManager EDocumentManager = new EDocumentManager(auth2);
+
+            EDocumentShowParam eDocumentShowParam = new EDocumentShowParam
+            {
+                EDocumentType = documentType== "İrsalie" ? JTEBelgeTip.ebtEIrs : JTEBelgeTip.ebtEFatura,
+                GIBDocumentNumber = documentNumber,
+                DocumentBoxType = JTEBelgeBoxType.ebAll,
+                HtmlPath = "C://TEMP",
+                EnvelopeId = ""
+            };
+
+
+
+            var eDocumentResult = EDocumentManager.ShowEDocument(eDocumentShowParam);
+            if (eDocumentResult.IsSuccessful)
+            {
+                return Content(eDocumentResult.Data.Replace("??", ""), "text/html; charset=utf-8");
+            }
+            else
+            {
+                return RedirectToAction("ShipmentOrderManagement");
+            }
+
+
         }
 
         [HttpPost]
@@ -389,8 +431,29 @@ namespace TenderFlow.Controllers
 
             return Json(new
             {
-                data = list 
+                data = list
             });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DocumentList(string shipmentNo)
+        {
+            var config = new NetsisConfig
+            {
+                Server = "192.168.1.100",
+                Database = "MAKROLAB25",
+                User = "sa",
+                Password = "sapass",
+            };
+
+            var netsis = new NetsisConnection(config);
+            var con = netsis.Open();
+
+            var shipmentManager = new ShipmentManager(con);
+
+            var list = await shipmentManager.GetDocuments(shipmentNo: shipmentNo);
+
+            return Json(list);
         }
 
         [HttpPost]
