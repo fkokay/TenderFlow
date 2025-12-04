@@ -113,7 +113,7 @@ namespace TenderFlow.Controllers
                 line.TIP = 1;
                 line.BELGENO = model.BELGENO;
                 line.INCKEYNO = item.ID;
-                line.SIPNO = item.SIPARIS_NO;
+                line.SIPNO = item;
                 line.SIPKONT = item.SIRA;
                 line.TESCARI = item.CARI_KODU;
                 line.TESCARIADI = item.CARI_ADI;
@@ -282,12 +282,13 @@ namespace TenderFlow.Controllers
                 {
                     itemSlip.Kalems.Add(new ItemSlipLines()
                     {
-                        StokKodu = shipmentLine.STOKKODU,
-                        DEPO_KODU = shipmentLine.DEPO,
+                        StokKodu = shipmentLine.STOK_KODU,
+                        DEPO_KODU = shipmentLine.DEPO_KODU,
                         STra_GCMIK = Convert.ToDouble(shipmentLine.MIKTAR),
-                        STra_SIPNUM = shipmentLine.SIPNO,
+                        STra_SIPNUM = shipmentLine.SIPARIS_NO,
                         Sira = shipmentLine.SIRA,
-                        Ambarkabulno = shipmentLine.INCKEYNO.ToString()
+                        Ambarkabulno = shipmentLine.INCKEYNO.ToString(),
+                        STra_BF = Convert.ToDouble(shipmentLine.STHAR_BF)
 
                     });
                 }
