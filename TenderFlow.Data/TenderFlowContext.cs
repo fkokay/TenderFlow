@@ -40,6 +40,9 @@ namespace TenderFlow.Data
         public DbSet<TenderReaktif> TenderReaktifs { get; set; }
         public DbSet<TenderReaktifStatistics> TenderReaktifStatistics { get; set; }
         public DbSet<ActivityLog> ActivityLogs { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Role> Roles { get; set; }
+        public DbSet<UserInRole> UserInRoles { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -182,6 +185,77 @@ namespace TenderFlow.Data
                    .WithMany()
                    .HasForeignKey(x => x.GuaranteeId)
                    .OnDelete(DeleteBehavior.Cascade);
+
+
+            modelBuilder.Entity<User>(entity =>
+            {
+                entity.ToTable("User");
+
+                entity.HasKey(e => e.Id);
+
+                entity.Property(e => e.FirstName)
+                    .HasMaxLength(100)
+                    .IsRequired();
+
+                entity.Property(e => e.LastName)
+                    .HasMaxLength(100)
+                    .IsRequired();
+
+                entity.Property(e => e.Email)
+                    .HasMaxLength(150)
+                    .IsRequired();
+
+                // Email eşsiz olmalı
+                entity.HasIndex(e => e.Email)
+                    .IsUnique();
+
+                entity.Property(e => e.Password)
+                    .HasMaxLength(256)
+                    .IsRequired();
+
+                entity.Property(e => e.Phone)
+                    .HasMaxLength(20);
+
+                entity.Property(e => e.Active)
+                    .IsRequired();
+            });
+
+            modelBuilder.Entity<Role>(entity =>
+            {
+                entity.ToTable("Role");
+
+                entity.HasKey(e => e.Id);
+
+                entity.Property(e => e.Name)
+                    .HasMaxLength(100)
+                    .IsRequired();
+
+                entity.HasIndex(e => e.Name)
+                    .IsUnique();
+            });
+
+            modelBuilder.Entity<UserInRole>(entity =>
+            {
+                entity.ToTable("UserInRole");
+
+                entity.HasKey(e => e.Id);
+
+                entity.HasIndex(e => new { e.UserId, e.RoleId })
+                      .IsUnique();   // Aynı rol bir kullanıcıya 2 kez atanmasın
+
+                // User – UserInRole (1-N)
+                entity.HasOne(e => e.User)
+                    .WithMany()
+                    .HasForeignKey(e => e.UserId)
+                    .OnDelete(DeleteBehavior.Restrict);
+
+                // Role – UserInRole (1-N)
+                entity.HasOne(e => e.Role)
+                    .WithMany()
+                    .HasForeignKey(e => e.RoleId)
+                    .OnDelete(DeleteBehavior.Restrict);
+            });
+
         }
     }
 }

@@ -1,9 +1,11 @@
-using System.Diagnostics;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
 using TenderFlow.Models;
 
 namespace TenderFlow.Controllers
 {
+    [Authorize(Roles = "Administrator,Satýþ,Satýnalma,Sevkiyat")]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;

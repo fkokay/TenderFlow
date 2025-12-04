@@ -1,4 +1,6 @@
 ﻿using Azure.Core;
+using Dapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using NetOpenX.Rest.Client;
@@ -20,6 +22,7 @@ using TenderFlow.Netsis.Models;
 
 namespace TenderFlow.Controllers
 {
+
     public class ShipmentController : Controller
     {
         public async Task<IActionResult> ShipmentOrder()
@@ -231,7 +234,7 @@ namespace TenderFlow.Controllers
             var con = netsis.Open();
 
             var shipmentService = new ShipmentManager(con);
-            var shipments = await shipmentService.GetShipmentManagementsByDocumentNumbersAsync(request.DocumentNumbers);
+            var shipments = await shipmentService.GetShipmentManagementsByDocumentNumbersAsync(new List<string>() { request.DocumentNumber });
 
             foreach (var shipment in shipments)
             {
@@ -241,7 +244,7 @@ namespace TenderFlow.Controllers
                 var token = await auth2.LoginAsync(new JLogin()
                 {
                     BranchCode = 0,
-                    DbName = "TEST2025",
+                    DbName = "MAKROLAB25",
                     DbPassword = "",
                     DbType = JNVTTipi.vtMSSQL,
                     DbUser = "TEMELSET",
@@ -267,7 +270,11 @@ namespace TenderFlow.Controllers
                     Tarih = DateTime.Now,
                     TIPI = JTFaturaTipi.ft_Acik,
                     KDV_DAHILMI = false,
-                    Tip = JTFaturaTip.ftSIrs
+                    Tip = JTFaturaTip.ftSIrs,
+                    SIPARIS_TEST = shipment.SEVKTARIHI,
+                    FiiliTarih = DateTime.Now,
+                    DovBazTarihi = DateTime.Now,
+                    EIrsaliye = true,
                 };
 
                 itemSlip.Kalems = new List<ItemSlipLines>();
@@ -278,34 +285,51 @@ namespace TenderFlow.Controllers
                         StokKodu = shipmentLine.STOKKODU,
                         DEPO_KODU = shipmentLine.DEPO,
                         STra_GCMIK = Convert.ToDouble(shipmentLine.MIKTAR),
+                        STra_SIPNUM = shipmentLine.SIPNO,
+                        Sira = shipmentLine.SIRA,
+                        Ambarkabulno = shipmentLine.INCKEYNO.ToString()
+
                     });
                 }
 
-                itemSlip.EIrsEkBilgi = new EWaybillInfo()
-                {
-                    PLAKA = "",
-                    TASIYICIVKN = "",
-                    TASIYICIADI = "",
-                    TASIYICIILCE = "",
-                    TASIYICIIL = "",
-                    TASIYICIULKE = "",
-                    TASIYICIPOSTAKODU = "",
-                    SOFOR1ADI = "",
-                    SOFOR1SOYADI = "",
-                    SOFOR1ACIKLAMA = "",
-                    SOFOR1TCKN = "",
-                    SEVKTAR = DateTime.Now,
-                    DORSEPLAKA1 = "",
-                    DORSEPLAKA2 = ""
-                };
+                itemSlip.EIrsEkBilgi = request.EWaybillInfo;
 
                 var result = InvoiceManager.PostInternal(itemSlip);
+
+                if (result.IsSuccessful)
+                {
+                    EDocumentManager EDocumentManager = new EDocumentManager(auth2);
+                    EDocument eDocument = new EDocument();
+
+                    eDocument.Tip = JTEBelgeTip.ebtEIrs;
+                    eDocument.BelgeNo = fatNo.Data.ToString();
+                    eDocument.DizaynNo = 9;
+                    eDocument.DovizliOlustur = false;
+
+                    var eDocumentResult = EDocumentManager.PostInternal(eDocument);
+                    if (eDocumentResult.IsSuccessful)
+                    {
+                        con.Execute("UPDATE TBLSEVKTRA SET IRSFLAG = 1 WHERE BELGENO = @BELGENO AND TIP = 3",
+                             new { BELGENO = request.DocumentNumber }
+                         );
+
+                        return Json(new { success = true });
+                    }
+                    else
+                    {
+                        return Json(new { success = false, errorMessage = eDocumentResult.ErrorDesc });
+                    }
+                }
+                else
+                {
+                    return Json(new { success = false, errorMessage = result.ErrorDesc });
+                }
             }
 
-            return View();
+            return Json(new { success = true });
         }
 
-        public async Task<IActionResult> DocumentView(string documentNumber,string documentType)
+        public async Task<IActionResult> DocumentView(string documentNumber, string documentType)
         {
             oAuth2 auth2 = new oAuth2("http://192.168.1.100:7070");
             var token = await auth2.LoginAsync(new JLogin()
@@ -323,7 +347,7 @@ namespace TenderFlow.Controllers
 
             EDocumentShowParam eDocumentShowParam = new EDocumentShowParam
             {
-                EDocumentType = documentType== "İrsalie" ? JTEBelgeTip.ebtEIrs : JTEBelgeTip.ebtEFatura,
+                EDocumentType = documentType == "İrsalie" ? JTEBelgeTip.ebtEIrs : JTEBelgeTip.ebtEFatura,
                 GIBDocumentNumber = documentNumber,
                 DocumentBoxType = JTEBelgeBoxType.ebAll,
                 HtmlPath = "C://TEMP",
@@ -339,13 +363,72 @@ namespace TenderFlow.Controllers
             }
             else
             {
-                return RedirectToAction("ShipmentOrderManagement");
+                return Content(GetErrorHtml(eDocumentResult.Message), "text/html; charset=utf-8");
             }
-
-
         }
 
+        private string GetErrorHtml(string message)
+        {
+            return $@"
+<!DOCTYPE html>
+<html lang='tr'>
+<head>
+    <meta charset='UTF-8'>
+    <title>Belge Görüntülenemedi</title>
+    <style>
+        body {{
+            font-family: Arial, sans-serif;
+            background: #fafafa;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            color: #333;
+        }}
+        .error-box {{
+            width: 90%;
+            max-width: 500px;
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }}
+        .error-title {{
+            font-size: 22px;
+            font-weight: bold;
+            color: #c0392b;
+            margin-bottom: 15px;
+        }}
+        .error-message {{
+            font-size: 16px;
+            margin-bottom: 20px;
+        }}
+        .btn {{
+            display: inline-block;
+            padding: 10px 20px;
+            background: #3498db;
+            color: #fff;
+            border-radius: 6px;
+            text-decoration: none;
+        }}
+    </style>
+</head>
+<body>
+    <div class='error-box'>
+        <div class='error-title'>Belge Görüntülenemedi</div>
+        <div class='error-message'>{message}</div>
+        <a class='btn' href='javascript:window.top.closeDocumentModal();'>Kapat</a>
+    </div>
+</body>
+</html>";
+        }
+
+
         [HttpPost]
+        [Authorize(Roles = "Administrator,Satış")]
         public async Task<IActionResult> ShipmentOrderList()
         {
             using var reader = new StreamReader(Request.Body);
@@ -390,6 +473,7 @@ namespace TenderFlow.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Administrator,Satış,Sevkiyat")]
         public async Task<IActionResult> ShipmentOrderManagementList()
         {
             using var reader = new StreamReader(Request.Body);
@@ -476,5 +560,27 @@ namespace TenderFlow.Controllers
 
             return Json(list);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> ShipmentTemplateList()
+        {
+            var config = new NetsisConfig
+            {
+                Server = "192.168.1.100",
+                Database = "MAKROLAB25",
+                User = "sa",
+                Password = "sapass",
+            };
+
+            var netsis = new NetsisConnection(config);
+            var con = netsis.Open();
+
+            var shipmentManager = new ShipmentManager(con);
+
+            var list = await shipmentManager.GetShipmentTemplates();
+
+            return Json(list);
+        }
+
     }
 }

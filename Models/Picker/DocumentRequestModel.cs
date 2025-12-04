@@ -4,7 +4,7 @@ namespace TenderFlow.Models.Picker
 {
     public class DocumentRequestModel
     {
-        public List<string> DocumentNumbers { get; set; } = new List<string>(); 
+        public string? DocumentNumber { get; set; }
         public EWaybillInfo? EWaybillInfo { get; set; }
     }
 }

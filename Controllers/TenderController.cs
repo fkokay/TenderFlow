@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,6 +9,7 @@ using TenderFlow.Models;
 
 namespace TenderFlow.Controllers
 {
+    [Authorize(Roles = "Administrator")]
     public class TenderController : Controller
     {
         private readonly TenderFlowContext _db;

@@ -37,13 +37,8 @@ namespace TenderFlow.Jobs
 
                 var shipmentManager = new ShipmentManager(con);
 
-                var list = await shipmentManager.GetShipmentManagementsAsync(
-                    startDate: DateTime.Now,
-                    endDate: DateTime.Now,
-                    status: 3,
-                    showCompleted: false
-                );
-
+                var list = await shipmentManager.GetShipmentManagementsAsync(status: 4);
+                return;
                 if (list.Any())
                 {
                     foreach (var shipment in list)
@@ -73,6 +68,7 @@ namespace TenderFlow.Jobs
                         ItemSlips itemSlip = new ItemSlips();
                         itemSlip.FaturaTip = JTFaturaTip.ftSIrs;
                         itemSlip.SeriliHesapla = false;
+
                         itemSlip.FatUst = new ItemSlipsHeader()
                         {
                             FATIRS_NO = fatNo.Data.ToString(),
@@ -80,7 +76,13 @@ namespace TenderFlow.Jobs
                             Tarih = DateTime.Now,
                             TIPI = JTFaturaTipi.ft_Acik,
                             KDV_DAHILMI = false,
-                            Tip = JTFaturaTip.ftSIrs
+                            Tip = JTFaturaTip.ftSIrs,
+                            SIPARIS_TEST = shipment.SEVKTARIHI,
+                            FiiliTarih  = DateTime.Now,
+                            DovBazTarihi = DateTime.Now,
+                            EIrsaliye = true,
+                            
+
                         };
 
                         itemSlip.Kalems = new List<ItemSlipLines>();

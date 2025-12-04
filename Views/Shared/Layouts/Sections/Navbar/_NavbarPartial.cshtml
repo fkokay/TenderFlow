@@ -1,4 +1,11 @@
-﻿@* ! Brand demo (display only for navbar-full and hide on below xl) *@
+﻿@using System.Security.Claims
+@{
+    var name = User.FindFirst(ClaimTypes.Name)?.Value ?? "";
+    var surname = User.FindFirst(ClaimTypes.Surname)?.Value ?? "";
+    var initials = (name.FirstOrDefault().ToString() + surname.FirstOrDefault().ToString()).ToUpper();
+    var roles = User.Claims.Where(c => c.Type == ClaimTypes.Role).Select(r => r.Value).ToList();
+}
+
 @if (ViewData["navbarFull"] != null)
 {
     <div class="navbar-brand app-brand demo d-none d-xl-flex me-4 py-0">
@@ -45,7 +52,7 @@
         <li class="nav-item navbar-dropdown dropdown-user dropdown">
             <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
                 <div class="avatar avatar-online">
-                    <span class="avatar-initial rounded-circle bg-primary">FK</span>
+                    <span class="avatar-initial rounded-circle bg-primary">@initials</span>
                 </div>
             </a>
             <ul class="dropdown-menu dropdown-menu-end">
@@ -54,12 +61,17 @@
                         <div class="d-flex">
                             <div class="me-3 flex-shrink-0">
                                 <div class="avatar avatar-online">
-                                    <span class="avatar-initial rounded-circle bg-primary">FK</span>
+                                    <span class="avatar-initial rounded-circle bg-primary">@initials</span>
                                 </div>
                             </div>
+
                             <div class="flex-grow-1">
-                                <span class="fw-semibold d-block">Fatih KOKAY</span>
-                                <small class="text-muted">Admin</small>
+                                <span class="fw-semibold d-block">@name @surname</span>
+
+                                @foreach (var role in roles)
+                                {
+                                    <div><small class="text-muted">@role</small></div>
+                                }
                             </div>
                         </div>
                     </a>
@@ -83,7 +95,7 @@
                     <div class="dropdown-divider"></div>
                 </li>
                 <li>
-                    <a class="dropdown-item" asp-page="/Index">
+                    <a class="dropdown-item" href="@Url.Action("Logout", "Identity")">
                         <i class="ti ti-logout ti-sm me-2"></i>
                         <span class="align-middle">Çıkış Yap</span>
                     </a>

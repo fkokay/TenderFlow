@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Text;
 using TenderFlow.Core.Grid;
@@ -7,6 +8,7 @@ using TenderFlow.Models;
 
 namespace TenderFlow.Controllers
 {
+    [Authorize(Roles = "Administrator")]
     public class AssetController : Controller
     {
         private readonly TenderFlowContext _db;

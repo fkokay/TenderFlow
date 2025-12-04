@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
 using Quartz;
@@ -32,6 +33,22 @@ builder.Services.AddControllersWithViews().AddJsonOptions(options =>
 builder.Services.AddDbContext<TenderFlowContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+.AddCookie(options =>
+{
+    options.Cookie.Name = "TenderFlowAuthentication";
+    options.CookieManager = new ChunkingCookieManager();
+    options.Cookie.HttpOnly = true;
+    options.Cookie.SameSite = SameSiteMode.Lax;
+    options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+    options.LoginPath = "/Identity/Login";
+    options.LogoutPath = "/Identity/Logout";
+    options.AccessDeniedPath = "/Home/AccessDenied";
+    options.ExpireTimeSpan = TimeSpan.FromDays(30);
+    options.SlidingExpiration = true;
+    options.Cookie.MaxAge = options.ExpireTimeSpan;
+});
+builder.Services.AddAuthorization();
 
 builder.Services.AddHttpClient("Gemini");
 builder.Services.AddHttpClient("OpenAI");
@@ -73,7 +90,7 @@ app.UseSwaggerUI(c =>
 
 app.UseHttpsRedirection();
 app.UseRouting();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapStaticAssets();

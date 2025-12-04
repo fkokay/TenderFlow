@@ -32,8 +32,8 @@
                     <option value="0">Tümü</option>
                     <option value="1">Beklemede</option>
                     <option value="2">Toplamada</option>
-                    <option value="3">Hazır</option>
-                    <option value="4">Tamamlandı</option>
+                    <option value="5">Hazır</option>
+                    <option value="6">Tamamlandı</option>
                 </select>
             </div>
 
@@ -65,9 +65,6 @@
 </div>
 
 <div class="card">
-    @*     <div class="card-header">
-        <button class="btn btn-primary" onclick="createDocument()">İrsaliye Oluştur</button>
-    </div> *@
     <div class="card-datatable text-nowrap pt-0">
         <div class="table-loading" id="tableLoading" style="display:none;">
             <div class="spinner-border text-light" style="width:3rem; height:3rem;"></div>
@@ -136,11 +133,142 @@
                 </div>
             </div>
             <div class="modal-body p-0" style="height:80vh">
-                <iframe id="documentFrame" src="" style="width:100%; height:100%; border:0"></iframe>
+                <div style="position: relative;">
+                    <div id="documentFrameContainer">
+                        <iframe id="documentFrame" style="width:100%; height:78vh; border:0;"></iframe>
+                    </div>
+
+                    <div id="documentLoading"
+                         style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); display:none; z-index:9999;">
+                        <div class="spinner-border text-primary" style="width:3rem; height:3rem;"></div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="eIrsaliyeModal" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">E-İrsaliye Bilgileri</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+
+                <div class="row g-3">
+
+                    <button type="button" class="btn btn-info" onclick="openTemplatePopup()">Şablon Seç</button>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Sevk Tarihi ve Saati</label>
+                        <input type="datetime-local" id="sevkTarihi" class="form-control">
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Plaka</label>
+                        <input type="text" id="plaka" class="form-control">
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Taşıyıcı VKN / TCKN</label>
+                        <input type="text" id="tasiyiciVkn" class="form-control">
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Taşıyıcı Adı</label>
+                        <input type="text" id="tasiyiciAdi" class="form-control">
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Taşıyıcı İl</label>
+                        <input type="text" id="tasiyiciIl" class="form-control">
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Taşıyıcı İlçe</label>
+                        <input type="text" id="tasiyiciIlce" class="form-control">
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Taşıyıcı Ülke</label>
+                        <input type="text" id="tasiyiciUlke" class="form-control">
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Posta Kodu</label>
+                        <input type="text" id="tasiyiciPostaKodu" class="form-control">
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Şoför Adı</label>
+                        <input type="text" id="soforAdi" class="form-control">
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Şoför Soyadı</label>
+                        <input type="text" id="soforSoyadi" class="form-control">
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Şoför TCKN</label>
+                        <input type="text" id="soforTckn" class="form-control">
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Dorse Plaka 1</label>
+                        <input type="text" id="dorse1" class="form-control">
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Dorse Plaka 2</label>
+                        <input type="text" id="dorse2" class="form-control">
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                <button class="btn btn-primary" id="btnSendEi">Oluştur</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="irsaliyeSablonModal" tabindex="-1">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">E-İrsaliye Şablonları</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                <table id="sablonTable" class="table-bordered table-hover table">
+                    <thead>
+                        <tr>
+                            <th>Şablon</th>
+                            <th>Açıklama</th>
+                            <th>Plaka</th>
+                            <th>Şoför Adı</th>
+                            <th>Şoför VKN</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>
+
 
 @section PageScripts {
     <script>
@@ -230,11 +358,25 @@
                 {
                     data: 'BELGE_NO',
                     render: function (data, type, row) {
-                        return `
-                            <button class="btn btn-sm btn-info view-shipment" onclick="showDocuments('${row.BELGE_NO}')">
-                                <i class="ti ti-eye me-1"></i> Belgeler
-                            </button>
-                        `;
+                        var html = ``;
+
+                        if (row.TOPLAM_IRS_EDILEN > 0) {
+                            html += `
+                                <button class="btn btn-sm btn-primary me-2" onclick="showDocuments('${row.BELGE_NO}')">
+                                    <i class="ti ti-eye me-1"></i> Belgeler
+                                </button>
+                            `;
+                        }
+
+                        if (row.TOPLAM_IRS_EDILMEYEN > 0) {
+                            html += `
+                                <button class="btn btn-sm btn-danger" onclick="createDocument('${row.BELGE_NO}')">
+                                    <i class="ti ti-plus me-1"></i> İrsaliye Oluştur
+                                </button>
+                            `;
+                        }
+
+                        return html;
                     }
                 }
             ],
@@ -426,45 +568,132 @@
             });
         }, 100);
 
-        function getSelectedDocumentNumbers() {
-            const documentNumbers = [];
 
-            table.rows().every(function() {
-                const node = this.node();
-                if ($(node).find('.row-checkbox').is(':checked')) {
-                    documentNumbers.push(this.data().BELGE_NO);
-                }
-            });
-
-            return documentNumbers;
-        }
-
-        function createDocument() {
-            var selectedDocumentNumbers = getSelectedDocumentNumbers();
-            if (selectedDocumentNumbers.length < 1) {
-                alert("İrsaliye oluşturmak için bir sevkiyet seçiniz.");
-                return;
-            }
+        function openTemplatePopup() {
+            $("#irsaliyeSablonModal").modal("show");
 
             $.ajax({
-                url: "/Shipment/CreateDocument",
+                url: "/Shipment/ShipmentTemplateList",
                 type: "POST",
-                contentType: "application/json",
-                data: JSON.stringify({
-                    documentNumbers: selectedDocumentNumbers
-                }),
-                success: function(response) {
-                    if (res.success) {
-                        showToast("İrsaliye başarıyla oluşturuldu. İrsaliye No: " + res.documentNo, "success");
-                    } else {
-                        showToast(res.errorMessage, "danger");
-                    }
-                },
-                error: function(xhr) {
-                    console.error(xhr);
-                    alert("İrsaliye oluşturulurken bir hata oluştu");
+                success: function (list) {
+
+                    let html = "";
+                    list.forEach(item => {
+                        html += `
+                            <tr>
+                                <td>${item.TEMPLATEID}</td>
+                                <td>${item.LICENSEPLATEID ?? ""}</td>
+                                <td>${item.CARRIERNAME ?? ""}</td>
+                                <td>${item.DPERSON1FIRSTNAME ?? ""}</td>
+                                <td>${item.CARRIERCITY ?? ""}</td>
+                                <td>${item.CARRIERSUBCITY ?? ""}</td>
+                                <td>
+                                    <button class="btn btn-sm btn-primary btnSelectTemplate"
+                                        data-plaka="${item.LICENSEPLATEID}"
+                                        data-vkn="${item.CARRIERVKN}"
+                                        data-adi="${item.CARRIERNAME}"
+                                        data-il="${item.CARRIERCITY}"
+                                        data-ilce="${item.CARRIERSUBCITY}"
+                                        data-ulke="${item.CARRIERCOUNTRY}"
+                                        data-posta="${item.CARRIERPOSTAL}"
+                                        data-soforad="${item.DPERSON1FIRSTNAME}"
+                                        data-soforsoyad="${item.DPERSON1FAMILYNAME}"
+                                        data-sofortckn="${item.DPERSON1NID}"
+                                        data-dorse1="${item.DORSEPLAKA1}"
+                                        data-dorse2="${item.DORSEPLAKA2}">
+                                        Seç
+                                    </button>
+                                </td>
+                            </tr>
+                        `;
+                    });
+
+                    $("#sablonTable tbody").html(html);
+
+                    $(document).on("click", ".btnSelectTemplate", function () {
+
+                        $("#plaka").val($(this).data("plaka"));
+                        $("#tasiyiciVkn").val($(this).data("vkn"));
+                        $("#tasiyiciAdi").val($(this).data("adi"));
+                        $("#tasiyiciIl").val($(this).data("il"));
+                        $("#tasiyiciIlce").val($(this).data("ilce"));
+                        $("#tasiyiciUlke").val($(this).data("ulke"));
+                        $("#tasiyiciPostaKodu").val($(this).data("posta"));
+
+                        $("#soforAdi").val($(this).data("soforad"));
+                        $("#soforSoyadi").val($(this).data("soforsoyad"));
+                        $("#soforTckn").val($(this).data("sofortckn"));
+
+                        $("#dorse1").val($(this).data("dorse1"));
+                        $("#dorse2").val($(this).data("dorse2"));
+
+                        // Popup'ı kapat
+                        $("#irsaliyeSablonModal").modal("hide");
+                    });
                 }
             });
+        }
+        function createDocument(documentNumber) {
+            $("#eIrsaliyeModal").attr("data-document-number", documentNumber);
+
+            resetEIrsaliyeForm();
+
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            $("#sevkTarihi").val(`${year}-${month}-${day}T00:00`);
+
+            new bootstrap.Modal(document.getElementById('eIrsaliyeModal')).show();
+
+            $("#btnSendEi").off("click").on("click", function () {
+
+                const documentNumber = $("#eIrsaliyeModal").attr("data-document-number");
+
+                const payload = {
+                    documentNumber: documentNumber,
+                    eWaybillInfo: {
+                        SEVKTAR: $("#sevkTarihi").val() || null,
+                        PLAKA: $("#plaka").val() || "",
+                        TASIYICIVKN: $("#tasiyiciVkn").val() || "",
+                        TASIYICIADI: $("#tasiyiciAdi").val() || "",
+                        TASIYICIIL: $("#tasiyiciIl").val() || "",
+                        TASIYICIILCE: $("#tasiyiciIlce").val() || "",
+                        TASIYICIULKE: $("#tasiyiciUlke").val() || "",
+                        TASIYICIPOSTAKODU: $("#tasiyiciPostaKodu").val() || "",
+                        SOFOR1ADI: $("#soforAdi").val() || "",
+                        SOFOR1SOYADI: $("#soforSoyadi").val() || "",
+                        SOFOR1TCKN: $("#soforTckn").val() || "",
+                        SOFOR1ACIKLAMA: $("#soforAciklama").val() || "",
+                        DORSEPLAKA1: $("#dorse1").val() || "",
+                        DORSEPLAKA2: $("#dorse2").val() || ""
+                    }
+                };
+
+                $.ajax({
+                    url: "/Shipment/CreateDocument",
+                    type: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify(payload),
+                    success: function (res) {
+                        if (res.success) {
+                            showToast("E-İrsaliye başarıyla oluşturuldu", "success");
+                            $("#eIrsaliyeModal").modal("hide");
+                        } else {
+                            showToast(res.errorMessage, "danger");
+                        }
+                    },
+                    error: function(xhr) {
+                        console.error(xhr);
+                        alert("İrsaliye oluşturulurken bir hata oluştu");
+                    }
+                });
+
+            });
+        }
+
+        function resetEIrsaliyeForm() {
+            $("#eIrsaliyeModal input").val("");
         }
 
         $("#btnFilter").on("click", function() {
@@ -496,7 +725,6 @@
                 return `${year}-${month}-${day}`;
             }
         });
-
 
         function showDocuments(shipmentNo){
             if ($.fn.DataTable.isDataTable('#TableDocument')) {
@@ -578,13 +806,30 @@
         }
 
         function viewDocumentPopup(documentNumber, documentType) {
+            // Cache buster
+            let tick = new Date().getTime();
+            let url = `/Shipment/DocumentView?documentNumber=${documentNumber}&documentType=${documentType}&_=${tick}`;
 
-            let url = `/Shipment/DocumentView?documentNumber=${documentNumber}&documentType=${documentType}`;
+            // 1) Eski iframe'i tamamen sil
+            $("#documentFrame").remove();
 
-            // iframe içine belgeyi yükle
+            // 2) Yeni iframe oluştur
+            $("#documentFrameContainer").html(`
+                <iframe id="documentFrame" style="width:100%; height:78vh; border:0;"></iframe>
+            `);
+
+            // 3) Loading göster
+            $("#documentLoading").show();
+
+            // 4) Yeni URL yükle
             $("#documentFrame").attr("src", url);
 
-            // modal aç
+            // 5) Yüklendiğinde loading gizle
+            $("#documentFrame").on("load", function () {
+                $("#documentLoading").hide();
+            });
+
+            // 6) Modal aç
             var modal = new bootstrap.Modal(document.getElementById('DocumentViewModal'));
             modal.show();
         }
@@ -641,3 +886,4 @@
         </div>
     </div>
 </div>
+

@@ -32,44 +32,63 @@
                 <div data-i18n="Dashboard">Dashboard</div>
             </a>
         </li>
-        <li class='menu-item@(path == "/Guarantee/List" ? " active" : "")'>
-            <a asp-controller="Guarantee" asp-action="List" class="menu-link">
-                <i class="menu-icon tf-icons ti ti-certificate"></i>
-                <div data-i18n="Teminatlar">Teminatlar</div>
-            </a>
-        </li>
-        <li class='menu-item@(path == "/Tender/List" ? " active" : "")'>
-            <a asp-controller="Tender" asp-action="List" class="menu-link">
-                <i class="menu-icon tf-icons ti ti-gavel"></i>
-                <div data-i18n="Ýhaleler">Ýhaleler</div>
-            </a>
-        </li>
-        <li class='menu-item@(path == "/Asset/List" ? " active" : "")'>
-            <a asp-controller="Asset" asp-action="List" class="menu-link">
-                <i class="menu-icon tf-icons ti ti-archive"></i>
-                <div data-i18n="Demirbaþlar">Demirbaþlar</div>
-            </a>
-        </li>
-        <li class='menu-item@(path.Contains("Shipment") ? " open" : "")'>
-            <a href="javascript:void(0)" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons ti ti-truck-delivery"></i>
-                <div data-i18n="Sevkiyat">Sevkiyat</div>
-            </a>
-            <ul class="menu-sub">
-                <li class='menu-item@(path == "/Shipment/ShipmentOrder" ? " active" : "")'>
-                    <a asp-controller="Shipment" asp-action="ShipmentOrder" class="menu-link">
-                        <i class="menu-icon tf-icons ti ti-archive"></i>
-                        <div data-i18n="Sevkiyat Emri">Sevkiyat Emri</div>
-                    </a>
-                </li>
-                <li class='menu-item@(path == "/Shipment/ShipmentOrderManagement" ? " active" : "")'>
-                    <a asp-controller="Shipment" asp-action="ShipmentOrderManagement" class="menu-link">
-                        <i class="menu-icon tf-icons ti ti-archive"></i>
-                        <div data-i18n="Sevkiyat Emri Yönetimi">Sevkiyat Emri Yönetimi</div>
-                    </a>
-                </li>
-            </ul>
-        </li>
+        @if (User.IsInRole("Administrator"))
+        {
+            <li class='menu-item@(path == "/Guarantee/List" ? " active" : "")'>
+                <a asp-controller="Guarantee" asp-action="List" class="menu-link">
+                    <i class="menu-icon tf-icons ti ti-certificate"></i>
+                    <div data-i18n="Teminatlar">Teminatlar</div>
+                </a>
+            </li>
+        }
+
+        @if (User.IsInRole("Administrator"))
+        {
+
+            <li class='menu-item@(path == "/Tender/List" ? " active" : "")'>
+                <a asp-controller="Tender" asp-action="List" class="menu-link">
+                    <i class="menu-icon tf-icons ti ti-gavel"></i>
+                    <div data-i18n="Ýhaleler">Ýhaleler</div>
+                </a>
+            </li>
+        }
+
+        @if (User.IsInRole("Administrator"))
+        {
+
+            <li class='menu-item@(path == "/Asset/List" ? " active" : "")'>
+                <a asp-controller="Asset" asp-action="List" class="menu-link">
+                    <i class="menu-icon tf-icons ti ti-archive"></i>
+                    <div data-i18n="Demirbaþlar">Demirbaþlar</div>
+                </a>
+            </li>
+        }
+        @if (User.IsInRole("Administrator") || User.IsInRole("Satýþ") || User.IsInRole("Sevkiyat"))
+        {
+            <li class='menu-item@(path.Contains("Shipment") ? " open" : "")'>
+                <a href="javascript:void(0)" class="menu-link menu-toggle">
+                    <i class="menu-icon tf-icons ti ti-truck-delivery"></i>
+                    <div data-i18n="Sevkiyat">Sevkiyat</div>
+                </a>
+                <ul class="menu-sub">
+                    @if (User.IsInRole("Administrator") || User.IsInRole("Satýþ"))
+                    {
+                        <li class='menu-item@(path == "/Shipment/ShipmentOrder" ? " active" : "")'>
+                            <a asp-controller="Shipment" asp-action="ShipmentOrder" class="menu-link">
+                                <i class="menu-icon tf-icons ti ti-archive"></i>
+                                <div data-i18n="Sevkiyat Emri">Sevkiyat Emri</div>
+                            </a>
+                        </li>
+                    }
+                    <li class='menu-item@(path == "/Shipment/ShipmentOrderManagement" ? " active" : "")'>
+                        <a asp-controller="Shipment" asp-action="ShipmentOrderManagement" class="menu-link">
+                            <i class="menu-icon tf-icons ti ti-archive"></i>
+                            <div data-i18n="Sevkiyat Emri Yönetimi">Sevkiyat Emri Yönetimi</div>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        }
     </ul>
 
 </aside>

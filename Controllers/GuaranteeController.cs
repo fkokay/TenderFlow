@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Text;
 using TenderFlow.Core.Grid;
@@ -8,6 +9,7 @@ using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace TenderFlow.Controllers
 {
+    [Authorize(Roles = "Administrator")]
     public class GuaranteeController : Controller
     {
         private readonly TenderFlowContext _db;
