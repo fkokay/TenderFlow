@@ -648,6 +648,13 @@
 
             $("#btnSendEi").off("click").on("click", function () {
 
+                 const btn = $(this);
+
+                // --- LOADING AÇ ---
+                btn.prop("disabled", true);
+                const originalText = btn.html();
+                btn.html(`<span class="spinner-border spinner-border-sm me-2"></span> Gönderiliyor...`);
+
                 const documentNumber = $("#eIrsaliyeModal").attr("data-document-number");
 
                 const payload = {
@@ -686,6 +693,11 @@
                     error: function(xhr) {
                         console.error(xhr);
                         alert("İrsaliye oluşturulurken bir hata oluştu");
+                    },
+                    complete: function () {
+                        // --- LOADING KAPAT ---
+                        btn.prop("disabled", false);
+                        btn.html(originalText);
                     }
                 });
 

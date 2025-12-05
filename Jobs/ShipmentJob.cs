@@ -43,7 +43,7 @@ namespace TenderFlow.Jobs
                 {
                     foreach (var shipment in list)
                     {
-                        var shipmentLines = await shipmentManager.GetShipmentLinesAsync(shipment.BELGE_NO);
+                        var shipmentLines = await shipmentManager.GetShipmentOrderLinesAsync(shipment.BELGE_NO);
 
                         oAuth2 auth2 = new oAuth2("http://192.168.1.100:7070");
                         var token = await auth2.LoginAsync(new JLogin()
@@ -90,10 +90,10 @@ namespace TenderFlow.Jobs
                         {
                             itemSlip.Kalems.Add(new ItemSlipLines()
                             {
-                                StokKodu = shipmentLine.STOKKODU,
-                                DEPO_KODU = shipmentLine.DEPO,
+                                StokKodu = shipmentLine.STOK_KODU,
+                                DEPO_KODU = shipmentLine.DEPO_KODU,
                                 STra_GCMIK = Convert.ToDouble(shipmentLine.MIKTAR),
-                                STra_SIPNUM = shipmentLine.SIPNO,
+                                STra_SIPNUM = shipmentLine.SIPARIS_NO,
                                 Sira = shipmentLine.SIRA
                             });
                         }

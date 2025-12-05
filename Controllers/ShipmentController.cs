@@ -113,7 +113,7 @@ namespace TenderFlow.Controllers
                 line.TIP = 1;
                 line.BELGENO = model.BELGENO;
                 line.INCKEYNO = item.ID;
-                line.SIPNO = item;
+                line.SIPNO = item.SIPARIS_NO;
                 line.SIPKONT = item.SIRA;
                 line.TESCARI = item.CARI_KODU;
                 line.TESCARIADI = item.CARI_ADI;
@@ -238,7 +238,7 @@ namespace TenderFlow.Controllers
 
             foreach (var shipment in shipments)
             {
-                var shipmentLines = await shipmentService.GetShipmentLinesAsync(shipment.BELGE_NO);
+                var shipmentLines = await shipmentService.GetShipmentOrderLinesAsync(shipment.BELGE_NO);
 
                 oAuth2 auth2 = new oAuth2("http://192.168.1.100:7070");
                 var token = await auth2.LoginAsync(new JLogin()
