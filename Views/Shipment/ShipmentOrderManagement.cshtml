@@ -148,7 +148,7 @@
     </div>
 </div>
 
-<div class="modal fade" id="eIrsaliyeModal" tabindex="-1">
+<div class="modal fade" id="EIrsaliyeModal" tabindex="-1">
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
 
@@ -241,7 +241,7 @@
     </div>
 </div>
 
-<div class="modal fade" id="irsaliyeSablonModal" tabindex="-1">
+<div class="modal fade" id="IrsaliyeSablonModal" tabindex="-1">
     <div class="modal-dialog modal-xl modal-dialog-centered">
         <div class="modal-content">
 
@@ -269,626 +269,57 @@
     </div>
 </div>
 
+<div class="modal fade" id="DeleteConfirmModal" tabindex="-1">
+    <div class="modal-dialog modal-sm modal-dialog-centered">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">Silme Onayı</h5>
+                <button class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                Bu sevk emrini silmek istediğinize emin misiniz?
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                <button id="btnDeleteConfirm" class="btn btn-danger">Sil</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="siparisSelectModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">Sipariş Seç</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                <ul id="siparisListContainer" class="list-group"></ul>
+            </div>
+
+        </div>
+    </div>
+</div>
 
 @section PageScripts {
+    <script src="~/pages/base.js" asp-append-version="true"></script>
+    <script src="~/pages/shipment-order-management.js" asp-append-version="true"></script>
+
     <script>
-        const table = $('#Table').DataTable({
-            language: {
-                paginate: {
-                    next: '<i class="icon-base ti ti-chevron-right scaleX-n1-rtl icon-18px"></i>',
-                    previous: '<i class="icon-base ti ti-chevron-left scaleX-n1-rtl icon-18px"></i>',
-                    first: '<i class="icon-base ti ti-chevrons-left scaleX-n1-rtl icon-18px"></i>',
-                    last: '<i class="icon-base ti ti-chevrons-right scaleX-n1-rtl icon-18px"></i>'
-                },
-                url: 'https://cdn.datatables.net/plug-ins/2.3.2/i18n/tr.json',
-            },
-            processing: false,
-            serverSide: true,
-            paging: false,
-            searching: false,
-            order: [
-                [0, 'asc']
-            ],
-            ajax: {
-                url: '/Shipment/ShipmentOrderManagementList',
-                type: 'POST',
-                contentType: 'application/json',
-                data: function(d) {
-                    d.Filters = {
-                        startDate: $("#startDate").val(),
-                        endDate: $("#endDate").val(),
-                        status: $("#status").val(),
-                        showCompleted: $("#showCompleted").is(":checked"),
-                        highlightZeroPrice: $("#highlightZeroPrice").is(":checked")
-                    };
-                    return JSON.stringify(d);
-                },
-            },
-            deferLoading: 0,
-            columns: [
-                {
-                    data: 'BELGE_NO'
-                },
-                {
-                    data: 'SIPARIS_NO'
-                },
-                {
-                    data: 'TARIH',
-                    render: function(data, type) {
-                        if (type === "sort" || type === "type") return data;
-                        return moment(data).format("DD.MM.YYYY");
-                    }
-                },
-                {
-                    data: 'CARI_KODU'
-                },
-                {
-                    data: 'CARI_ADI'
-                },
-                {
-                    data: 'EFATURA_CARISI'
-                },
-                {
-                    data: 'DURUM_ACIKLAMA'
-                },
-                {
-                    data: 'KULLANICI_ADSOYAD'
-                },
-                {
-                    data: 'KAPALI'
-                },
-                {
-                    data: 'KISMI_TESLIMAT'
-                },
-                {
-                    data: 'TOPLAM_MIKTAR'
-                },
-                {
-                    data: 'TOPLAM_TOPLANAN'
-                },
-                {
-                    data: 'TOPLAM_KALAN'
-                },
-                {
-                    data: 'TOPLAM_IRS_EDILEN'
-                },
-                {
-                    data: 'TOPLAM_IRS_EDILMEYEN'
-                },
-                {
-                    data: 'BELGE_NO',
-                    render: function (data, type, row) {
-                        var html = ``;
-
-                        if (row.TOPLAM_IRS_EDILEN > 0) {
-                            html += `
-                                <button class="btn btn-sm btn-primary me-2" onclick="showDocuments('${row.BELGE_NO}')">
-                                    <i class="ti ti-eye me-1"></i> Belgeler
-                                </button>
-                            `;
-                        }
-
-                        if (row.TOPLAM_IRS_EDILMEYEN > 0) {
-                            html += `
-                                <button class="btn btn-sm btn-danger" onclick="createDocument('${row.BELGE_NO}')">
-                                    <i class="ti ti-plus me-1"></i> İrsaliye Oluştur
-                                </button>
-                            `;
-                        }
-
-                        return html;
-                    }
-                }
-            ],
-            displayLength: 10,
-            layout: {
-                topStart: {
-                    rowClass: "card-header d-flex border-top rounded-0 flex-wrap py-0 flex-column flex-md-row align-items-start",
-                    features: [{
-                        search: {
-                            className: "me-5 ms-n4 pe-5 mb-n6 mb-md-0",
-                            placeholder: "Ara..",
-                            text: "_INPUT_"
-                        }
-                    }]
-                },
-                topEnd: {
-                    rowClass: "row m-3 my-0 justify-content-between",
-                    features: [{
-                        pageLength: {
-                            menu: [10, 25, 50, 100],
-                            text: "_MENU_"
-                        },
-                        buttons: [{
-                                extend: "collection",
-                                className: "btn btn-label-secondary dropdown-toggle me-4",
-                                text: `<span class="d-flex align-items-center gap-1">
-                                            <i class="icon-base ti ti-upload icon-xs"></i>
-                                            <span class="d-none d-sm-inline-block">Dışarı Aktar</span>
-                                          </span>`,
-                                buttons: [{
-                                        extend: "print",
-                                        className: "dropdown-item",
-                                        text: `<span class="d-flex align-items-center"><i class="icon-base ti tabler-printer me-1"></i> Print</span>`,
-                                        exportOptions: {
-                                            columns: [2, 3, 4]
-                                        }
-                                    },
-                                    {
-                                        extend: "csv",
-                                        className: "dropdown-item",
-                                        text: `<span class="d-flex align-items-center"><i class="icon-base ti tabler-file me-1"></i> Csv</span>`,
-                                        exportOptions: {
-                                            columns: [2, 3, 4]
-                                        }
-                                    },
-                                    {
-                                        extend: "excel",
-                                        className: "dropdown-item",
-                                        text: `<span class="d-flex align-items-center"><i class="icon-base ti tabler-upload me-1"></i> Excel</span>`,
-                                        exportOptions: {
-                                            columns: [2, 3, 4]
-                                        }
-                                    },
-                                    {
-                                        extend: "pdf",
-                                        className: "dropdown-item",
-                                        text: `<span class="d-flex align-items-center"><i class="icon-base ti tabler-file-text me-1"></i> Pdf</span>`,
-                                        exportOptions: {
-                                            columns: [2, 3, 4]
-                                        }
-                                    },
-                                    {
-                                        extend: "copy",
-                                        className: "dropdown-item",
-                                        text: `<i class="icon-base ti tabler-copy me-1"></i> Copy`,
-                                        exportOptions: {
-                                            columns: [2, 3, 4]
-                                        }
-                                    }
-                                ]
-                            },
-                            {
-                                text: `<i class="icon-base ti ti-plus me-sm-1 icon-16px me-0"></i>
-                                            <span class="d-none d-sm-inline-block">Yeni Ekle</span>`,
-                                className: "add-new btn btn-primary",
-                                action: function() {
-                                    window.location.href = "Create";
-                                }
-                            }
-                        ]
-                    }]
-                },
-                bottomStart: {
-                    rowClass: "row mx-3 justify-content-between",
-                    features: ["info"]
-                },
-                bottomEnd: "paging"
-            },
-            scrollX: true,
-
-            initComplete: function() {},
-            rowCallback: function(row, data) {
-
-                // Önce eski renklendirmeyi temizle
-               $(row).removeClass("table-danger");
-
-               // Checkbox işaretli değilse hiçbir şey yapma
-               if (!$("#highlightZeroPrice").is(":checked"))
-                   return;
-
-               // Sıfır miktar kontrolü
-               if (data.SIFIR_FIYAT_VAR == "E") {
-                   $(row).addClass("table-danger");
-               }
-            }
-        });
-
-        $('#Table tbody').on('change', '.group-checkbox', function() {
-
-            const groupName = $(this).data("group");
-            const checked = $(this).is(":checked");
-
-            table.rows().every(function() {
-                const rowData = this.data();
-                if (rowData.CARI_ADI === groupName) {
-                    $(this.node()).find('.row-checkbox').prop('checked', checked);
-                }
-            });
-        });
-
-        // AJAX başlamadan önce
-        table.on('preXhr.dt', function() {
-            $("#tableLoading").show();
-        });
-
-        // AJAX bittikten sonra
-        table.on('xhr.dt', function() {
-            $("#tableLoading").hide();
-        });
-
-        table.on('processing.dt', function(e, settings, processing) {
-            if (processing) {
-                $("#tableLoading").show();
-            } else {
-                $("#tableLoading").hide();
-            }
-        });
-
-        // Görsel sınıf düzeltmeleri
-        setTimeout(() => {
-            const adjustments = [{
-                    selector: ".dt-buttons .btn",
-                    classToRemove: "btn-secondary"
-                },
-                {
-                    selector: ".dt-buttons.btn-group",
-                    classToAdd: "mb-md-0 mb-6"
-                },
-                {
-                    selector: ".dt-search .form-control",
-                    classToRemove: "form-control-sm",
-                    classToAdd: "ms-0"
-                },
-                {
-                    selector: ".dt-search",
-                    classToAdd: "mb-0 mb-md-6"
-                },
-                {
-                    selector: ".dt-length .form-select",
-                    classToRemove: "form-select-sm"
-                },
-                {
-                    selector: ".dt-layout-end",
-                    classToAdd: "gap-md-2 gap-0 mt-0"
-                },
-                {
-                    selector: ".dt-layout-start",
-                    classToAdd: "mt-0"
-                },
-                {
-                    selector: ".dt-layout-table",
-                    classToRemove: "row mt-2"
-                },
-                {
-                    selector: ".dt-layout-full",
-                    classToRemove: "col-md col-12",
-                    classToAdd: "table-responsive"
-                }
-            ];
-            adjustments.forEach(({
-                selector,
-                classToRemove,
-                classToAdd
-            }) => {
-                document.querySelectorAll(selector).forEach(el => {
-                    if (classToRemove) classToRemove.split(" ").forEach(cls => el.classList.remove(cls));
-                    if (classToAdd) classToAdd.split(" ").forEach(cls => el.classList.add(cls));
-                });
-            });
-        }, 100);
-
-
-        function openTemplatePopup() {
-            $("#irsaliyeSablonModal").modal("show");
-
-            $.ajax({
-                url: "/Shipment/ShipmentTemplateList",
-                type: "POST",
-                success: function (list) {
-
-                    let html = "";
-                    list.forEach(item => {
-                        html += `
-                            <tr>
-                                <td>${item.TEMPLATEID}</td>
-                                <td>${item.LICENSEPLATEID ?? ""}</td>
-                                <td>${item.CARRIERNAME ?? ""}</td>
-                                <td>${item.DPERSON1FIRSTNAME ?? ""}</td>
-                                <td>${item.CARRIERCITY ?? ""}</td>
-                                <td>${item.CARRIERSUBCITY ?? ""}</td>
-                                <td>
-                                    <button class="btn btn-sm btn-primary btnSelectTemplate"
-                                        data-plaka="${item.LICENSEPLATEID}"
-                                        data-vkn="${item.CARRIERVKN}"
-                                        data-adi="${item.CARRIERNAME}"
-                                        data-il="${item.CARRIERCITY}"
-                                        data-ilce="${item.CARRIERSUBCITY}"
-                                        data-ulke="${item.CARRIERCOUNTRY}"
-                                        data-posta="${item.CARRIERPOSTAL}"
-                                        data-soforad="${item.DPERSON1FIRSTNAME}"
-                                        data-soforsoyad="${item.DPERSON1FAMILYNAME}"
-                                        data-sofortckn="${item.DPERSON1NID}"
-                                        data-dorse1="${item.DORSEPLAKA1}"
-                                        data-dorse2="${item.DORSEPLAKA2}">
-                                        Seç
-                                    </button>
-                                </td>
-                            </tr>
-                        `;
-                    });
-
-                    $("#sablonTable tbody").html(html);
-
-                    $(document).on("click", ".btnSelectTemplate", function () {
-
-                        $("#plaka").val($(this).data("plaka"));
-                        $("#tasiyiciVkn").val($(this).data("vkn"));
-                        $("#tasiyiciAdi").val($(this).data("adi"));
-                        $("#tasiyiciIl").val($(this).data("il"));
-                        $("#tasiyiciIlce").val($(this).data("ilce"));
-                        $("#tasiyiciUlke").val($(this).data("ulke"));
-                        $("#tasiyiciPostaKodu").val($(this).data("posta"));
-
-                        $("#soforAdi").val($(this).data("soforad"));
-                        $("#soforSoyadi").val($(this).data("soforsoyad"));
-                        $("#soforTckn").val($(this).data("sofortckn"));
-
-                        $("#dorse1").val($(this).data("dorse1"));
-                        $("#dorse2").val($(this).data("dorse2"));
-
-                        // Popup'ı kapat
-                        $("#irsaliyeSablonModal").modal("hide");
-                    });
-                }
-            });
-        }
-        function createDocument(documentNumber) {
-            $("#eIrsaliyeModal").attr("data-document-number", documentNumber);
-
-            resetEIrsaliyeForm();
-
-            const now = new Date();
-            const year = now.getFullYear();
-            const month = String(now.getMonth() + 1).padStart(2, '0');
-            const day = String(now.getDate()).padStart(2, '0');
-            $("#sevkTarihi").val(`${year}-${month}-${day}T00:00`);
-
-            new bootstrap.Modal(document.getElementById('eIrsaliyeModal')).show();
-
-            $("#btnSendEi").off("click").on("click", function () {
-
-                 const btn = $(this);
-
-                // --- LOADING AÇ ---
-                btn.prop("disabled", true);
-                const originalText = btn.html();
-                btn.html(`<span class="spinner-border spinner-border-sm me-2"></span> Gönderiliyor...`);
-
-                const documentNumber = $("#eIrsaliyeModal").attr("data-document-number");
-
-                const payload = {
-                    documentNumber: documentNumber,
-                    eWaybillInfo: {
-                        SEVKTAR: $("#sevkTarihi").val() || null,
-                        PLAKA: $("#plaka").val() || "",
-                        TASIYICIVKN: $("#tasiyiciVkn").val() || "",
-                        TASIYICIADI: $("#tasiyiciAdi").val() || "",
-                        TASIYICIIL: $("#tasiyiciIl").val() || "",
-                        TASIYICIILCE: $("#tasiyiciIlce").val() || "",
-                        TASIYICIULKE: $("#tasiyiciUlke").val() || "",
-                        TASIYICIPOSTAKODU: $("#tasiyiciPostaKodu").val() || "",
-                        SOFOR1ADI: $("#soforAdi").val() || "",
-                        SOFOR1SOYADI: $("#soforSoyadi").val() || "",
-                        SOFOR1TCKN: $("#soforTckn").val() || "",
-                        SOFOR1ACIKLAMA: $("#soforAciklama").val() || "",
-                        DORSEPLAKA1: $("#dorse1").val() || "",
-                        DORSEPLAKA2: $("#dorse2").val() || ""
-                    }
-                };
-
-                $.ajax({
-                    url: "/Shipment/CreateDocument",
-                    type: "POST",
-                    contentType: "application/json",
-                    data: JSON.stringify(payload),
-                    success: function (res) {
-                        if (res.success) {
-                            showToast("E-İrsaliye başarıyla oluşturuldu", "success");
-                            $("#eIrsaliyeModal").modal("hide");
-                        } else {
-                            showToast(res.errorMessage, "danger");
-                        }
-                    },
-                    error: function(xhr) {
-                        console.error(xhr);
-                        alert("İrsaliye oluşturulurken bir hata oluştu");
-                    },
-                    complete: function () {
-                        // --- LOADING KAPAT ---
-                        btn.prop("disabled", false);
-                        btn.html(originalText);
-                    }
-                });
-
-            });
-        }
-
-        function resetEIrsaliyeForm() {
-            $("#eIrsaliyeModal input").val("");
-        }
-
-        $("#btnFilter").on("click", function() {
-            table.ajax.reload();
-        });
-
-        $("#btnClearFilters").on("click", function() {
-            $("#startDate").val("");
-            $("#endDate").val("");
-            $("#status").val("");
-            $("#showCompleted ").prop("checked", false);
-            $("#highlightZeroPrice  ").prop("checked", false);
-
-            table.ajax.reload();
-        });
-
         document.addEventListener("DOMContentLoaded", function () {
-
-            const today = new Date();
-            const firstDay = new Date(today.getFullYear(), today.getMonth(), 1);
-
-            document.getElementById("startDate").value = formatDateLocal(firstDay);
-            document.getElementById("endDate").value = formatDateLocal(today);
-
-            function formatDateLocal(date) {
-                const year = date.getFullYear();
-                const month = String(date.getMonth() + 1).padStart(2, "0");
-                const day = String(date.getDate()).padStart(2, "0");
-                return `${year}-${month}-${day}`;
-            }
+           TenderFlow.ShipmentOrderManagement.init();
         });
-
-        function showDocuments(shipmentNo){
-            if ($.fn.DataTable.isDataTable('#TableDocument')) {
-                $('#TableDocument').DataTable().clear().destroy();
-            }
-
-            var modal = new bootstrap.Modal(document.getElementById('DocumentsModal'));
-            var tableDocument = $("#TableDocument").DataTable({
-                        language: {
-                                paginate: {
-                                    next: '<i class="icon-base ti ti-chevron-right scaleX-n1-rtl icon-18px"></i>',
-                                    previous: '<i class="icon-base ti ti-chevron-left scaleX-n1-rtl icon-18px"></i>',
-                                    first: '<i class="icon-base ti ti-chevrons-left scaleX-n1-rtl icon-18px"></i>',
-                                    last: '<i class="icon-base ti ti-chevrons-right scaleX-n1-rtl icon-18px"></i>'
-                                },
-                                url: 'https://cdn.datatables.net/plug-ins/2.3.2/i18n/tr.json',
-                        },
-                        processing: false,
-                        orderCellsTop: true,
-                        serverSide: false,
-                        paging: true,
-                        dom: 'tp',
-                        searching: true,
-                        order: [[0, 'asc']],
-                        ajax: {
-                            url: '/Shipment/DocumentList?shipmentNo='+shipmentNo,
-                            type: 'POST',
-                            contentType: 'application/json',
-                            dataSrc: '',
-                            data: function (d) {
-                                return JSON.stringify(d);
-                            },
-                        },
-                        columns: [
-                            {   data: 'BELGE_NO' },
-                            {   data: 'BELGE_TIPI' },
-                            {   data: 'TARIH' },
-                            {   data: 'CARI_KODU' },
-                            {   data: 'CARI_ADI' },
-                            {
-                                data: 'BELGE_NO',
-                                render: function (data, type, row) {
-                                    return `
-                                        <a href="#" onclick="viewDocumentPopup('${row.RESMI_BELGE_NO}', '${row.BELGE_TIPI}')" class="btn btn-sm btn-info">
-                                            <i class="ti ti-eye me-1"></i> Görüntüle
-                                        </a>
-                                    `;
-                                }
-                            }
-                        ],
-                        displayLength: 10,
-                        scrollX: false,
-                        select: true,
-                        initComplete: function () {
-
-                        }
-                    });
-
-                        setTimeout(() => {
-                            const adjustments = [
-                                { selector: ".dt-buttons .btn", classToRemove: "btn-secondary" },
-                                { selector: ".dt-buttons.btn-group", classToAdd: "mb-md-0 mb-6" },
-                                { selector: ".dt-search .form-control", classToRemove: "form-control-sm", classToAdd: "ms-0" },
-                                { selector: ".dt-search", classToAdd: "mb-0 mb-md-6" },
-                                { selector: ".dt-length .form-select", classToRemove: "form-select-sm" },
-                                { selector: ".dt-layout-end", classToAdd: "gap-md-2 gap-0 mt-0" },
-                                { selector: ".dt-layout-start", classToAdd: "mt-0" },
-                                { selector: ".dt-layout-table", classToRemove: "row mt-2" },
-                                { selector: ".dt-layout-full", classToRemove: "col-md col-12", classToAdd: "table-responsive" }
-                            ];
-                            adjustments.forEach(({ selector, classToRemove, classToAdd }) => {
-                                document.querySelectorAll(selector).forEach(el => {
-                                    if (classToRemove) classToRemove.split(" ").forEach(cls => el.classList.remove(cls));
-                                    if (classToAdd) classToAdd.split(" ").forEach(cls => el.classList.add(cls));
-                                });
-                            });
-                        }, 100);
-            modal.show();
-        }
-
-        function viewDocumentPopup(documentNumber, documentType) {
-            // Cache buster
-            let tick = new Date().getTime();
-            let url = `/Shipment/DocumentView?documentNumber=${documentNumber}&documentType=${documentType}&_=${tick}`;
-
-            // 1) Eski iframe'i tamamen sil
-            $("#documentFrame").remove();
-
-            // 2) Yeni iframe oluştur
-            $("#documentFrameContainer").html(`
-                <iframe id="documentFrame" style="width:100%; height:78vh; border:0;"></iframe>
-            `);
-
-            // 3) Loading göster
-            $("#documentLoading").show();
-
-            // 4) Yeni URL yükle
-            $("#documentFrame").attr("src", url);
-
-            // 5) Yüklendiğinde loading gizle
-            $("#documentFrame").on("load", function () {
-                $("#documentLoading").hide();
-            });
-
-            // 6) Modal aç
-            var modal = new bootstrap.Modal(document.getElementById('DocumentViewModal'));
-            modal.show();
-        }
-
-        function printDocument() {
-            const frame = document.getElementById('documentFrame');
-
-            if (frame && frame.contentWindow) {
-                frame.contentWindow.focus();
-                frame.contentWindow.print();
-            }
-        }
-
-        function showToast(message, type = "success") {
-
-            const toastEl = document.getElementById("globalToast");
-            const toastMessage = document.getElementById("toastMessage");
-
-            toastEl.classList.remove("bg-success", "bg-danger", "bg-warning", "bg-info");
-
-            switch (type) {
-                case "success":
-                    toastEl.classList.add("bg-success");
-                    break;
-                case "danger":
-                case "error":
-                    toastEl.classList.add("bg-danger");
-                    break;
-                case "warning":
-                    toastEl.classList.add("bg-warning");
-                    break;
-                default:
-                    toastEl.classList.add("bg-info");
-                    break;
-            }
-
-            toastMessage.innerText = message;
-
-            const bsToast = new bootstrap.Toast(toastEl, {
-                delay: 3000
-            });
-            bsToast.show();
-        }
     </script>
 }
 
-<div class="position-fixed bottom-0 end-0 p-3" style="z-index:1080;">
+<div class="position-fixed end-0 top-0 p-3" style="z-index:1080;">
     <div id="globalToast" class="toast border-0 text-white" role="alert">
         <div class="d-flex">
             <div id="toastMessage" class="toast-body">

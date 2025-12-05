@@ -82,3 +82,24 @@
 #TableCustomer input.form-control-sm {
     height: 30px !important;
 }
+
+.toast-body {
+    font-size: 15px !important;
+}
+
+.dataTables_wrapper .dataTables_scrollBody {
+    min-height: 500px !important;
+}
+
+.table th {
+    font-size: 12px;
+}
+
+#DocumentViewModal .modal-xl {
+    --bs-modal-width: 820px;
+}
+
+#DocumentViewModal .modal-header {
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid #ddd;
+}

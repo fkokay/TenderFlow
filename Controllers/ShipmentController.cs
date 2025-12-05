@@ -50,7 +50,7 @@ namespace TenderFlow.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateShipment([FromBody] ShipmentRequestModel request)
+        public async Task<IActionResult> Create([FromBody] ShipmentRequestModel request)
         {
             var config = new NetsisConfig
             {
@@ -144,7 +144,7 @@ namespace TenderFlow.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> ConfirmShipment(ShipmentModel model)
+        public async Task<IActionResult> CreateShipment(ShipmentModel model)
         {
             try
             {
@@ -210,6 +210,52 @@ namespace TenderFlow.Controllers
             {
                 return Json(new { success = false, errorMessage = ex.Message });
             }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(string belgeNo)
+        {
+            var config = new NetsisConfig
+            {
+                Server = "192.168.1.100",
+                Database = "MAKROLAB25",
+                User = "sa",
+                Password = "sapass",
+            };
+
+            var netsis = new NetsisConnection(config);
+            var con = netsis.Open();
+
+            var shipmentService = new ShipmentManager(con);
+            var model = await shipmentService.GetShipmentAsync(belgeNo);
+
+            if (model == null)
+                return NotFound();
+
+            return View("Edit", model);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> OrderDetails(string siparisNo)
+        {
+            var config = new NetsisConfig
+            {
+                Server = "192.168.1.100",
+                Database = "MAKROLAB25",
+                User = "sa",
+                Password = "sapass",
+            };
+
+            var netsis = new NetsisConnection(config);
+            var con = netsis.Open();
+
+            var shipmentService = new ShipmentManager(con);
+            var model = await shipmentService.GetOrderDetailsAsync(siparisNo);
+
+            if (model == null)
+                return NotFound("Sipariş bulunamadı.");
+
+            return View("OrderDetails", model);
         }
 
         [HttpGet]
@@ -581,6 +627,33 @@ namespace TenderFlow.Controllers
             var list = await shipmentManager.GetShipmentTemplates();
 
             return Json(list);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteShipmentAsync([FromBody] DeleteShipmentRequest request)
+        {
+            try
+            {
+                var config = new NetsisConfig
+                {
+                    Server = "192.168.1.100",
+                    Database = "MAKROLAB25",
+                    User = "sa",
+                    Password = "sapass",
+                };
+
+                var netsis = new NetsisConnection(config);
+                var con = netsis.Open();
+
+                var shipmentManager = new ShipmentManager(con);
+                var result = await shipmentManager.DeleteShipmentAsync(request.DocumentNumber);
+
+                return Json(new { success = result });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, errorMessage = ex.Message });
+            }
         }
 
     }
