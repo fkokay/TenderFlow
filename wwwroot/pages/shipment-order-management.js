@@ -59,16 +59,58 @@ TenderFlow.ShipmentOrderManagement = (function ($) {
                             return moment(v).format("DD.MM.YYYY");
                         }
                     },
-                    { data: 'CARI_KODU' },
-                    { data: 'CARI_ADI' },
-                    { data: 'EFATURA_CARISI' },
+                    {
+                        data: 'CARI_KODU',
+                        visible: false
+                    },
+                    {
+                        data: 'CARI_ADI',
+                        className: "col-cari",
+                        render: function (data, type, row) {
+                            return `
+                                <div>
+                                    <div class="d-inline-block me-2">
+                                        <div>${row.CARI_ADI}</div>
+                                        <div><small class="text-muted">${row.CARI_KODU}</small></div>
+                                        <div><small class="text-muted">E-Fatura Carisi :</small> ${ row.EFATURA_CARISI === "E" ? '<span class="badge bg-success">Evet</span>' : '<span class="badge bg-secondary">Hayır</span>'}</div>
+                                    </div>
+                                </div>
+                            `;   
+                        
+                        }
+                    },
+                    {
+                        data: 'EFATURA_CARISI',
+                        visible: false  
+                    },
                     { data: 'DURUM_ACIKLAMA' },
                     { data: 'KULLANICI_ADSOYAD' },
-                    { data: 'KAPALI' },
-                    { data: 'KISMI_TESLIMAT' },
-                    { data: 'TOPLAM_MIKTAR' },
-                    { data: 'TOPLAM_TOPLANAN' },
-                    { data: 'TOPLAM_KALAN' },
+                    {
+                        data: 'KAPALI',
+                        className: "text-center",
+                        render: function (data, type, row) {
+                            return data === "E" ? '<span class="badge bg-success">Evet</span>' : '<span class="badge bg-secondary">Hayır</span>';
+                        }
+                    },
+                    {
+                        data: 'KISMI_TESLIMAT',
+                        className: "text-center",
+                        render: function (data, type, row) {
+                            return data === "E" ? '<span class="badge bg-info">Evet</span>' : '<span class="badge bg-secondary">Hayır</span>';
+                        }
+                    },
+                    {
+                        data: 'TOPLAM_MIKTAR',
+                        className: "text-center"
+                    },
+                    {
+                        data: 'TOPLAM_TOPLANAN',
+                        className: "text-center"
+                    },
+                    {
+                        data: 'TOPLAM_KALAN',
+                        className: "text-center"
+                    },
                     { data: 'TOPLAM_IRS_EDILEN' },
                     { data: 'TOPLAM_IRS_EDILMEYEN' },
                     {
@@ -121,7 +163,6 @@ TenderFlow.ShipmentOrderManagement = (function ($) {
                     }
                 ],
                 displayLength: 10,
-                scrollX: true,
                 rowCallback: function (row, data) {
 
                     $(row).removeClass("table-danger");
@@ -196,7 +237,8 @@ TenderFlow.ShipmentOrderManagement = (function ($) {
         $("#btnFilter").on("click", () => table.ajax.reload());
 
         $("#btnClearFilters").on("click", function () {
-            $("#startDate, #endDate, #status").val("");
+            $("#startDate, #endDate").val("");
+            $("#status").val("0");
             $("#showCompleted, #highlightZeroPrice").prop("checked", false);
             table.ajax.reload();
         });
@@ -302,7 +344,7 @@ TenderFlow.ShipmentOrderManagement = (function ($) {
             btn.html(`<span class="spinner-border spinner-border-sm me-2"></span> Gönderiliyor...`);
 
             const payload = {
-                documentNumber: $("#eIrsaliyeModal").attr("data-document-number"),
+                documentNumber: $("#EIrsaliyeModal").attr("data-document-number"),
                 eWaybillInfo: {
                     SEVKTAR: $("#sevkTarihi").val() || null,
                     PLAKA: $("#plaka").val() || "",

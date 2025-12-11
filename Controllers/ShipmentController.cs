@@ -284,6 +284,7 @@ namespace TenderFlow.Controllers
 
             foreach (var shipment in shipments)
             {
+                var order = await shipmentService.GetOrderDetailsAsync(shipment.SIPARIS_NO);
                 var shipmentLines = await shipmentService.GetShipmentOrderLinesAsync(shipment.BELGE_NO);
 
                 oAuth2 auth2 = new oAuth2("http://192.168.1.100:7070");
@@ -321,6 +322,7 @@ namespace TenderFlow.Controllers
                     FiiliTarih = DateTime.Now,
                     DovBazTarihi = DateTime.Now,
                     EIrsaliye = true,
+                    Aciklama = order.ACIKLAMA,
                 };
 
                 itemSlip.Kalems = new List<ItemSlipLines>();
@@ -332,10 +334,11 @@ namespace TenderFlow.Controllers
                         DEPO_KODU = shipmentLine.DEPO_KODU,
                         STra_GCMIK = Convert.ToDouble(shipmentLine.MIKTAR),
                         STra_SIPNUM = shipmentLine.SIPARIS_NO,
-                        Sira = shipmentLine.SIRA,
+                        STra_SIPKONT = shipmentLine.SIRA,
                         Ambarkabulno = shipmentLine.INCKEYNO.ToString(),
-                        STra_BF = Convert.ToDouble(shipmentLine.STHAR_BF)
-
+                        STra_BF = Convert.ToDouble(shipmentLine.STHAR_BF),
+                        STra_DOVFIAT = Convert.ToDouble(shipmentLine.STHAR_DOVFIAT),
+                        STra_DOVTIP = shipmentLine.STHAR_DOVTIP,
                     });
                 }
 

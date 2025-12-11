@@ -98,7 +98,7 @@
 
                                 <td>
                                     <input type="hidden" name="ShipmentLines[@i].SIPNO" value="@Model.ShipmentLines[i].SIPNO" />
-                                    @Model.ShipmentLines[i].SIPNO
+                                    <a href="/Shipment/OrderDetails?siparisNo=@Model.ShipmentLines[i].SIPNO">@Model.ShipmentLines[i].SIPNO</a>
                                 </td>
 
                                 <td>

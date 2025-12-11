@@ -22,6 +22,8 @@
 #Table td {
     padding-top: 4px !important;
     padding-bottom: 4px !important;
+    padding-left: 8px !important;
+    padding-right: 8px !important;
     max-width: 260px;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -90,11 +92,6 @@
 .dataTables_wrapper .dataTables_scrollBody {
     min-height: 500px !important;
 }
-
-.table th {
-    font-size: 12px;
-}
-
 #DocumentViewModal .modal-xl {
     --bs-modal-width: 820px;
 }
@@ -102,4 +99,50 @@
 #DocumentViewModal .modal-header {
     padding-bottom: 1.25rem;
     border-bottom: 1px solid #ddd;
+}
+
+.col-cari {
+    width: 500px !important;
+    max-width: 500px !important;
+}
+
+
+table.table-bordered.dataTable th:last-child, table.table-bordered.dataTable th:last-child, table.table-bordered.dataTable td:last-child, table.table-bordered.dataTable td:last-child {
+    border-right-width: 0px;
+}
+
+table.table-bordered.dataTable th:first-child, table.table-bordered.dataTable th:first-child, table.table-bordered.dataTable td:first-child, table.table-bordered.dataTable td:first-child {
+    border-left-width: 0px;
+}
+
+/* Tüm checkbox hizalama alanı – SABİT genişlik */
+.rg-check-area {
+    width: 32px; /* Aynı çizgide hizalanması için */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Grup satırı görünümü */
+.rg-row {
+    display: flex;
+    align-items: center;
+    padding: 10px 8px;
+    font-weight: 600;
+    margin-top: 5px;
+}
+
+.rg-title {
+    margin-left: 10px;
+}
+
+.dtrg-group {
+    padding-top: 4px !important;
+    padding-bottom: 4px !important;
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+}
+.dtrg-level-0 th{
+    padding: 0px !important;
+    background-color:#f2f2f2!important;
 }

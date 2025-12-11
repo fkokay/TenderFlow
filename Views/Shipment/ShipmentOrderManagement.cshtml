@@ -65,7 +65,7 @@
 </div>
 
 <div class="card">
-    <div class="card-datatable text-nowrap pt-0">
+    <div class="card-datatable table-responsive text-nowrap pt-0">
         <div class="table-loading" id="tableLoading" style="display:none;">
             <div class="spinner-border text-light" style="width:3rem; height:3rem;"></div>
             <div class="mt-2 text-white">Yükleniyor...</div>
@@ -78,11 +78,11 @@
                     <th>Tarih</th>
                     <th>Cari Kodu</th>
                     <th>Cari Adı</th>
-                    <th>E-Fatura Carisi</th>
+                    <th>E-Fat. Carisi</th>
                     <th>Durum</th>
                     <th>Kullanıcı</th>
                     <th>Kapalı</th>
-                    <th>Kısmi Teslimat</th>
+                    <th>Kısmi Tes.</th>
                     <th>Miktar</th>
                     <th>Toplanan</th>
                     <th>Kalan</th>
@@ -126,7 +126,7 @@
             <div class="modal-header">
                 <h5 class="modal-title">Belge Görüntüle</h5>
                 <div class="d-flex gap-2">
-                    <button class="btn btn-primary btn-sm" onclick="printDocument()">
+                    <button class="btn btn-primary btn-sm" onclick="TenderFlow.ShipmentOrderManagement.printDocument()">
                         <i class="ti ti-printer me-1"></i> Yazdır
                     </button>
                     <button class="btn-close" data-bs-dismiss="modal"></button>
@@ -161,7 +161,7 @@
 
                 <div class="row g-3">
 
-                    <button type="button" class="btn btn-info" onclick="openTemplatePopup()">Şablon Seç</button>
+                    <button type="button" class="btn btn-info" onclick="TenderFlow.ShipmentOrderManagement.openTemplatePopup()">Şablon Seç</button>
 
                     <div class="col-md-6">
                         <label class="form-label">Sevk Tarihi ve Saati</label>

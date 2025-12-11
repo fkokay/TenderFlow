@@ -182,8 +182,13 @@
                             data: null,
                             orderable: false,
                             searchable: false,
+                            class:"text-center",
                             render: function () {
-                                return '<input type="checkbox" class="row-checkbox"/>';
+                                return `
+                                    <div class="rg-check-area">
+                                        <input type="checkbox" class="row-checkbox"/>
+                                    </div>
+                                `;
                             }
                         },
                         {   data: 'ID', visible: false },
@@ -215,11 +220,12 @@
                     rowGroup: {
                         dataSrc: 'CARI_KEY',
                         startRender: function (rows, group) {
-                            return `
-                                <div class="group-row"
-                                     style="font-weight:bold; padding:4px; display:flex; align-items:center; gap:10px;">
-                                    <input type="checkbox" class="group-checkbox" data-group="${group}">
-                                    ${group}
+                             return `
+                                <div class="group-row rg-row">
+                                    <div class="rg-check-area">
+                                        <input type="checkbox" class="group-checkbox" data-group="${group}">
+                                    </div>
+                                    <div class="rg-title">${group}</div>
                                 </div>
                             `;
                         }
@@ -281,22 +287,37 @@
                     });
                 }, 100);
 
-        function getSelectedIds() {
-                    const ids = [];
+        function getSelectedIds() 
+        {
+            const ids = [];
 
-                    table.rows().every(function () {
-                        const node = this.node();
-                        if ($(node).find('.row-checkbox').is(':checked')) {
-                            ids.push(this.data().ID);
-                        }
-                    });
-
-                    return ids;
+            table.rows().every(function () {
+                const node = this.node();
+                if ($(node).find('.row-checkbox').is(':checked')) {
+                    ids.push(this.data().ID);
                 }
+            });
+
+            return ids;
+        }
         function createShipment(){
             var selectedIds = getSelectedIds();
             if(selectedIds.length < 1){
                 alert("Sevk edilebilecek bir sipariş seçiniz");
+                return;
+            }
+
+            const selectedRows = [];
+            table.rows().every(function () {
+                if ($(this.node()).find('.row-checkbox').is(':checked')) {
+                    selectedRows.push(this.data());
+                }
+            });
+
+            const siparisNolari = [...new Set(selectedRows.map(x => x.SIPARIS_NO))];
+
+            if (siparisNolari.length > 1) {
+                showToast("Seçilen ürünler aynı sipariş numarasına ait değil. Sevkiyat oluşturulamaz.", "warning");
                 return;
             }
 
@@ -324,29 +345,29 @@
         }
 
         $("#shipmentForm").on("submit", function (e) {
-                    e.preventDefault();
+            e.preventDefault();
 
-                    $.ajax({
-                        url: this.action,
-                        type: "POST",
-                        data: $(this).serialize(),
-                        success: function (res) {
-                            // modal kapat
-                            var modal = bootstrap.Modal.getInstance(document.getElementById('shipmentModal'));
-                            modal.hide();
+            $.ajax({
+                url: this.action,
+                type: "POST",
+                data: $(this).serialize(),
+                success: function (res) {
+                    // modal kapat
+                    var modal = bootstrap.Modal.getInstance(document.getElementById('shipmentModal'));
+                    modal.hide();
 
-                            if (res.success) {
-                                showToast("Sevk başarıyla oluşturuldu. Sevk No: " + res.shipmentNo, "success");
-                            }
-                            else {
-                                showToast(res.errorMessage, "danger");
-                            }
-                        },
-                        error: function () {
-                            alert("Sevk oluşturulurken bir hata oluştu.");
-                        }
-                    });
-                });
+                    if (res.success) {
+                        showToast("Sevk başarıyla oluşturuldu. Sevk No: " + res.shipmentNo, "success");
+                    }
+                    else {
+                        showToast(res.errorMessage, "danger");
+                    }
+                },
+                error: function () {
+                    alert("Sevk oluşturulurken bir hata oluştu.");
+                }
+            });
+        });
 
         $("#btnFilter").on("click", function () {
             table.ajax.reload();
