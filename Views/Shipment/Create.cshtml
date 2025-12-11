@@ -55,12 +55,12 @@
 <table class="table-bordered table">
     <thead>
         <tr>
-            <th>Sıra</th>
-            <th>Sipariş No</th>
-            <th>Sip. Sıra</th>
+            <th class="text-center">Sıra</th>
+            <th class="text-center">Sipariş No</th>
+            <th class="text-center">Sip. Sıra</th>
             <th>Cari Adı</th>
             <th>Stok Adı</th>
-            <th>Depo</th>
+            <th class="text-center">Depo</th>
             <th>Miktar</th>
         </tr>
     </thead>
@@ -68,16 +68,16 @@
         @for (int i = 0; i < Model.ShipmentLines.Count; i++)
         {
             <tr>
-                <td>
+                <td class="text-center">
                     <input type="hidden" class="form-control" name="ShipmentLines[@i].ID" value="@Model.ShipmentLines[i].ID" />
                     <input type="hidden" class="form-control" name="ShipmentLines[@i].SIRA" value="@Model.ShipmentLines[i].SIRA" />
                     @Model.ShipmentLines[i].SIRA
                 </td>
-                <td>
+                <td class="text-center">
                     <input type="hidden" class="form-control" name="ShipmentLines[@i].SIPNO" value="@Model.ShipmentLines[i].SIPNO" />
                     @Model.ShipmentLines[i].SIPNO
                 </td>
-                <td>
+                <td class="text-center">
                     <input type="hidden" class="form-control" name="ShipmentLines[@i].SIPKONT" value="@Model.ShipmentLines[i].SIPKONT" />
                     @Model.ShipmentLines[i].SIPKONT
                 </td>
@@ -89,7 +89,7 @@
                     @Model.ShipmentLines[i].STOKADI<br />
                     @Model.ShipmentLines[i].STOKKODU
                 </td>
-                <td>@Model.ShipmentLines[i].DEPO</td>
+                <td class="text-center">@Model.ShipmentLines[i].DEPO</td>
                 <td><input type="number" step="1" min="0" max="@Model.ShipmentLines[i].MIKTAR" class="form-control" name="ShipmentLines[@i].MIKTAR" value="@Model.ShipmentLines[i].MIKTAR?.ToString("0.########")" /></td>
             </tr>
         }
