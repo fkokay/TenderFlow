@@ -151,9 +151,13 @@
                     },
                     processing: false,
                     serverSide: false,
-                    paging: true,
+                    paging: false,
                     searching: false,
-                    order: [[2, 'asc']],
+                    order: [
+                        [4, 'asc'], // CARI_KODU kolon index
+                        [2, 'asc'], // SIPARIS_NO
+                        [3, 'asc']  // S
+                    ],
                     ajax: {
                         url: '/Shipment/ShipmentOrderList',
                         type: 'POST',
@@ -171,7 +175,14 @@
                         },
                         dataSrc: function (json) {
                             json.data.forEach(x => {
-                                x.CARI_KEY = `${x.CARI_KODU} - ${x.CARI_ADI}`;
+
+                                // Gizli karakterleri yok et
+                                let key = String(x.CARI_KODU).trim().toUpperCase();
+
+                                // DOUBLE SPACE / invisibles temizle
+                                key = key.replace(/\s+/g, ' ');
+
+                                x.CARI_KEY = key;     // gruplama anahtarı
                             });
                             return json.data;
                         }
@@ -218,14 +229,15 @@
                         {   data: 'DEPO_BAKIYE' }
                     ],
                     rowGroup: {
-                        dataSrc: 'CARI_KEY',
+                        dataSrc: ['CARI_KEY'],
                         startRender: function (rows, group) {
+                             const row = rows.data()[0];
                              return `
                                 <div class="group-row rg-row">
                                     <div class="rg-check-area">
                                         <input type="checkbox" class="group-checkbox" data-group="${group}">
                                     </div>
-                                    <div class="rg-title">${group}</div>
+                                    <div class="rg-title">${row.CARI_ADI}</div>
                                 </div>
                             `;
                         }
@@ -236,7 +248,7 @@
                     }
                 });
 
-        table.on('change', '.group-checkbox', function () {
+                table.on('change', '.group-checkbox', function () {
 
                     const groupName = $(this).data("group");
                     const checked = $(this).is(":checked");
