@@ -158,3 +158,24 @@ table.table-bordered.dataTable th:first-child, table.table-bordered.dataTable th
     height: 34px;
     font-size: 0.9rem;
 }
+
+.shipment-actions {
+    position: static !important;
+    top: auto !important;
+    z-index: auto !important;
+}
+
+/* Navbar action başlangıçta gizli */
+.navbar-action-hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-5px);
+    transition: all 0.2s ease;
+}
+
+/* Scroll sonrası görünür */
+.navbar-action-visible {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+}

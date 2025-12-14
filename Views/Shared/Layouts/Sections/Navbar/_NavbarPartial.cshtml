@@ -45,8 +45,12 @@
         </a>
     </div>
     <!--/ Style Switcher -->
-
-
+    @if (ViewData["NavbarAction"] != null)
+    {
+        <div id="navbar-action-wrapper" class="navbar-action-hidden">
+            @Html.Raw(ViewData["NavbarAction"])
+        </div>
+    }
     <ul class="navbar-nav align-items-center ms-auto flex-row">
         <!-- User -->
         <li class="nav-item navbar-dropdown dropdown-user dropdown">

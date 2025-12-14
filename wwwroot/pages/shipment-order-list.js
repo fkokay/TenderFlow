@@ -260,6 +260,34 @@ TenderFlow.ShipmentOrderList = (function ($) {
         });
     }
 
+    (function () {
+
+        const actionWrapperId = "navbar-action-wrapper";
+        let lastState = false;
+
+        function handleNavbarActionVisibility() {
+            const el = document.getElementById(actionWrapperId);
+            if (!el) return;
+
+            const shouldShow = window.scrollY > 10;
+
+            if (shouldShow === lastState) return; // gereksiz DOM işlemi yapma
+            lastState = shouldShow;
+
+            if (shouldShow) {
+                el.classList.remove("navbar-action-hidden");
+                el.classList.add("navbar-action-visible");
+            } else {
+                el.classList.remove("navbar-action-visible");
+                el.classList.add("navbar-action-hidden");
+            }
+        }
+
+        window.addEventListener("scroll", handleNavbarActionVisibility);
+        document.addEventListener("DOMContentLoaded", handleNavbarActionVisibility);
+
+    })();
+
     return {
         init,
         createShipment
