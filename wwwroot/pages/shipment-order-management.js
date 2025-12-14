@@ -20,6 +20,16 @@ TenderFlow.ShipmentOrderManagement = (function ($) {
                     type: 'POST',
                     contentType: 'application/json',
                     data: function (d) {
+                        return JSON.stringify({
+                            Grid: d,
+                            Filters: {
+                                startDate: $("#startDate").val() || null,
+                                endDate: $("#endDate").val() || null,
+                                status: $("#status").val() || null,
+                                showCompleted: $("#showCompleted").is(":checked"),
+                                highlightZeroPrice: $("#highlightZeroPrice").is(":checked")
+                            }
+                        });
                         d.Filters = {
                             startDate: $("#startDate").val(),
                             endDate: $("#endDate").val(),

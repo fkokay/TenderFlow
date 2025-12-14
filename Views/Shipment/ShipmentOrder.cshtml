@@ -11,29 +11,42 @@
 
         <!-- Cari Hesap -->
         <div class="col-md-3">
-            <label class="form-label">Cari Hesap</label>
+            <label class="form-label" for="filterCari">Cari Hesap</label>
             <div class="input-group">
-                <input type="text" id="filterCari" class="form-control" placeholder="Cari Kodu">
-                <button type="button" class="btn btn-outline-primary waves-effect" onclick="selectCustomer()">...</button>
+                <input type="text" id="filterCari" class="form-control form-control-sm" placeholder="Cari Kodu">
+                <button type="button" class="btn btn-sm btn-outline-secondary" title="Temizle" onclick="TenderFlow.CustomerSelector.clear()"><i class="ti ti-x"></i></button>
+                <button type="button" class="btn btn-sm btn-outline-secondary waves-effect" title="Seç" onclick="TenderFlow.CustomerSelector.open()">...</button>
             </div>
         </div>
 
         <!-- Başlangıç Tarihi -->
         <div class="col-md-2">
-            <label class="form-label">Başlangıç Tarihi</label>
-            <input type="date" id="filterStart" class="form-control">
+            <label class="form-label" for="filterStart">Başlangıç Tarihi</label>
+            <div class="input-group">
+                <input type="date" id="filterStart" class="form-control form-control-sm">
+
+                <button type="button" class="btn btn-sm btn-outline-secondary" onclick="TenderFlow.DateFilter.clearStart()" title="Temizle">
+                    <i class="ti ti-x"></i>
+                </button>
+            </div>
         </div>
 
         <!-- Bitiş Tarihi -->
         <div class="col-md-2">
-            <label class="form-label">Bitiş Tarihi</label>
-            <input type="date" id="filterEnd" class="form-control">
+            <label class="form-label" for="filterEnd">Bitiş Tarihi</label>
+            <div class="input-group">
+                <input type="date" id="filterEnd" class="form-control form-control-sm">
+
+                <button type="button" class="btn btn-sm btn-outline-secondary" onclick="TenderFlow.DateFilter.clearEnd()" title="Temizle">
+                    <i class="ti ti-x"></i>
+                </button>
+            </div>
         </div>
 
         <!-- Depo -->
         <div class="col-md-2">
             <label class="form-label">Depo</label>
-            <select id="filterDepo" class="form-select">
+            <select id="filterDepo" class="form-select form-select-sm filter-depo">
                 <option value="">Tümü</option>
                 @if (ViewBag.Warehouses is List<WarehouseModel> warehouses && warehouses != null)
                 {
@@ -49,7 +62,7 @@
         <div class="col-md-2 d-flex align-items-end">
             <div class="form-check">
                 <input class="form-check-input" type="checkbox" id="filterHasBalance">
-                <label class="form-check-label">Bakiyesi Olanlar</label>
+                <label class="form-check-label" for="filterHasBalance">Bakiyesi Olanlar</label>
             </div>
         </div>
 
@@ -62,7 +75,7 @@
 </div>
 <div class="card">
     <div class="card-header">
-        <button class="btn btn-primary" onclick="createShipment()">Sevkiyat Oluştur</button>
+        <button class="btn btn-primary" onclick="TenderFlow.ShipmentOrderList.createShipment()">Sevkiyat Oluştur</button>
     </div>
     <div class="card-datatable table-responsive">
         <div class="table-loading" id="tableLoading" style="display:none;">
@@ -92,7 +105,6 @@
     </div>
 </div>
 
-<!-- Sevk Oluştur Modal -->
 <div class="modal fade" id="shipmentModal" tabindex="-1">
     <div class="modal-dialog modal-xl modal-shipment modal-dialog-centered">
         <div class="modal-content">
@@ -125,10 +137,12 @@
                         <tr class="dt-header" role="row">
                             <th>Cari Kodu</th>
                             <th>Cari Adı</th>
+                            <th style="width:80px;">Seç</th>
                         </tr>
                         <tr class="dt-filter-row" role="row">
                             <th data-orderable="false"><input type="text" class="form-control form-control-sm" placeholder="Cari Kodu"></th>
                             <th data-orderable="false"><input type="text" class="form-control form-control-sm" placeholder="Cari Adı"></th>
+                            <th></th>
                         </tr>
                     </thead>
                 </table>
@@ -138,385 +152,13 @@
 </div>
 
 @section PageScripts {
+    <script src="~/pages/base.js"></script>
+    <script src="~/pages/date-filter.js"></script>
+    <script src="~/pages/customer-selector.js"></script>
+    <script src="~/pages/shipment-order-list.js"></script>
     <script>
-        const table = $('#Table').DataTable({
-                    language: {
-                        paginate: {
-                            next: '<i class="icon-base ti ti-chevron-right scaleX-n1-rtl icon-18px"></i>',
-                            previous: '<i class="icon-base ti ti-chevron-left scaleX-n1-rtl icon-18px"></i>',
-                            first: '<i class="icon-base ti ti-chevrons-left scaleX-n1-rtl icon-18px"></i>',
-                            last: '<i class="icon-base ti ti-chevrons-right scaleX-n1-rtl icon-18px"></i>'
-                        },
-                        url: 'https://cdn.datatables.net/plug-ins/2.3.2/i18n/tr.json',
-                    },
-                    processing: false,
-                    serverSide: false,
-                    paging: false,
-                    searching: false,
-                    order: [
-                        [4, 'asc'], // CARI_KODU kolon index
-                        [2, 'asc'], // SIPARIS_NO
-                        [3, 'asc']  // S
-                    ],
-                    ajax: {
-                        url: '/Shipment/ShipmentOrderList',
-                        type: 'POST',
-                        contentType: 'application/json',
-                        data: function (d) {
-
-                            d.Filters = {
-                                cari: $("#filterCari").val(),
-                                startDate: $("#filterStart").val(),
-                                endDate: $("#filterEnd").val(),
-                                depo: $("#filterDepo").val(),
-                                hasBalance: $("#filterHasBalance").is(":checked")
-                            };
-                            return JSON.stringify(d);
-                        },
-                        dataSrc: function (json) {
-                            json.data.forEach(x => {
-
-                                // Gizli karakterleri yok et
-                                let key = String(x.CARI_KODU).trim().toUpperCase();
-
-                                // DOUBLE SPACE / invisibles temizle
-                                key = key.replace(/\s+/g, ' ');
-
-                                x.CARI_KEY = key;     // gruplama anahtarı
-                            });
-                            return json.data;
-                        }
-                    },
-                    deferLoading: 0,
-                    columns: [
-                        {
-                            data: null,
-                            orderable: false,
-                            searchable: false,
-                            class:"text-center",
-                            render: function () {
-                                return `
-                                    <div class="rg-check-area">
-                                        <input type="checkbox" class="row-checkbox"/>
-                                    </div>
-                                `;
-                            }
-                        },
-                        {   data: 'ID', visible: false },
-                        {   data: 'SIPARIS_NO' },
-                        {   data: 'SIRA'},
-                        {   data: 'CARI_KODU', visible: false },
-                        {   data: 'CARI_ADI', visible: false },
-                        {
-                            data: 'TARIH',
-                            render: function (data, type) {
-                                if (type === "sort" || type === "type") return data;
-                                return moment(data).format("DD.MM.YYYY");
-                            }
-                        },
-                        {
-                            data: 'TESLIM_TARIHI',
-                            render: function (data, type) {
-                                if (type === "sort" || type === "type") return data;
-                                return moment(data).format("DD.MM.YYYY");
-                            }
-                        },
-                        {   data: 'STOK_KODU' },
-                        {   data: 'STOK_ADI' },
-                        {   data: 'SIPARIS_MIKTAR' },
-                        {   data: 'GONDERILEN_MIKTAR' },
-                        {   data: 'MIKTAR' },
-                        {   data: 'DEPO_BAKIYE' }
-                    ],
-                    rowGroup: {
-                        dataSrc: ['CARI_KEY'],
-                        startRender: function (rows, group) {
-                             const row = rows.data()[0];
-                             return `
-                                <div class="group-row rg-row">
-                                    <div class="rg-check-area">
-                                        <input type="checkbox" class="group-checkbox" data-group="${group}">
-                                    </div>
-                                    <div class="rg-title">${row.CARI_ADI}</div>
-                                </div>
-                            `;
-                        }
-                    },
-                    displayLength: 10,
-                    scrollX: false,
-                    initComplete: function () {
-                    }
-                });
-
-                table.on('change', '.group-checkbox', function () {
-
-                    const groupName = $(this).data("group");
-                    const checked = $(this).is(":checked");
-
-                    table.rows().every(function () {
-                        const rowData = this.data();
-                        if (rowData.CARI_KEY === groupName) {
-                            $(this.node()).find('.row-checkbox').prop('checked', checked);
-                        }
-                    });
-                });
-        // AJAX başlamadan önce
-        table.on('preXhr.dt', function () {
-            $("#tableLoading").show();
-        });
-
-        // AJAX bittikten sonra
-        table.on('xhr.dt', function () {
-            $("#tableLoading").hide();
-        });
-
-        table.on('processing.dt', function (e, settings, processing) {
-            if (processing) {
-                $("#tableLoading").show();
-            } else {
-                $("#tableLoading").hide();
-            }
-        });
-
-        // Görsel sınıf düzeltmeleri
-        setTimeout(() => {
-                    const adjustments = [
-                        { selector: ".dt-buttons .btn", classToRemove: "btn-secondary" },
-                        { selector: ".dt-buttons.btn-group", classToAdd: "mb-md-0 mb-6" },
-                        { selector: ".dt-search .form-control", classToRemove: "form-control-sm", classToAdd: "ms-0" },
-                        { selector: ".dt-search", classToAdd: "mb-0 mb-md-6" },
-                        { selector: ".dt-length .form-select", classToRemove: "form-select-sm" },
-                        { selector: ".dt-layout-end", classToAdd: "gap-md-2 gap-0 mt-0" },
-                        { selector: ".dt-layout-start", classToAdd: "mt-0" },
-                        { selector: ".dt-layout-table", classToRemove: "row mt-2" },
-                        { selector: ".dt-layout-full", classToRemove: "col-md col-12", classToAdd: "table-responsive" }
-                    ];
-                    adjustments.forEach(({ selector, classToRemove, classToAdd }) => {
-                        document.querySelectorAll(selector).forEach(el => {
-                            if (classToRemove) classToRemove.split(" ").forEach(cls => el.classList.remove(cls));
-                            if (classToAdd) classToAdd.split(" ").forEach(cls => el.classList.add(cls));
-                        });
-                    });
-                }, 100);
-
-        function getSelectedIds() 
-        {
-            const ids = [];
-
-            table.rows().every(function () {
-                const node = this.node();
-                if ($(node).find('.row-checkbox').is(':checked')) {
-                    ids.push(this.data().ID);
-                }
-            });
-
-            return ids;
-        }
-        function createShipment(){
-            var selectedIds = getSelectedIds();
-            if(selectedIds.length < 1){
-                alert("Sevk edilebilecek bir sipariş seçiniz");
-                return;
-            }
-
-            const selectedRows = [];
-            table.rows().every(function () {
-                if ($(this.node()).find('.row-checkbox').is(':checked')) {
-                    selectedRows.push(this.data());
-                }
-            });
-
-            const siparisNolari = [...new Set(selectedRows.map(x => x.SIPARIS_NO))];
-
-            if (siparisNolari.length > 1) {
-                showToast("Seçilen ürünler aynı sipariş numarasına ait değil. Sevkiyat oluşturulamaz.", "warning");
-                return;
-            }
-
-            $("#tableLoading").show();
-
-            $.ajax({
-                url: "/Shipment/Create",
-                type: "POST",
-                contentType: "application/json",
-                data: JSON.stringify({ ids: selectedIds }),
-                success: function (response) {
-                    $("#shipmentModal .modal-body").html(response);
-                    var modal = new bootstrap.Modal(document.getElementById('shipmentModal'));
-                    modal.show();
-                    console.log(response);
-
-                  $("#tableLoading").hide();
-                },
-                error: function (xhr) {
-                    console.error(xhr);
-                    alert("Sevk oluşturulurken bir hata oluştu");
-                    $("#tableLoading").hide();
-                }
-            });
-        }
-
-        $("#shipmentForm").on("submit", function (e) {
-            e.preventDefault();
-
-            $.ajax({
-                url: this.action,
-                type: "POST",
-                data: $(this).serialize(),
-                success: function (res) {
-                    // modal kapat
-                    var modal = bootstrap.Modal.getInstance(document.getElementById('shipmentModal'));
-                    modal.hide();
-
-                    if (res.success) {
-                        showToast("Sevk başarıyla oluşturuldu. Sevk No: " + res.shipmentNo, "success");
-                    }
-                    else {
-                        showToast(res.errorMessage, "danger");
-                    }
-                },
-                error: function () {
-                    alert("Sevk oluşturulurken bir hata oluştu.");
-                }
-            });
-        });
-
-        $("#btnFilter").on("click", function () {
-            table.ajax.reload();
-        });
-
-        $("#btnClearFilters").on("click", function () {
-            $("#filterCari").val("");
-            $("#filterStart").val("");
-            $("#filterEnd").val("");
-            $("#filterDepo").val("");
-            $("#filterHasBalance").prop("checked", false);
-
-            table.ajax.reload();
-        });
-
-        var tableCustomer;
-        function selectCustomer(){
-            var modal = new bootstrap.Modal(document.getElementById('customerSelectModal'));
-            if ($.fn.dataTable.isDataTable('#TableCustomer') == false) {
-                tableCustomer = $("#TableCustomer").DataTable({
-                language: {
-                        paginate: {
-                            next: '<i class="icon-base ti ti-chevron-right scaleX-n1-rtl icon-18px"></i>',
-                            previous: '<i class="icon-base ti ti-chevron-left scaleX-n1-rtl icon-18px"></i>',
-                            first: '<i class="icon-base ti ti-chevrons-left scaleX-n1-rtl icon-18px"></i>',
-                            last: '<i class="icon-base ti ti-chevrons-right scaleX-n1-rtl icon-18px"></i>'
-                        },
-                        url: 'https://cdn.datatables.net/plug-ins/2.3.2/i18n/tr.json',
-                },
-                processing: false,
-                orderCellsTop: true,
-                serverSide: false,
-                paging: true,
-                dom: 'tp',
-                searching: true,
-                order: [[0, 'asc']],
-                ajax: {
-                    url: '/Shipment/CustomerList',
-                    type: 'POST',
-                    contentType: 'application/json',
-                    dataSrc: '',
-                    data: function (d) {
-                        return JSON.stringify(d);
-                    },
-                },
-                columns: [
-                    {   data: 'CARI_KOD' },
-                    {   data: 'CARI_ISIM' },
-                ],
-                displayLength: 10,
-                scrollX: false,
-                select: true,
-                initComplete: function () {
-
-                    let api = this.api();
-
-                    // filter row'daki inputları bağla
-                    $('#TableCustomer thead tr.dt-filter-row th').each(function (i) {
-
-                        $('input', this).off().on('keyup change', function () {
-
-                            if (api.column(i).search() !== this.value) {
-                                api.column(i).search(this.value).draw();
-                            }
-
-                        });
-
-                    });
-                }
-            });
-
-                setTimeout(() => {
-                    const adjustments = [
-                        { selector: ".dt-buttons .btn", classToRemove: "btn-secondary" },
-                        { selector: ".dt-buttons.btn-group", classToAdd: "mb-md-0 mb-6" },
-                        { selector: ".dt-search .form-control", classToRemove: "form-control-sm", classToAdd: "ms-0" },
-                        { selector: ".dt-search", classToAdd: "mb-0 mb-md-6" },
-                        { selector: ".dt-length .form-select", classToRemove: "form-select-sm" },
-                        { selector: ".dt-layout-end", classToAdd: "gap-md-2 gap-0 mt-0" },
-                        { selector: ".dt-layout-start", classToAdd: "mt-0" },
-                        { selector: ".dt-layout-table", classToRemove: "row mt-2" },
-                        { selector: ".dt-layout-full", classToRemove: "col-md col-12", classToAdd: "table-responsive" }
-                    ];
-                    adjustments.forEach(({ selector, classToRemove, classToAdd }) => {
-                        document.querySelectorAll(selector).forEach(el => {
-                            if (classToRemove) classToRemove.split(" ").forEach(cls => el.classList.remove(cls));
-                            if (classToAdd) classToAdd.split(" ").forEach(cls => el.classList.add(cls));
-                        });
-                    });
-                }, 100);
-            }
-
-            $('#TableCustomer tbody').on('dblclick', 'tr', function () {
-                var row = tableCustomer.row(this);
-
-                // satırı seç
-                row.select();
-                var data = row.data();
-               $("#filterCari").val(row.data().CARI_KOD);
-               modal.hide();
-            });
-
-            modal.show();
-        }
-
-        function showToast(message, type = "success") {
-
-                    const toastEl = document.getElementById("globalToast");
-                    const toastMessage = document.getElementById("toastMessage");
-
-                    // Renk sınıflarını resetle
-                    toastEl.classList.remove("bg-success", "bg-danger", "bg-warning", "bg-info");
-
-                    // Tipine göre renk ata
-                    switch (type) {
-                        case "success":
-                            toastEl.classList.add("bg-success");
-                            break;
-                        case "danger":
-                        case "error":
-                            toastEl.classList.add("bg-danger");
-                            break;
-                        case "warning":
-                            toastEl.classList.add("bg-warning");
-                            break;
-                        default:
-                            toastEl.classList.add("bg-info");
-                            break;
-                    }
-
-                    // Mesajı doldur
-                    toastMessage.innerText = message;
-
-                    // Bootstrap toast nesnesini göster
-                    const bsToast = new bootstrap.Toast(toastEl, { delay: 3000 });
-                    bsToast.show();
-                }
+        TenderFlow.CustomerSelector.init();
+        TenderFlow.ShipmentOrderList.init();
     </script>
 }
 

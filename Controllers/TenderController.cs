@@ -24,13 +24,13 @@ namespace TenderFlow.Controllers
 
         public async Task<IActionResult> Detail(int id)
         {
-            var model = await _db.Database.SqlQueryRaw<TenderModel>($"SELECT * FROM VW_Tender WHERE Id={id}").FirstOrDefaultAsync();
+            var model = await _db.Database.SqlQuery<TenderModel>($"SELECT * FROM VW_Tender WHERE Id={id}").FirstOrDefaultAsync();
             if (model == null)
             {
                 return NotFound();
             }
 
-            model.Devices = await _db.Database.SqlQueryRaw<TenderDeviceModel>($"SELECT * FROM VW_TenderDevice WHERE TenderId={id}").ToListAsync();
+            model.Devices = await _db.Database.SqlQuery<TenderDeviceModel>($"SELECT * FROM VW_TenderDevice WHERE TenderId={id}").ToListAsync();
 
             return View(model);
         }

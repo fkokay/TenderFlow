@@ -7,15 +7,15 @@
         public string? TenderCode { get; set; }
         public string? TenderName { get; set; }
         public int? DeviceId { get; set; }
-        public string AssetCode { get; set; }
+        public string AssetCode { get; set; } = string.Empty;
         public string? AssetName { get; set; }
         public string? AssetType { get; set; }
         public string? Brand { get; set; }
         public string? Model { get; set; }
-        public string SerialNumber { get; set; }
+        public string SerialNumber { get; set; } = string.Empty;
         public DateTime InstallationDate { get; set; }
-        public string Location { get; set; }
-        public string Status { get; set; }
+        public string Location { get; set; } = string.Empty;
+        public string Status { get; set; } = string.Empty;
         public bool HasMaintenancePlan { get; set; }
         public int? MaintenancePeriodDays { get; set; }
         public DateTime? WarrantyExpiryDate { get; set; }

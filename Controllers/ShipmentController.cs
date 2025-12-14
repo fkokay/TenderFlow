@@ -16,6 +16,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using TenderFlow.Core.Grid;
+using TenderFlow.Models;
 using TenderFlow.Models.Picker;
 using TenderFlow.Netsis;
 using TenderFlow.Netsis.Models;
@@ -103,6 +104,8 @@ namespace TenderFlow.Controllers
             model.ACIK9 = null;
             model.ACIK10 = null;
             model.SOFORISIM = null;
+            model.KISMI_TESLIMAT = true;
+            model.KAPALI = false;
 
             short rowNumber = 1;
             foreach (var item in orders)
@@ -315,6 +318,7 @@ namespace TenderFlow.Controllers
                     FATIRS_NO = fatNo.Data.ToString(),
                     CariKod = shipment.CARI_KODU,
                     Tarih = DateTime.Now,
+                    ENTEGRE_TRH = DateTime.Now,
                     TIPI = JTFaturaTipi.ft_Acik,
                     KDV_DAHILMI = false,
                     Tip = JTFaturaTip.ftSIrs,
@@ -334,11 +338,17 @@ namespace TenderFlow.Controllers
                         DEPO_KODU = shipmentLine.DEPO_KODU,
                         STra_GCMIK = Convert.ToDouble(shipmentLine.MIKTAR),
                         STra_SIPNUM = shipmentLine.SIPARIS_NO,
-                        STra_SIPKONT = shipmentLine.SIRA,
+                        STra_SIPKONT = shipmentLine.SIPARIS_SIRA,
                         Ambarkabulno = shipmentLine.INCKEYNO.ToString(),
                         STra_BF = Convert.ToDouble(shipmentLine.STHAR_BF),
-                        STra_DOVFIAT = Convert.ToDouble(shipmentLine.STHAR_DOVFIAT),
+                        STra_DOVFIAT = shipmentLine.STHAR_DOVFIAT == null ? null : Convert.ToDouble(shipmentLine.STHAR_DOVFIAT),
                         STra_DOVTIP = shipmentLine.STHAR_DOVTIP,
+                        STra_SatIsk = shipmentLine.STHAR_SATISK == null ? null : Convert.ToDouble(shipmentLine.STHAR_SATISK),
+                        STra_SatIsk2 = shipmentLine.STHAR_SATISK2 == null ? null : Convert.ToDouble(shipmentLine.STHAR_SATISK2),
+                        STra_SatIsk3 = shipmentLine.STRA_SATISK3 == null ? null : Convert.ToDouble(shipmentLine.STRA_SATISK3),
+                        STra_SatIsk4 = shipmentLine.STRA_SATISK4 == null ? null : Convert.ToDouble(shipmentLine.STRA_SATISK4),
+                        STra_SatIsk5 = shipmentLine.STRA_SATISK5 == null ? null : Convert.ToDouble(shipmentLine.STRA_SATISK5),
+                        STra_SatIsk6 = shipmentLine.STRA_SATISK6 == null ? null : Convert.ToDouble(shipmentLine.STRA_SATISK6),
                     });
                 }
 
@@ -479,25 +489,8 @@ namespace TenderFlow.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Administrator,Satış")]
-        public async Task<IActionResult> ShipmentOrderList()
+        public async Task<IActionResult> ShipmentOrderList([FromBody] ShipmentOrderListRequest request)
         {
-            using var reader = new StreamReader(Request.Body);
-            var body = await reader.ReadToEndAsync();
-
-            dynamic json = JsonConvert.DeserializeObject(body);
-
-            GridCommand grid = JsonConvert.DeserializeObject<GridCommand>(Convert.ToString(json));
-
-            // STRING olarak çekiyoruz
-            string cari = Convert.ToString(json.Filters?.cari);
-            string start = Convert.ToString(json.Filters?.startDate);
-            string end = Convert.ToString(json.Filters?.endDate);
-            string depo = Convert.ToString(json.Filters?.depo);
-            bool hasBalance = json.Filters?.hasBalance ?? false;
-
-            DateTime? startDate = string.IsNullOrWhiteSpace(start) ? null : Convert.ToDateTime(start);
-            DateTime? endDate = string.IsNullOrWhiteSpace(end) ? null : Convert.ToDateTime(end);
-
             var config = new NetsisConfig
             {
                 Server = "192.168.1.100",
@@ -512,11 +505,11 @@ namespace TenderFlow.Controllers
             var shipmentManager = new ShipmentManager(con);
 
             var list = await shipmentManager.GetShipmentOrdersAsync(
-                cariKodu: cari,
-                startDate: startDate,
-                endDate: endDate,
-                depo: depo,
-                hasBalance: hasBalance
+                cariKodu: request.Filters.Cari,
+                startDate: request.Filters.StartDate,
+                endDate: request.Filters.EndDate,
+                depo: request.Filters.Depo,
+                hasBalance: request.Filters.HasBalance
             );
 
             return Json(new { data = list });
@@ -524,25 +517,8 @@ namespace TenderFlow.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Administrator,Satış,Sevkiyat")]
-        public async Task<IActionResult> ShipmentOrderManagementList()
+        public async Task<IActionResult> ShipmentOrderManagementList([FromBody] ShipmentOrderManagementListRequest request)
         {
-            using var reader = new StreamReader(Request.Body);
-            var body = await reader.ReadToEndAsync();
-
-            dynamic json = JsonConvert.DeserializeObject(body);
-
-            var grid = JsonConvert.DeserializeObject<GridCommand>(body);
-
-            // Filtreler
-            string start = Convert.ToString(json.Filters?.startDate);
-            string end = Convert.ToString(json.Filters?.endDate);
-            int status = Convert.ToInt32(json.Filters?.status);
-            bool showCompleted = json.Filters?.showCompleted ?? false;
-            bool highlightZeroPrice = json.Filters?.highlightZeroPrice ?? false;
-
-            DateTime? startDate = string.IsNullOrWhiteSpace(start) ? null : Convert.ToDateTime(start);
-            DateTime? endDate = string.IsNullOrWhiteSpace(end) ? null : Convert.ToDateTime(end);
-
             var config = new NetsisConfig
             {
                 Server = "192.168.1.100",
@@ -557,10 +533,10 @@ namespace TenderFlow.Controllers
             var shipmentManager = new ShipmentManager(con);
 
             var list = await shipmentManager.GetShipmentManagementsAsync(
-                startDate: startDate,
-                endDate: endDate,
-                status: status,
-                showCompleted: showCompleted
+                startDate: request.Filters.StartDate,
+                endDate: request.Filters.EndDate,
+                status: request.Filters.Status,
+                showCompleted: request.Filters.ShowCompleted
             );
 
             return Json(new

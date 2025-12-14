@@ -17,3 +17,34 @@ TenderFlow.Table.LanguageReady = new Promise(function (resolve) {
         resolve();
     });
 });
+
+TenderFlow.Table.showToast = function (message, type = "success", delay = 3000) {
+
+    const toastEl = document.getElementById("globalToast");
+    const toastMessage = document.getElementById("toastMessage");
+
+    if (!toastEl || !toastMessage) {
+        console.warn("globalToast DOM bulunamadı");
+        return;
+    }
+
+    toastEl.classList.remove("bg-success", "bg-danger", "bg-warning", "bg-info");
+
+    const colorMap = {
+        success: "bg-success",
+        danger: "bg-danger",
+        error: "bg-danger",
+        warning: "bg-warning",
+        info: "bg-info"
+    };
+
+    toastEl.classList.add(colorMap[type] || "bg-info");
+
+    toastMessage.innerText = message;
+
+    const bsToast = bootstrap.Toast.getOrCreateInstance(toastEl, {
+        delay: delay
+    });
+
+    bsToast.show();
+};

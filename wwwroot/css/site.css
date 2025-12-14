@@ -134,6 +134,7 @@ table.table-bordered.dataTable th:first-child, table.table-bordered.dataTable th
     padding: 10px 8px;
     font-weight: 600;
     margin-top: 5px;
+    margin-bottom:5px;
 }
 
 .rg-title {
@@ -150,4 +151,10 @@ table.table-bordered.dataTable th:first-child, table.table-bordered.dataTable th
 .dtrg-level-0 th {
     padding: 0px !important;
     background-color: #f2f2f2 !important;
+}
+
+
+.filter-depo {
+    height: 34px;
+    font-size: 0.9rem;
 }

@@ -24,7 +24,7 @@ namespace TenderFlow.Controllers
 
         public async Task<IActionResult> Detail(int id)
         {
-            var model = await _db.Database.SqlQueryRaw<GuaranteeModel>($"SELECT * FROM VW_Guarantee WHERE Id={id}").FirstOrDefaultAsync();
+            var model = await _db.Database.SqlQuery<GuaranteeModel>($"SELECT * FROM VW_Guarantee WHERE Id={id}").FirstOrDefaultAsync();
             if (model == null)
             {
                 return NotFound();
