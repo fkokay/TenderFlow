@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,7 +32,10 @@ namespace TenderFlow.Controllers
             }
 
             model.Devices = await _db.Database.SqlQuery<TenderDeviceModel>($"SELECT * FROM VW_TenderDevice WHERE TenderId={id}").ToListAsync();
-
+            model.Opexs=await _db.Database.SqlQuery<TenderOpexModel>($"SELECT * FROM VW_TenderOpex WHERE TenderId={id}").ToListAsync();
+            model.Reaktifs=await _db.Database.SqlQuery<TenderReaktifModel>($"SELECT * FROM VW_TenderReaktif WHERE TenderId={id}").ToListAsync();
+            model.Capexs=await _db.Database.SqlQuery<TenderCapexModel>($"SELECT * FROM VW_TenderCapex WHERE TenderId={id}").ToListAsync();
+            model.Documents = await _db.Database.SqlQuery<TenderRequiredDocument>($"SELECT * FROM VW_TenderRequiredDocument WHERE TenderId={id}").ToListAsync();
             return View(model);
         }
 
@@ -77,5 +81,9 @@ namespace TenderFlow.Controllers
                 data = pagedData
             });
         }
+
+
+
+
     }
 }

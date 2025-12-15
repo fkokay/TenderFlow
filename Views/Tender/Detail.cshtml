@@ -114,47 +114,303 @@
                         <i class="icon-base ti tabler-user icon-sm me-1_5"></i>Cihazlar
                     </button>
                 </li>
+                <li class="nav-item">
+                    <button type="button" class="nav-link waves-effect waves-light" role="tab" data-bs-toggle="tab" data-bs-target="#navs-opex" aria-controls="navs-opex" aria-selected="true">
+                        <i class="icon-base ti tabler-user icon-sm me-1_5"></i>Opex
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button type="button" class="nav-link waves-effect waves-light" role="tab" data-bs-toggle="tab" data-bs-target="#navs-capex" aria-controls="navs-capex" aria-selected="true">
+                        <i class="icon-base ti tabler-user icon-sm me-1_5"></i>Capex
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button type="button" class="nav-link waves-effect waves-light" role="tab" data-bs-toggle="tab" data-bs-target="#navs-reaktif" aria-controls="navs-reaktif" aria-selected="true">
+                        <i class="icon-base ti tabler-user icon-sm me-1_5"></i>Reaktif
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button type="button" class="nav-link waves-effect waves-light" role="tab" data-bs-toggle="tab" data-bs-target="#navs-documents" aria-controls="navs-documents" aria-selected="true">
+                        <i class="icon-base ti tabler-user icon-sm me-1_5"></i>Zorunlu Belgeler
+                    </button>
+                </li>
             </ul>
 
             <div class="tab-content p-0">
                 <div class="tab-pane fade show active" id="navs-devices" role="tabpanel">
-                    <table id="Table" class="table-bordered table">
-                        <thead>
-                            <tr>
-                                <th>Tedarik Türü</th>
-                                <th>Stok Kodu</th>
-                                <th>Miktar</th>
-                                <th>Müşteri Kodu</th>
-                                <th>Müşteri Ünvanı</th>
-                                <th>Kira</th>
-                                <th>Servis</th>
-                                <th>Link</th>
-                                <th>Satınlama</th>
-                                <th>Para Birimi</th>
-                                <th>Kayıt Tarihi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in Model.Devices)
-                            {
+                    <div class="table-responsive" style="min-height: 650px;">
+                        <table id="Table" class="table-bordered table">
+                            <thead>
                                 <tr>
-                                    <td>@item.SupplyType</td>
-                                    <td>@item.StockCode</td>
-                                    <td>@item.Quantity</td>
-                                    <td>@item.CustomerCode</td>
-                                    <td>@item.CustomerName</td>
-                                    <td>@item.RentUnitPrice.ToString("n2")</td>
-                                    <td>@item.ServiceUnitPrice.ToString("n2")</td>
-                                    <td>@item.LinkUnitPrice.ToString("n2")</td>
-                                    <td>@item.PurchasePrice.ToString("n2")</td>
-                                    <td>@item.Currency</td>
-                                    <td>@item.CreatedAt.ToString()</td>
+                                    <th>Tedarik Türü</th>
+                                    <th>Stok Kodu</th>
+                                    <th>Miktar</th>
+                                    <th>Müşteri Kodu</th>
+                                    <th>Müşteri Ünvanı</th>
+                                    <th>Kira</th>
+                                    <th>Servis</th>
+                                    <th>Link</th>
+                                    <th>Satınlama</th>
+                                    <th>Para Birimi</th>
+                                    <th>Kayıt Tarihi</th>
                                 </tr>
-                            }
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.Devices)
+                                {
+                                    <tr>
+                                        <td>@item.SupplyType</td>
+                                        <td>@item.StockCode</td>
+                                        <td>@item.Quantity</td>
+                                        <td>@item.CustomerCode</td>
+                                        <td>@item.CustomerName</td>
+                                        <td>@item.RentUnitPrice.ToString("n2")</td>
+                                        <td>@item.ServiceUnitPrice.ToString("n2")</td>
+                                        <td>@item.LinkUnitPrice.ToString("n2")</td>
+                                        <td>@item.PurchasePrice.ToString("n2")</td>
+                                        <td>@item.Currency</td>
+                                        <td>@item.CreatedAt.ToString()</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+                <div class="tab-pane fade show" id="navs-opex" role="tabpanel">
+                    <div class="table-responsive" style="min-height: 650px;">
+                        <table id="Table" class="table-bordered table">
+                            <thead>
+                                <tr>
+
+                                    <th>Stok Kodu</th>
+                                    <th>Miktar</th>
+                                    <th>Birim</th>
+                                    <th>Birim Fiyat</th>
+                                    <th>Para Birimi</th>
+                                    <th>Kayıt Tarihi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.Opexs)
+                                {
+                                    <tr>
+
+                                        <td>@item.StockCode</td>
+                                        <td>@item.Quantity</td>
+                                        <td>@item.Unit</td>
+                                        <td>@item.UnitPrice</td>
+                                        <td>@item.Currency</td>
+                                        <td>@item.CreatedAt.ToString()</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="tab-pane fade show" id="navs-capex" role="tabpanel">
+                    <div class="table-responsive" style="min-height: 650px;">
+                        <table id="Table" class="table-bordered table">
+                            <thead>
+                                <tr>
+                                    <th>Demirbaş Kodu</th>
+                                    <th>Miktar</th>
+                                    <th>Birim</th>
+                                    <th>Kayıt Tarihi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.Capexs)
+                                {
+                                    <tr>
+                                        <td>@item.AssetCode</td>
+                                        <td>@item.Quantity</td>
+                                        <td>@item.Unit</td>
+                                        <td>@item.CreatedAt.ToString()</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="tab-pane fade show" id="navs-reaktif" role="tabpanel">
+                    <div class="table-responsive" style="min-height: 650px;">
+                        <table id="Table" class="table-bordered table">
+                            <thead>
+                                <tr>
+                                    <th>Stok Kodu</th>
+                                    <th>Sut Kodu</th>
+                                    <th>Test Adı</th>
+                                    <th>Test Sayısı</th>
+                                    <th>Sut Puanı</th>
+                                    <th>Toplam Sut Puanı</th>
+                                    <th>Birim</th>
+                                    <th>Birim Fiyatı</th>
+                                    <th>Kayıt Tarihi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.Reaktifs)
+                                {
+                                    <tr>
+                                        <td>@item.StockCode</td>
+                                        <td>@item.SutCode</td>
+                                        <td>@item.TestName</td>
+                                        <td>@item.TestCount</td>
+                                        <td>@item.SutPoint</td>
+                                        <td>@item.TotalSutPoint</td>
+                                        <td>@item.Currency</td>
+                                        <td>@item.UnitPrice</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="tab-pane fade show" id="navs-documents" role="tabpanel">
+                    <div class="tab-pane fade show" id="navs-documents" role="tabpanel">
+                        <div class="table-responsive" style="min-height: 650px;">
+                            <table id="Table" class="table table-bordered align-middle">
+                                <thead>
+                                    <tr>
+                                        <th>Belge</th>
+                                        <th class="text-center">Zorunluluk</th>
+                                        <th class="text-center">Durum</th>
+                                        <th class="text-center">Yüklenme Tarihi</th>
+                                        <th class="text-center">İncele</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model.Documents != null && Model.Documents.Any())
+                                    {
+                                        foreach (var item in Model.Documents)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @item.DocumentName
+                                                </td>
+                                                <td class="text-center">
+                                                    @if (item.IsMandatory)
+                                                    {
+                                                        <span class="badge rounded-pill bg-danger">
+                                                            <i class="bi bi-exclamation-circle me-1"></i>
+                                                            Zorunlu
+                                                        </span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="badge rounded-pill bg-secondary">
+                                                            <i class="bi bi-info-circle me-1"></i>
+                                                            Opsiyonel
+                                                        </span>
+                                                    }
+                                                </td>
+
+                                                <td class="text-center">
+                                                    <input class="form-check-input" type="checkbox" @(item.Submitted ? "checked" : "") title="Yüklendi" disabled>
+                                                </td>
+
+                                                <td class="text-center">
+                                                    @(item.SubmissionDate.HasValue? item.SubmissionDate.Value.ToString("dd.MM.yyyy") : "-")
+                                                </td>
+
+                                                <td class="text-center">
+                                                    @if (item.TenderRequiredDocumentFileId.HasValue)
+                                                    {
+                                                        <button class="btn btn-outline-primary btn-sm"
+                                                                onclick="openFile(
+                                                                                            '@Convert.ToBase64String(item.FileContent)',
+                                                                                            '@item.FileName',
+                                                                                            '@item.FileType'
+                                                                                        )"
+                                                                title="Belge Aç / İndir">
+                                                            @if (item.FileType == "application/pdf")
+                                                            {
+                                                                <i class="tf-icons ti ti-file-text text-danger"></i>
+                                                            }
+                                                            else
+                                                            {
+                                                                <i class="tf-icons ti ti-file-text text-primary"></i>
+                                                            }
+                                                        </button>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="text-muted">-</span>
+                                                    }
+                                                </td>
+
+                                            </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td colspan="3" class="text-center text-muted">
+                                                Belge bulunamadı
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="pdfModal" tabindex="-1">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Belge Görüntüleme</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-0">
+                    <iframe id="pdfViewer"
+                            style="width:100%; height:80vh;"
+                            frameborder="0"></iframe>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+
+<script>
+    function openFile(base64File, fileName, mimeType) {
+
+        if (!base64File) {
+            alert("Dosya bulunamadı");
+            return;
+        }
+
+        if (mimeType === "application/pdf") {
+            showPdf(base64File);
+        } else {
+            downloadFile(base64File, fileName, mimeType);
+        }
+    }
+
+    function showPdf(base64File) {
+        const pdfData = "data:application/pdf;base64," + base64File;
+        document.getElementById("pdfViewer").src = pdfData;
+
+        const modal = new bootstrap.Modal(
+            document.getElementById("pdfModal")
+        );
+        modal.show();
+    }
+
+    function downloadFile(base64File, fileName, mimeType) {
+        const link = document.createElement("a");
+        link.href = `data:${mimeType};base64,${base64File}`;
+        link.download = fileName;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+</script>

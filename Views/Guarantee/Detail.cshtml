@@ -149,44 +149,47 @@
             </ul>
             <div class="tab-content p-0">
                 <div class="tab-pane fade show active" id="navs-guarantee-commissions" role="tabpanel">
-                    <table id="Table" class="table-bordered table">
-                        <thead>
-                            <tr>
-                                <th>Başlangıç Tarihi</th>
-                                <th>Bitiş Tarihi</th>
-                                <th>Komisyon Oranı</th>
-                                <th>Komisyon Tutarı</th>
-                                <th>Ödeme Durumu</th>
-                                <th>Ödeme Tarihi</th>
-                                <th>Banka Referans No</th>
-                                <th>Kayıt Tarihi</th>
-                                <th>Kayıt Eden</th>
-                                <th>Not</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in Model.GuaranteeCommissions)
-                            {
+                    <div class="table-responsive">
+
+                        <table id="Table" class="table-bordered table">
+                            <thead>
                                 <tr>
-                                    <td>@item.CommissionStartDate.ToShortDateString()</td>
-                                    <td>@item.CommissionEndDate.ToShortDateString()</td>
-                                    <td>@item.CommissionRate.ToString("n4")</td>
-                                    <td>@item.CommissionAmount.ToString("n2") @item.Currency</td>
-                                    <td>@item.PaymentStatus</td>
-                                    <td>
-                                        @if (item.PaymentDate.HasValue)
-                                        {
-                                            item.PaymentDate.ToString();
-                                        }
-                                    </td>
-                                    <td>@item.BankReferenceNo</td>
-                                    <td>@item.CreatedAt.ToString()</td>
-                                    <td>@item.CreatedBy</td>
-                                    <td>@item.Note</td>
+                                    <th>Başlangıç Tarihi</th>
+                                    <th>Bitiş Tarihi</th>
+                                    <th>Komisyon Oranı</th>
+                                    <th>Komisyon Tutarı</th>
+                                    <th>Ödeme Durumu</th>
+                                    <th>Ödeme Tarihi</th>
+                                    <th>Banka Referans No</th>
+                                    <th>Kayıt Tarihi</th>
+                                    <th>Kayıt Eden</th>
+                                    <th>Not</th>
                                 </tr>
-                            }
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.GuaranteeCommissions)
+                                {
+                                    <tr>
+                                        <td>@item.CommissionStartDate.ToShortDateString()</td>
+                                        <td>@item.CommissionEndDate.ToShortDateString()</td>
+                                        <td>@item.CommissionRate.ToString("n4")</td>
+                                        <td>@item.CommissionAmount.ToString("n2") @item.Currency</td>
+                                        <td>@item.PaymentStatus</td>
+                                        <td>
+                                            @if (item.PaymentDate.HasValue)
+                                            {
+                                                item.PaymentDate.ToString();
+                                            }
+                                        </td>
+                                        <td>@item.BankReferenceNo</td>
+                                        <td>@item.CreatedAt.ToString()</td>
+                                        <td>@item.CreatedBy</td>
+                                        <td>@item.Note</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
