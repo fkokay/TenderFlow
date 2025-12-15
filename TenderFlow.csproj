@@ -10,21 +10,23 @@
     <Compile Remove="TenderFlow.AI\**" />
     <Compile Remove="TenderFlow.Core\**" />
     <Compile Remove="TenderFlow.Data\**" />
+    <Compile Remove="TenderFlow.Netsis\**" />
     <Content Remove="TenderFlow.AI\**" />
     <Content Remove="TenderFlow.Core\**" />
     <Content Remove="TenderFlow.Data\**" />
+    <Content Remove="TenderFlow.Netsis\**" />
     <EmbeddedResource Remove="TenderFlow.AI\**" />
     <EmbeddedResource Remove="TenderFlow.Core\**" />
     <EmbeddedResource Remove="TenderFlow.Data\**" />
+    <EmbeddedResource Remove="TenderFlow.Netsis\**" />
     <None Remove="TenderFlow.AI\**" />
     <None Remove="TenderFlow.Core\**" />
     <None Remove="TenderFlow.Data\**" />
+    <None Remove="TenderFlow.Netsis\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Build" Version="18.0.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.0" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="9.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
     <PackageReference Include="Quartz" Version="3.15.1" />
     <PackageReference Include="Quartz.Extensions.Hosting" Version="3.15.1" />
@@ -33,15 +35,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TenderFlow.Netsis\TenderFlow.Netsis.csproj" />
     <ProjectReference Include="TenderFlow.AI\TenderFlow.AI.csproj" />
     <ProjectReference Include="TenderFlow.Core\TenderFlow.Core.csproj" />
     <ProjectReference Include="TenderFlow.Data\TenderFlow.Data.csproj" />
+    <ProjectReference Include="TenderFlow.Netsis\TenderFlow.Netsis.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Reference Include="NetOpenX.Rest.Client">
-      <HintPath>..\ToyaERPConnect\ToyaERPConnect\bin\Debug\NetOpenX.Rest.Client.dll</HintPath>
+      <HintPath>bin\Debug\net10.0\NetOpenX.Rest.Client.dll</HintPath>
     </Reference>
   </ItemGroup>
 

@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TenderFlow\TenderFlow.Core\TenderFlow.Core.csproj" />
+    <ProjectReference Include="..\TenderFlow.Core\TenderFlow.Core.csproj" />
   </ItemGroup>
 
 </Project>
