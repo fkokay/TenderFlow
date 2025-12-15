@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TenderFlow.Core", "TenderFl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TenderFlow.AI", "TenderFlow.AI\TenderFlow.AI.csproj", "{CFB03F38-DA1C-485E-8BD9-43EB66D692B4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TenderFlow.Netsis", "..\TenderFlow.Netsis\TenderFlow.Netsis.csproj", "{1C0EFA06-E96E-4F86-A69B-72D79EB60B1A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TenderFlow.Netsis", "TenderFlow.Netsis\TenderFlow.Netsis.csproj", "{1C0EFA06-E96E-4F86-A69B-72D79EB60B1A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
