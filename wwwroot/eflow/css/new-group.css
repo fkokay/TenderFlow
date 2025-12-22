@@ -1,0 +1,16 @@
+﻿.was-validated .form-control:invalid, .form-control.is-invalid {
+    border-color: red;
+    background-image: none !important;
+}
+
+.invalid-feedback {
+    display: none;
+    width: 100%;
+    margin-top: 0.25rem;
+    font-size: 80%;
+    color: red;
+}
+
+.was-validated .form-control:invalid:focus, .form-control.is-invalid:focus {
+    border-color: red;
+}

@@ -5,15 +5,10 @@ using System.Text;
 
 namespace TenderFlow.Netsis
 {
-    public class NetsisConnection
+    public class NetsisConnection(NetsisConfig config)
     {
-        public SqlConnection Connection { get; private set; }
-        private readonly NetsisConfig _config;
-
-        public NetsisConnection(NetsisConfig config)
-        {
-            _config = config;
-        }
+        public SqlConnection? Connection { get; private set; }
+        private readonly NetsisConfig _config = config;
 
         public SqlConnection Open()
         {

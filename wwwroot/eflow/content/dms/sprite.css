@@ -1,0 +1,210 @@
+.icon {
+    font-size: 12px;
+}
+
+img.icon,
+.icon.dx-acc-s,
+.icon:not(.dx-acc-s):before {
+    content:' ';
+    vertical-align:middle;
+    display: inline-block;
+    background-image: url("sprite.svg?v=65ac4bb93de4ee437fdd55dddb8e755de90271c0");
+    background-repeat: no-repeat;
+    background-size: 8.666666666666666em 78.33333333333333em;
+}
+
+.no-svg .icon:not(.dx-acc-s):before {
+    background-image: url("../sprite.png");
+}
+
+  img.icon.angle-down,
+  .icon.angle-down.dx-acc-s,
+  .icon.angle-down:not(.dx-acc-s):before {
+      background-position: -0.16666666666666666em -0.16666666666666666em;
+      width: 1em;
+      height: 1em;
+  }
+
+  img.icon.angle-right,
+  .icon.angle-right.dx-acc-s,
+  .icon.angle-right:not(.dx-acc-s):before {
+      background-position: -0.16666666666666666em -1.5em;
+      width: 1em;
+      height: 1em;
+  }
+
+  img.icon.arrow-left,
+  .icon.arrow-left.dx-acc-s,
+  .icon.arrow-left:not(.dx-acc-s):before {
+      background-position: -0.16666666666666666em -2.833333333333333em;
+      width: 1.8333333333333333em;
+      height: 1.8333333333333333em;
+  }
+
+  img.icon.arrow-right,
+  .icon.arrow-right.dx-acc-s,
+  .icon.arrow-right:not(.dx-acc-s):before {
+      background-position: -0.16666666666666666em -5em;
+      width: 1.8333333333333333em;
+      height: 1.8333333333333333em;
+  }
+
+  img.icon.arrow-right-long,
+  .icon.arrow-right-long.dx-acc-s,
+  .icon.arrow-right-long:not(.dx-acc-s):before {
+      background-position: -0.16666666666666666em -7.166666666666667em;
+      width: 1.1666666666666667em;
+      height: 1.1666666666666667em;
+  }
+
+  img.icon.arrow-right-long-selected,
+  .icon.arrow-right-long-selected.dx-acc-s,
+  .icon.arrow-right-long-selected:not(.dx-acc-s):before {
+      background-position: -0.16666666666666666em -8.666666666666666em;
+      width: 1.1666666666666667em;
+      height: 1.1666666666666667em;
+  }
+
+  img.icon.clear-button,
+  .icon.clear-button.dx-acc-s,
+  .icon.clear-button:not(.dx-acc-s):before {
+      background-position: -0.16666666666666666em -10.166666666666666em;
+      width: 1.6666666666666667em;
+      height: 1.6666666666666667em;
+  }
+
+  img.icon.cog,
+  .icon.cog.dx-acc-s,
+  .icon.cog:not(.dx-acc-s):before {
+      background-position: -0.16666666666666666em -12.166666666666666em;
+      width: 1.8333333333333333em;
+      height: 1.8333333333333333em;
+  }
+
+  img.icon.copy,
+  .icon.copy.dx-acc-s,
+  .icon.copy:not(.dx-acc-s):before {
+      background-position: -0.16666666666666666em -14.333333333333332em;
+      width: 2.1666666666666665em;
+      height: 2.1666666666666665em;
+  }
+
+  img.icon.copy.dxbButtonHover,
+  .icon.copy.dxbButtonHover.dx-acc-s,
+  .icon.copy.dxbButtonHover:not(.dx-acc-s):before {
+      background-position: -0.16666666666666666em -16.833333333333336em;
+      width: 2.1666666666666665em;
+      height: 2.1666666666666665em;
+  }
+
+  img.icon.copy.dxbButtonPressed,
+  .icon.copy.dxbButtonPressed.dx-acc-s,
+  .icon.copy.dxbButtonPressed:not(.dx-acc-s):before {
+      background-position: -0.16666666666666666em -19.333333333333336em;
+      width: 2.1666666666666665em;
+      height: 2.1666666666666665em;
+  }
+
+  img.icon.download,
+  .icon.download.dx-acc-s,
+  .icon.download:not(.dx-acc-s):before {
+      background-position: -0.16666666666666666em -21.833333333333336em;
+      width: 1.8333333333333333em;
+      height: 1.8333333333333333em;
+  }
+
+  img.icon.drop-down,
+  .icon.drop-down.dx-acc-s,
+  .icon.drop-down:not(.dx-acc-s):before {
+      background-position: -0.16666666666666666em -24em;
+      width: 1em;
+      height: 1em;
+  }
+
+  img.icon.font,
+  .icon.font.dx-acc-s,
+  .icon.font:not(.dx-acc-s):before {
+      background-position: -0.16666666666666666em -25.333333333333336em;
+      width: 1em;
+      height: 1em;
+  }
+
+  img.icon.menu,
+  .icon.menu.dx-acc-s,
+  .icon.menu:not(.dx-acc-s):before {
+      background-position: -0.16666666666666666em -26.666666666666668em;
+      width: 2.1666666666666665em;
+      height: 2.1666666666666665em;
+  }
+
+  img.icon.phone,
+  .icon.phone.dx-acc-s,
+  .icon.phone:not(.dx-acc-s):before {
+      background-position: -0.16666666666666666em -29.166666666666668em;
+      width: 6.666666666666667em;
+      height: 6.666666666666667em;
+  }
+
+  img.icon.phone-selected,
+  .icon.phone-selected.dx-acc-s,
+  .icon.phone-selected:not(.dx-acc-s):before {
+      background-position: -0.16666666666666666em -36.166666666666664em;
+      width: 6.666666666666667em;
+      height: 6.666666666666667em;
+  }
+
+  img.icon.play-button,
+  .icon.play-button.dx-acc-s,
+  .icon.play-button:not(.dx-acc-s):before {
+      background-position: -0.16666666666666666em -43.166666666666664em;
+      width: 8.333333333333334em;
+      height: 8.333333333333334em;
+  }
+
+  img.icon.rotate,
+  .icon.rotate.dx-acc-s,
+  .icon.rotate:not(.dx-acc-s):before {
+      background-position: -0.16666666666666666em -51.83333333333333em;
+      width: 6.666666666666667em;
+      height: 6.666666666666667em;
+  }
+
+  img.icon.search,
+  .icon.search.dx-acc-s,
+  .icon.search:not(.dx-acc-s):before {
+      background-position: -0.16666666666666666em -58.83333333333333em;
+      width: 1.75em;
+      height: 1.75em;
+  }
+
+  img.icon.shopping-cart,
+  .icon.shopping-cart.dx-acc-s,
+  .icon.shopping-cart:not(.dx-acc-s):before {
+      background-position: -0.16666666666666666em -60.916666666666664em;
+      width: 1.8333333333333333em;
+      height: 1.8333333333333333em;
+  }
+
+  img.icon.tablet,
+  .icon.tablet.dx-acc-s,
+  .icon.tablet:not(.dx-acc-s):before {
+      background-position: -0.16666666666666666em -63.08333333333333em;
+      width: 6.666666666666667em;
+      height: 6.666666666666667em;
+  }
+
+  img.icon.tablet-selected,
+  .icon.tablet-selected.dx-acc-s,
+  .icon.tablet-selected:not(.dx-acc-s):before {
+      background-position: -0.16666666666666666em -70.08333333333334em;
+      width: 6.666666666666667em;
+      height: 6.666666666666667em;
+  }
+
+  img.icon.three-dots,
+  .icon.three-dots.dx-acc-s,
+  .icon.three-dots:not(.dx-acc-s):before {
+      background-position: -0.16666666666666666em -77.08333333333334em;
+      width: 1.0833333333333333em;
+      height: 1.0833333333333333em;
+  }

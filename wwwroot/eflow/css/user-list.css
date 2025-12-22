@@ -1,0 +1,180 @@
+﻿#kt_table_1 {
+    margin-top: 0px !important;
+}
+
+.kt-badge {
+    margin-right: 2px;
+}
+
+.table thead th {
+    border-bottom: none !important;
+}
+
+.table-bordered th, .table-bordered td {
+    border: none !important;
+}
+
+#kt_table_1 td {
+    padding-left: 9px !important;
+}
+
+#kt_table_1 td:before { display: none; }
+
+
+#kt_table_1 tr {
+    height: 50px;
+}
+
+#kt_table_1_length, dataTables_filter {
+    display: none;
+}
+
+/*Grid in üzerindeki search alanı iptal, header a taşınacak*/
+.dataTables_filter {
+    display: none;
+}
+
+/*Grid kenarlıklar iptal*/
+.kt-portlet .kt-portlet__body {
+    padding: 0px !important;
+}
+
+.kt-portlet {
+    margin-bottom: 0px !important;
+}
+
+/*Grid row tüm alt boşluklar iptal*/
+.kt-widget5 .kt-widget5__item {
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+    padding-left: 20px;
+}
+
+#kt_table_1_wrapper .table-bordered {
+    border: 0 !important;
+}
+
+/*Tablo içindeki border lar iptal*/
+#kt_table_1 td {
+    border-top: none !important;
+    border-left: none !important;
+    border-right: none !important;
+    padding-left: 25px !important;
+    padding-top: 12px !important;
+}
+
+/*Chrome un koyduğu tr border iptal*/
+.sorting_1 {
+    outline: none;
+}
+
+.kt-widget5 .kt-widget5__item {
+    margin-top: -10px;
+}
+
+    .kt-widget5 .kt-widget5__item .kt-widget5__content {
+        /*padding-bottom: 12px !important;
+        padding-top: 8px !important;*/
+        padding-bottom: 4px !important;
+        padding-top: 4px !important;
+    }
+
+        .kt-widget5 .kt-widget5__item .kt-widget5__content .kt-widget5__desc {
+            margin-bottom: 0px !important;
+            padding-bottom: 12px !important;
+            padding-top: 9px !important;
+        }
+
+.kt-widget5__desc {
+    padding: 17px 0px 15px 0px !important;
+}
+
+.drowClass {
+    margin-right: -10px;
+    padding-right: 10px;
+}
+
+/*Paging iptal scroller koyulacak*/
+div.dataTables_paginate {
+    /*display: none;*/
+    padding-right: 10px;
+    padding-bottom: 20px;
+}
+
+div.dataTables_info {
+    padding-left: 10px;
+    padding-bottom: 20px;
+}
+
+div.dataTables_length {
+    /*display: none;*/
+}
+
+th, td {
+    white-space: nowrap;
+}
+
+#kt_table_1tr:first-child {
+    margin-top: -13px;
+}
+
+/*Mobil görünüm*/
+@media only screen and (max-width: 500px) {
+    .kt-infos, .dataTables_info, .pagination a, .kt-widget5__title,
+    .kt-font-info, .spnTaskUser, .kt-widget5__info, .kt-widget5__desc {
+        font-size: 10px !important;
+        max-width: 100px;
+    }
+
+    .kt-priority {
+        display: none;
+    }
+
+    .ellipsed {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 180px;
+    }
+    /*Mobil de row hover backgroud color değiştirme şimdilik kaldırıldı*/
+    .drowClass {
+        background-color: white !important;
+    }
+
+    .kt-widget5 .kt-widget5__item .kt-widget5__content {
+        padding-bottom: 0px !important;
+        padding-top: 0px !important;
+    }
+
+    .kt-widget5 .kt-widget5__item {
+        margin-top: -20px !important;
+        margin-bottom: -9px !important;
+    }
+
+    #usertablediv {
+        overflow-x: auto;
+    }
+}
+
+#kt_table_1_wrapper {
+    box-shadow: 0px 1px 15px 1px rgba(69, 65, 78, 0.1);
+}
+
+.kt-portlet {
+    margin-bottom: 0px !important;
+}
+
+@media only screen and (min-width: 960px) {
+
+    tr td:first-child {
+        width: 30%;
+    }
+}
+
+@media only screen and (min-width:720px) {
+
+    .dataTables_scrollBody
+    {
+        overflow: unset !important;
+    }
+}

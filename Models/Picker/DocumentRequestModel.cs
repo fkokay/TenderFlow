@@ -6,5 +6,6 @@ namespace TenderFlow.Models.Picker
     {
         public string? DocumentNumber { get; set; }
         public EWaybillInfo? EWaybillInfo { get; set; }
+        public bool EInovice { get; set; }
     }
 }

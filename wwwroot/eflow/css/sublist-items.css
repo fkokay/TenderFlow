@@ -1,0 +1,99 @@
+﻿#efSublistsTableDiv thead .ascOrder:before {
+    right: 1em;
+    content: "\2191";
+    opacity: 0.3
+}
+
+#efSublistsTableDiv thead .descOrder:after {
+    right: 0.5em;
+    content: "\2193";
+    opacity: 0.3
+}
+
+#efSublistsTableDiv thead .ascOrder-selected:before {
+    right: 1em;
+    content: "\2191";
+    opacity: 1
+}
+
+#efSublistsTableDiv thead .descOrder-selected:after {
+    right: 0.5em;
+    content: "\2193";
+    opacity: 1
+}
+
+#deleteSelectedSubListbtn {
+    width: 145px !important;
+    background: #22b9ff;
+    border: none;
+    font-size: 13px;
+}
+
+#kt_process_detail_form-sub {
+    height: 60px;
+    background: white;
+    padding-top: 7px;
+    padding-left: 8px;
+    border-bottom: 1px solid #ebedf2;
+}
+
+#startListSubListbtn {
+    width: 248px !important;
+    background: darkblue;
+    border: none;
+    font-size: 13px;
+    color: white;
+}
+
+#sublist-tablediv {
+    /*min-height: calc(100vh - 300px);*/
+    background: white !important;
+}
+
+#efSublistsTableDiv > tbody > tr:last-child {
+    border-bottom: 1px solid #f0f3ff;
+}
+
+.list-items-footer-sub {
+    margin-left: 0px !important;
+    margin-right: 0px !important;
+    padding-bottom: 8px;
+    padding-top: 10px;
+}
+
+.overflow-list-sub {
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    margin-left: 0px !important;
+    margin-right: 0px !important;
+    background-color: #ffffff;
+    display: flex;
+    -webkit-box-orient: vertical;
+    flex-direction: column;
+    flex-wrap: nowrap !important;
+}
+
+    .overflow-list-sub .pagination-container {
+        padding-top: 5px;
+    }
+
+.empty-row-bg-sub {
+    background: white !important;
+}
+
+.row-hg-sub {
+    height: 46.5px !important;
+}
+
+.empty-table-alert-sub {
+    text-align: center;
+    background: white !important;
+    margin-bottom: 300px;
+}
+
+.alert-sub {
+    -webkit-box-align: stretch;
+    -ms-flex-align: stretch;
+    align-items: stretch;
+    padding-top: 100px;
+}

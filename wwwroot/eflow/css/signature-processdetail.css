@@ -1,0 +1,151 @@
+﻿.navbtn {
+    cursor: pointer;
+    float: left;
+    padding: 6px 10px;
+    font-weight: bold;
+    line-height: 18px;
+    font-size: 14px;
+    color: #eee;
+    text-shadow: 0px -1px #000;
+    border: solid 1px #111;
+    border-radius: 4px;
+    background-color: #404040;
+    box-shadow: 0 0 1px 1px #555,inset 0 1px 0 0 #666;
+}
+
+    .navbtn-hover, .navbtn:active {
+        color: #222;
+        text-shadow: 0px 1px #aaa;
+        background-color: #aaa;
+        box-shadow: 0 0 1px 1px #444,inset 0 1px 0 0 #ccc;
+    }
+
+
+#canvas {
+    cursor: crosshair;
+    background-color: #fff;
+}
+
+.palette-case {
+    width: 260px;
+    margin: auto;
+    text-align: center;
+}
+
+.palette-box {
+    float: left;
+    padding: 2px 6px 2px 6px;
+}
+
+.palette {
+    border: 2px solid #777;
+    height: 36px;
+    width: 36px;
+}
+
+.red {
+    background-color: #c22;
+}
+
+.blue {
+    background-color: #22c;
+}
+
+.green {
+    background-color: #2c2;
+}
+
+.white {
+    background-color: #000;
+}
+
+.black {
+    background-color: #000;
+    border: 2px dashed #fff;
+}
+
+.avatar-upload {
+    position: relative;
+    max-width: 205px;
+}
+
+    .avatar-upload > .avatar-edit {
+        position: absolute;
+        right: 80px;
+        z-index: 1;
+    }
+
+        .avatar-upload > .avatar-edit > input {
+            display: none;
+        }
+
+        .avatar-upload > .avatar-edit > label {
+            display: block !important;
+            width: 30px;
+            height: 27px;
+            margin-bottom: 2px;
+            background: #FFFFFF;
+            border: 1px solid #ccc;
+            box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.12);
+            cursor: pointer;
+            font-weight: normal;
+            transition: all .2s ease-in-out;
+        }
+
+.downloadlink {
+    display: block;
+    width: 30px;
+    height: 27px;
+    margin-bottom: 2px;
+    background: #FFFFFF;
+    border: 1px solid #ccc;
+    box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.12);
+    cursor: pointer;
+    font-weight: normal;
+    transition: all .2s ease-in-out;
+}
+
+.avatar-upload > .avatar-edit > label:before {
+    color: #333;
+    top: 7px;
+    left: 9px;
+    position: relative;
+}
+
+.avatar-upload > .avatar-edit > label:hover {
+    background: #f1f1f1;
+    border-color: #d6d6d6;
+}
+
+.avatar-upload > .avatar-edit > label:after {
+    color: #757575;
+    position: relative;
+    top: 7px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    margin: auto;
+}
+
+
+.avatar-preview {
+    width: 90px;
+    height: 90px;
+    position: relative;
+}
+
+    .avatar-preview > div {
+        width: 90px;
+        height: 90px;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        border: 1px solid #ccc;
+    }
+
+.donwico {
+    color: #333;
+    top: 4px;
+    left: 9px;
+    position: relative;
+}

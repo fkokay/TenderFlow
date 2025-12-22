@@ -1,0 +1,63 @@
+﻿#deleteSelectedListbtn {
+    background: #cb1273;
+    border: none;
+    font-size: 13px;
+    color: white;
+}
+
+#iflatProcessStart {
+    color: #4c81d1 !important;
+}
+
+.btn-small {
+    font-size: 10px;
+}
+
+.form-head {
+    height: 50px;
+    padding-top: 13px;
+    border-bottom: 1px solid rgba(217, 216, 216, 0.66);
+    margin-top: 10px;
+}
+
+.kt-quick-panel .kt-quick-panel__content {
+    padding: 0px;
+}
+
+.save-mform {
+    margin-left: 44%;
+}
+
+.close-mform {
+    margin-left: 5px;
+}
+
+.form-title {
+    margin-left: 5px;
+}
+
+.form-head-sub {
+    margin-top: -8px;
+    margin-left: -46px;
+}
+
+.pagination {
+    background: white !important;
+    padding-left: 10px !important
+}
+
+.multiple-form {
+    overflow-x: hidden !important
+}
+
+#spnAllSpesificProcesses {
+    visibility: hidden;
+    width: 1px !important
+}
+#startItemListbtn {
+    width: 248px !important;
+    background: darkblue;
+    border: none;
+    font-size: 13px;
+    color: white;
+}

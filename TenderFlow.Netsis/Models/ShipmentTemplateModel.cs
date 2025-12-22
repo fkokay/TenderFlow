@@ -6,7 +6,7 @@ namespace TenderFlow.Netsis.Models
 {
     public class ShipmentTemplateModel
     {
-        public string TEMPLATEID { get; set; }
+        public string TEMPLATEID { get; set; } = string.Empty;
         public string? LICENSEPLATEID { get; set; }
         public string? CARRIERVKN { get; set; }
         public string? CARRIERNAME { get; set; }

@@ -326,7 +326,7 @@ namespace TenderFlow.Netsis
 
             return string.IsNullOrEmpty(belgeNo) ? "000000000000001" : MainUtils.NextKeyCode(belgeNo);
         }
-        public async Task<IEnumerable<ShipmentOrderManagementModel>> GetShipmentManagementsAsync(DateTime? startDate = null, DateTime? endDate = null, int status = 0, bool showCompleted = false)
+        public async Task<IEnumerable<OrderManagementListModel>> GetShipmentManagementsAsync(DateTime? startDate = null, DateTime? endDate = null, int status = 0, bool showCompleted = false)
         {
 
             string sql = @"
@@ -435,11 +435,11 @@ namespace TenderFlow.Netsis
                 EndDate = endDate,
             };
 
-            var list = (await _con.QueryAsync<ShipmentOrderManagementModel>(sql, param, commandTimeout: 120)).Select(NetsisUtils.FixAllStrings);
+            var list = (await _con.QueryAsync<OrderManagementListModel>(sql, param, commandTimeout: 120)).Select(NetsisUtils.FixAllStrings);
 
             return list;
         }
-        public async Task<IEnumerable<ShipmentOrderManagementModel>> GetShipmentManagementsByDocumentNumbersAsync(List<string> documentNumbers)
+        public async Task<IEnumerable<OrderManagementListModel>> GetShipmentManagementsByDocumentNumbersAsync(List<string> documentNumbers)
         {
             string sql = @"
 			IF OBJECT_ID('tempdb..#TDURUMSAYI') IS NOT NULL DROP TABLE #TDURUMSAYI;
@@ -536,7 +536,7 @@ namespace TenderFlow.Netsis
                 DocumentNumbers = documentNumbers
             };
 
-            var list = (await _con.QueryAsync<ShipmentOrderManagementModel>(sql, param, commandTimeout: 120)).Select(NetsisUtils.FixAllStrings);
+            var list = (await _con.QueryAsync<OrderManagementListModel>(sql, param, commandTimeout: 120)).Select(NetsisUtils.FixAllStrings);
 
             return list;
         }
@@ -683,8 +683,11 @@ namespace TenderFlow.Netsis
             }
             catch (Exception)
             {
-                transaction.Rollback();
                 throw;
+            }
+			finally
+			{
+                transaction.Rollback();
             }
         }
         public async Task<ShipmentModel?> GetShipmentAsync(string belgeNo)
@@ -716,7 +719,7 @@ namespace TenderFlow.Netsis
             DEPO = DEPO,
             MIKTAR
         FROM TBLSEVKTRA
-        WHERE BELGENO = @BELGENO
+        WHERE BELGENO = @BELGENO AND TIP = 1
         ORDER BY SIRA";
 
             using var multi = await _con.QueryMultipleAsync(sqlHeader + ";" + sqlLines, new { BELGENO = belgeNo });
@@ -734,7 +737,7 @@ namespace TenderFlow.Netsis
             return header;
         }
 
-        public async Task<OrderModel> GetOrderDetailsAsync(string siparisNo)
+        public async Task<OrderModel?> GetOrderDetailsAsync(string siparisNo)
         {
             string sqlMaster = @"
 				SELECT TOP 1

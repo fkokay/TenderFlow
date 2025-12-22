@@ -1,0 +1,16 @@
+﻿#area_chart_1 .apexcharts-toolbar {
+    display: none;
+}
+
+.kt-demo-panel-overlay {
+    display: none;
+}
+
+.apexcharts-toolbar
+{
+    display:none;
+}
+
+.kt-demo-panel {
+    padding: 1.2rem !important;
+}

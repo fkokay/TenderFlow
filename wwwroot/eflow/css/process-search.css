@@ -1,0 +1,23 @@
+﻿.disablePointer {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.select2-selection--single {
+    min-height: 39px;
+}
+
+@media screen and (min-width: 1050px) {
+    #btnAddFilter {
+        margin-left: 5px;
+        margin-top: 1px;
+    }
+}
+
+.string-search, .numeric-search, .date-search {
+    margin-left: 1px !important;
+}
+
+.string-search-sub, .numeric-search-sub, .date-search-sub {
+    margin-left: 1px !important;
+}

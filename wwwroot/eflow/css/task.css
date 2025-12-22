@@ -1,0 +1,63 @@
+﻿div.sticky {
+    position: -webkit-sticky;
+    /*position: relative !important;*/
+    position:sticky;
+    bottom: 0px;
+    margin: 0px;
+    z-index: 90;
+    background-color: white;
+    box-shadow: 0px 1px 15px 1px rgba(69, 65, 78, 0.1);
+    padding: 10px;
+    padding-top: 13px;
+}
+
+.stickyBackgroud {
+    border: 1px solid #ebedf2;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) and (min-resolution:.001dpcm) {
+    div.sticky {
+        position: sticky !important;
+    }
+}
+
+.kt-widget5__title {
+    font-size: 1rem;
+    font-weight: 400;
+    color: #6c7293;
+    transition: color 0.3s ease;
+    line-height: 1.5
+}
+
+.disabledContent {
+    pointer-events: none;
+    opacity: 0.8;
+}
+
+.select2-container--default.select2-container--focus .select2-selection--multiple, .select2-container--default.select2-container--focus .select2-selection--single, .select2-container--default.select2-container--open .select2-selection--multiple, .select2-container--default.select2-container--open .select2-selection--single {
+    border-color: #5fccff;
+    border-top-left-radius: 5px !important;
+    border-top-right-radius: 5px !important;
+    border-bottom-left-radius: 5px !important;
+    border-bottom-right-radius: 5px !important;
+}
+
+.kt-section
+{
+    margin-bottom:-25px !important;
+}
+
+@media only screen and (max-width: 500px) {
+    .reassignTask {
+        margin-top: 5px;
+    }
+
+    .AssignBackTo {
+        margin-top: 5px;
+    }
+
+    div.sticky {
+        margin-left: -16px !important;
+        margin-right: -16px !important;
+    }
+}

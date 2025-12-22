@@ -29,8 +29,9 @@ namespace TenderFlow.Netsis
 
             foreach (var p in props)
             {
-                var val = (string)p.GetValue(obj);
-                p.SetValue(obj, Fix(val));
+                var val = p.GetValue(obj) as string;
+                if (val != null)
+                    p.SetValue(obj, Fix(val));
             }
 
             return obj;

@@ -18,7 +18,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 NpgsqlConnection.GlobalTypeMapper.UseVector();
 
-
 //Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

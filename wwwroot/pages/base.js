@@ -48,3 +48,4 @@ TenderFlow.Table.showToast = function (message, type = "success", delay = 3000) 
 
     bsToast.show();
 };
+

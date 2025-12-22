@@ -1,0 +1,23 @@
+{
+  "sEmptyTable": "Heç bir məlumat yoxdur",
+  "sInfo": " _TOTAL_ Nəticələr",
+  "sInfoEmpty": "",
+  "sInfoFiltered": "",
+  "sInfoPostFix": "",
+  "sInfoThousands": ",",
+  "sLengthMenu": "Səhifədə _MENU_ Nəticə Göstər",
+  "sLoadingRecords": "Yüklənir...",
+  "sProcessing": "Yüklənir...",
+  "sSearch": "Axtarış:",
+  "sZeroRecords": "Heç bir məlumat yoxdur",
+  "oPaginate": {
+    "sFirst": "İlk",
+    "sLast": "Axırıncı",
+    "sNext": "Sonraki",
+    "sPrevious": "Öncəki"
+  },
+  "oAria": {
+    "sSortAscending": ": sütunu artma sırası üzərə aktiv etmək",
+    "sSortDescending": ": sütunu azalma sırası üzərə aktiv etmək"
+  }
+}

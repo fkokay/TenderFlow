@@ -1,0 +1,15 @@
+﻿.kt-portlet .kt-portlet__body {
+    padding-bottom: 0px !important;
+}
+
+@media only screen and (max-width: 600px) {
+    .select2-container .select2-selection--single {
+        max-width: 260px !important;
+    }
+    .select2-selection__arrow {
+        display: none !important;
+    }
+    .btn-primary {
+        font-size: 8px;
+    }
+}

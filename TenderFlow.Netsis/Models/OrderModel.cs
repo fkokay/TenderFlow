@@ -6,8 +6,8 @@ namespace TenderFlow.Netsis.Models
 {
     public class OrderModel
     {
-        public string SIPARIS_NO { get; set; }
-        public string CARI_KODU { get; set; }
+        public string SIPARIS_NO { get; set; } = string.Empty;
+        public string CARI_KODU { get; set; } = string.Empty;
         public DateTime TARIH { get; set; }
         public string? ACIKLAMA { get; set; }
         public decimal TOPLAM_MIK { get; set; }

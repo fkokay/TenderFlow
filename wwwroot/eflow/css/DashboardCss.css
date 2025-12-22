@@ -1,0 +1,329 @@
+﻿    .mdl-button {
+        height:34px !important;
+    }
+    .table tr td {
+        border: none;
+    }
+
+    .table .Task tr td.Actions {
+        padding: 0 !important;
+    }
+
+    #tasks > thead > tr {
+        background-color: #EEE;
+        border: 1px solid #e6e6e6;
+    }
+     #tasks > thead > tr > th:first-child{
+         max-width:10px;
+     }
+    #tasks > thead > tr > th {
+            /*line-height: 40px;*/
+            font-size: 14px;
+            font-weight: 300;
+            background-color: #eee;
+            /*min-width:115px;*/
+        }
+
+    .Task > tr {
+        border-right: 1px solid #e6e6e6;
+        border-left: 1px solid #e6e6e6;
+        /*border-bottom: 1px solid #e6e6e6 !important;*/
+    }
+  
+    .Task tr > td {
+        min-height: 48px;
+        padding: 18px 0 12px;
+        position: relative;  
+        align-items: center;
+        color: rgba(0,0,0,0.65);
+        font-size: 13px;
+        justify-content: space-between;
+        padding-left: 10px;
+        padding:10px;
+    }
+
+    .listpaging {
+        position: absolute !important;
+    }
+
+    .slidePnl {
+        cursor: pointer;
+    }
+
+    line {
+        stroke: transparent !important;
+    }
+    .chip {
+    display: inline-block;
+    height: 32px;
+    font-size: 13px;
+    font-weight: 500;
+    color: rgba(0, 0, 0, 0.6);
+    line-height: 32px;
+    padding: 0 12px;
+    border-radius: 16px;
+    background-color: #e4e4e4;
+    margin-bottom: 5px;
+    margin-right: 5px;
+}
+    #filterbobleAssign, #filterboble {
+        float: left;
+
+    }
+
+    .p-header {
+        margin-left: 10px;
+        margin-top: 15px;
+    }
+
+    .posrtletLight.light {
+        padding: 12px 20px 15px;
+        background-color: #fff;
+    }
+
+    .posrtletLight.light > .portlet-title {
+            padding: 0;
+            min-height: 48px;
+            border-bottom: 1px solid #eee;
+            padding: 0;
+            margin-bottom: 10px;
+            min-height: 41px;
+            -webkit-border-radius: 2px 2px 0 0;
+            -moz-border-radius: 2px 2px 0 0;
+            border-radius: 2px 2px 0 0;
+        }
+
+    .posrtletLight.light .portlet-body {
+            padding-top: 8px;
+        }
+
+    .posrtletLight {
+        margin-top: 0;
+        margin-bottom: 25px;
+        padding: 0;
+        float: left;
+        box-shadow: 0 2px 3px 2px rgba(0,0,0,.03);
+        border: 1px solid #e7ecf1 !important;
+    }
+
+    .posrtletLight > .portlet-title > .caption {
+            float: left;
+            display: inline-block;
+            font-size: 18px;
+            line-height: 18px;
+            padding: 10px 0;
+        }
+
+    .posrtletLight.light > .portlet-title > .caption > .caption-subject {
+            font-size: 16px;
+        }
+
+    .posrtletLight > .portlet-title > .caption > .caption-helper {
+            padding: 0;
+            margin: 0;
+            line-height: 13px;
+            color: #9eacb4;
+            font-size: 13px;
+            font-weight: 400;
+        }
+
+    .font-dark {
+        color: #2f353b !important;
+    }
+
+    .uppercase {
+        text-transform: uppercase !important;
+    }
+
+    .bold {
+        font-weight: 700 !important;
+    }
+
+    .portlet {
+        box-shadow: 0 2px 3px 2px rgba(0,0,0,.03);
+        margin-top: 0;
+        margin-bottom: 5px;
+        padding: 0;
+        border-radius: 2px;
+    }
+
+    hr {
+        border-top: 1px solid #d4d4d4 !important;
+    }
+
+    .task {
+        width: 90% !important;
+        margin: 0 !important;
+        margin-bottom: 5px !important;
+    }
+
+    .task p {
+            text-transform: capitalize;
+            margin-bottom: 0 !important;
+        }
+
+    .subtext {
+        color: #767676;
+    }
+
+    .label {
+        border-radius: 0 !important;
+    }
+
+    .label-danger {
+        background: #fe4861 !important;
+        font-size: 10px !important;
+    }
+
+    .date {
+        margin-top: 5px;
+    }
+
+    #main {
+        overflow-y: visible !important;
+    }
+
+    #footer {
+        position: fixed;
+        bottom: 0px;
+    }
+
+    .dashboard-stat2 {
+        -webkit-border-radius: 2px;
+        -moz-border-radius: 2px;
+        border-radius: 2px;
+        background: #fff;
+        padding: 15px 15px 30px;
+        border: 1px solid #e7ecf1 !important;
+    }
+
+    .dashboard-stat2 .display .number {
+            float: left;
+            display: inline-block;
+        }
+
+    .dashboard-stat2 .display .number h3 {
+                margin: 0 0 2px;
+                padding: 0;
+                font-size: 24px;
+                font-weight: 300;
+                text-transform: capitalize;
+            }
+
+    .font-green-sharp {
+        color: #2ab4c0 !important;
+    }
+
+    .dashboard-stat2 .display .number small {
+        font-size: 14px;
+        color: #AAB5BC;
+        font-weight: 600;
+        text-transform: uppercase;
+    }
+
+    .dashboard-stat2 .display .icon {
+        display: inline-block;
+        float: right;
+        padding: 7px 0 0;
+    }
+
+    .dashboard-stat2 .progress-info {
+        clear: both;
+    }
+
+    .dashboard-stat2 .progress-info .progress {
+            margin: 0;
+            height: 4px;
+            clear: both;
+            display: block;
+        }
+
+    .progress {
+        border: 0;
+        background-image: none;
+        filter: none;
+        -webkit-box-shadow: none;
+        -moz-box-shadow: none;
+        box-shadow: none;
+    }
+
+    .dashboard-stat2 .progress-info .status {
+        margin-top: 5px;
+        font-size: 11px;
+        color: #AAB5BC;
+        font-weight: 600;
+        text-transform: uppercase;
+    }
+
+    .progress-bar.green-sharp {
+        background: #2ab4c0 !important;
+        color: #FFF !important;
+    }
+
+    .font-red-haze {
+        color: #f36a5a !important;
+    }
+
+    .progress {
+        height: 20px;
+        margin-bottom: 20px;
+        background-color: #f5f5f5;
+        border-radius: 2px;
+        -webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,.1);
+        box-shadow: inset 0 1px 2px rgba(0,0,0,.1);
+    }
+
+    .dashboard-stat2 .progress-info .status .status-number {
+        float: right;
+        display: inline-block;
+    }
+
+    .dashboard-stat2 .progress-info .status .status-title {
+        float: left;
+        display: inline-block;
+    }
+
+    .dashboard-stat2 .display .icon {
+        display: inline-block;
+        float: right;
+        padding: 7px 0 0;
+        color: #AAB5BC;
+    }
+
+    .progress-bar.red-haze {
+        background: #f36a5a !important;
+        color: #fff !important;
+    }
+
+    .captionHeader h1 {
+        font-size: 18px !important;
+    }
+
+    .listtable .table td.Actions span a {
+        text-decoration: none !important;
+        color: #000;
+    }
+
+    @@-webkit-keyframes ripple-animation {
+        0% {
+            -webkit-transform: scale(.01);
+            transform: scale(.01);
+        }
+
+        100% {
+            -webkit-transform: scale(5);
+            transform: scale(5);
+        }
+    }
+
+    @@keyframes ripple-animation {
+        0% {
+            -webkit-transform: scale(.01);
+            transform: scale(.01);
+        }
+
+        100% {
+            -webkit-transform: scale(5);
+            transform: scale(5);
+        }
+    }

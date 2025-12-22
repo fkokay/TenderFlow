@@ -1,0 +1,740 @@
+.file-icon-wrap[data-file-type="ntl"] figure {
+    background-image: url(../../../Img/dashboard/file-icons/ntl.svg);
+}
+.file-icon-wrap[data-file-type="ntl"] figcaption {
+    background-color: #4c81d1;
+}
+/* 3D and CAD*/
+.file-icon-wrap[data-file-type="skp"] figure {
+    background-image: url(../../../Img/dashboard/file-icons/skp.svg);
+}
+.file-icon-wrap[data-file-type="skp"] figcaption {
+    background-color:#014f8e;
+}
+.file-icon-wrap[data-file-type="3ds"] figure {
+    background-image: url(../../../Img/dashboard/file-icons/3ds.svg);
+}
+.file-icon-wrap[data-file-type="3ds"] figcaption {
+    background-color:#0f716e;
+}
+.file-icon-wrap[data-file-type="dwg"] figure,
+.file-icon-wrap[data-file-type="dwf"] figure,
+.file-icon-wrap[data-file-type="dxf"] figure,
+.file-icon-wrap[data-file-type="dwt"] figure {
+    background-image: url(../../../Img/dashboard/file-icons/dwg.svg);
+}
+.file-icon-wrap[data-file-type="dwt"] figcaption,
+.file-icon-wrap[data-file-type="dwf"] figcaption,
+.file-icon-wrap[data-file-type="dxf"] figcaption,
+.file-icon-wrap[data-file-type="dwg"] figcaption {
+    background-color:#143d6c;
+}
+
+.file-icon-wrap[data-file-type="glb"] figure,
+.file-icon-wrap[data-file-type="ply"] figure,
+.file-icon-wrap[data-file-type="gltf"] figure,
+.file-icon-wrap[data-file-type="fbx"] figure,
+.file-icon-wrap[data-file-type="usd"] figure,
+.file-icon-wrap[data-file-type="usdc"] figure,
+.file-icon-wrap[data-file-type="usda"] figure,
+.file-icon-wrap[data-file-type="stl"] figure,
+.file-icon-wrap[data-file-type="stp"] figure,
+.file-icon-wrap[data-file-type="dae"] figure,
+.file-icon-wrap[data-file-type="vrml"] figure,
+.file-icon-wrap[data-file-type="x3g"] figure,
+.file-icon-wrap[data-file-type="3mf"] figure,
+.file-icon-wrap[data-file-type="g"] figure,
+.file-icon-wrap[data-file-type="gco"] figure,
+.file-icon-wrap[data-file-type="obj"] figure {
+    background-image: url(../../../Img/dashboard/file-icons/glb.svg);
+}
+.file-icon-wrap[data-file-type="hgt"] figure,
+.file-icon-wrap[data-file-type="shx"] figure,
+.file-icon-wrap[data-file-type="shp"] figure {
+    background-image: url(../../../Img/dashboard/file-icons/shp.svg);
+}
+
+.file-icon-wrap[data-file-type="kml"] figure,
+.file-icon-wrap[data-file-type="kmz"] figure {
+    background-image: url(../../../Img/dashboard/file-icons/kml.svg);
+}
+.file-icon-wrap[data-file-type="cdr"] figure {
+    background-image: url(../../../Img/dashboard/file-icons/cdr.svg);
+}
+.file-icon-wrap[data-file-type="cdr"] figcaption {
+    background-color:#3c962d;
+}
+.file-icon-wrap[data-file-type="blend"] figure {
+    background-image: url(../../../Img/dashboard/file-icons/blend.svg);
+}
+.file-icon-wrap[data-file-type="blend"] figcaption {
+    background-color:#eb7700;
+}
+.file-icon-wrap[data-file-type="qgis"] figure,
+.file-icon-wrap[data-file-type="gpkg"] figure,
+.file-icon-wrap[data-file-type="qgz"] figure {
+    background-image: url(../../../Img/dashboard/file-icons/qgis.svg);
+}
+.file-icon-wrap[data-file-type="qgis"] figcaption,
+.file-icon-wrap[data-file-type="qgz"] figcaption,
+.file-icon-wrap[data-file-type="gpkg"] figcaption {
+    background-color:#7fa625;
+}
+.file-icon-wrap[data-file-type="pbix"] figure {
+    background-image: url(../../../Img/dashboard/file-icons/pbix.svg);
+}
+.file-icon-wrap[data-file-type="pbix"] figcaption {
+    background-color: #f1c913;
+    color: #333333;
+}
+
+/* Image File Formats */
+.file-icon-wrap[data-file-type="gif"] figure {
+    background-image: url(../../../Img/dashboard/file-icons/gif.svg);
+}
+.file-icon-wrap[data-file-type="webp"] figure,
+.file-icon-wrap[data-file-type="ps"] figure,
+.file-icon-wrap[data-file-type="jpg"] figure,
+.file-icon-wrap[data-file-type="jpeg"] figure {
+    background-image: url(../../../Img/dashboard/file-icons/jpg.svg);
+}
+.file-icon-wrap[data-file-type="jpg"] figcaption,
+.file-icon-wrap[data-file-type="gif"] figcaption,
+.file-icon-wrap[data-file-type="jpeg"] figcaption {
+    background-color: #d25c7f;
+}
+.file-icon-wrap[data-file-type="bmp"] figure {
+    background-image: url(../../../Img/dashboard/file-icons/bmp.svg);
+}
+.file-icon-wrap[data-file-type="png"] figure,
+.file-icon-wrap[data-file-type="tif"] figure,
+.file-icon-wrap[data-file-type="tiff"] figure {
+    background-image: url(../../../Img/dashboard/file-icons/png.svg);
+}
+.file-icon-wrap[data-file-type="abc"] figcaption,
+.file-icon-wrap[data-file-type="vrml"] figcaption,
+.file-icon-wrap[data-file-type="x3g"] figcaption,
+.file-icon-wrap[data-file-type="3mf"] figcaption,
+.file-icon-wrap[data-file-type="amf"] figcaption,
+.file-icon-wrap[data-file-type="py"] figcaption,
+.file-icon-wrap[data-file-type="bmp"] figcaption,
+.file-icon-wrap[data-file-type="png"] figcaption {
+    background-color: #506dba;
+}
+.file-icon-wrap[data-file-type="geotif"] figure,
+.file-icon-wrap[data-file-type="geotiff"] figure {
+    background-image: url(../../../Img/dashboard/file-icons/geotif.svg);
+}
+
+.file-icon-wrap[data-file-type="stp"] figcaption,
+.file-icon-wrap[data-file-type="ply"] figcaption,
+.file-icon-wrap[data-file-type="stl"] figcaption,
+.file-icon-wrap[data-file-type="aif"] figcaption,
+.file-icon-wrap[data-file-type="aiff"] figcaption,
+.file-icon-wrap[data-file-type="aifc"] figcaption,
+.file-icon-wrap[data-file-type="tif"] figcaption,
+.file-icon-wrap[data-file-type="mdb"] figcaption,
+.file-icon-wrap[data-file-type="mdf"] figcaption,
+.file-icon-wrap[data-file-type="sh"] figcaption,
+.file-icon-wrap[data-file-type="tiff"] figcaption {
+    background-color: #beb01b;
+}
+
+.file-icon-wrap[data-file-type="geotiff"] figcaption,
+.file-icon-wrap[data-file-type="geotif"] figcaption {
+    background-color: #5d8112;
+}
+.file-icon-wrap[data-file-type="wmf"] figure, 
+.file-icon-wrap[data-file-type="eps"] figure, 
+.file-icon-wrap[data-file-type="svg"] figure {
+    background-image: url(../../../Img/dashboard/file-icons/svg.svg);
+}
+.file-icon-wrap[data-file-type="cs"] figcaption,
+.file-icon-wrap[data-file-type="sql"] figcaption,
+.file-icon-wrap[data-file-type="c"] figcaption,
+.file-icon-wrap[data-file-type="ps"] figcaption,
+.file-icon-wrap[data-file-type="svg"] figcaption {
+    background-color:#80398b;
+}
+.file-icon-wrap[data-file-type="cpp"] figcaption,
+.file-icon-wrap[data-file-type="eps"] figcaption,
+.file-icon-wrap[data-file-type="webp"] figcaption {
+    background-color:#4ea4a4;
+}
+
+/* Compressed files */
+.file-icon-wrap[data-file-type="zip"] figure,
+.file-icon-wrap[data-file-type="rpm"] figure,
+.file-icon-wrap[data-file-type="tar"] figure,
+.file-icon-wrap[data-file-type="deb"] figure {
+    background-image: url(../../../Img/dashboard/file-icons/zip.svg);
+}
+.file-icon-wrap[data-file-type="wmf"] figcaption,
+.file-icon-wrap[data-file-type="js"] figcaption,
+.file-icon-wrap[data-file-type="java"] figcaption,
+.file-icon-wrap[data-file-type="zip"] figcaption,
+.file-icon-wrap[data-file-type="arj"] figcaption {
+    background-color:#d49520;
+}
+.file-icon-wrap[data-file-type="rar"] figure,
+.file-icon-wrap[data-file-type="arj"] figure,
+.file-icon-wrap[data-file-type="z"] figure,
+.file-icon-wrap[data-file-type="7z"] figure {
+    background-image: url(../../../Img/dashboard/file-icons/rar.svg);
+}
+.file-icon-wrap[data-file-type="dae"] figcaption,
+.file-icon-wrap[data-file-type="gltf"] figcaption,
+.file-icon-wrap[data-file-type="glb"] figcaption,
+.file-icon-wrap[data-file-type="fbx"] figcaption,
+.file-icon-wrap[data-file-type="obj"] figcaption,
+.file-icon-wrap[data-file-type="rar"] figcaption,
+.file-icon-wrap[data-file-type="mpa"] figcaption,
+.file-icon-wrap[data-file-type="mp2"] figcaption,
+.file-icon-wrap[data-file-type="tar"] figcaption {
+    background-color:#9b347e;
+}
+.file-icon-wrap[data-file-type="kml"] figcaption,
+.file-icon-wrap[data-file-type="kmz"] figcaption,
+.file-icon-wrap[data-file-type="ogg"] figcaption,
+.file-icon-wrap[data-file-type="ogv"] figcaption,
+.file-icon-wrap[data-file-type="oga"] figcaption,
+.file-icon-wrap[data-file-type="ogx"] figcaption,
+.file-icon-wrap[data-file-type="spx"] figcaption,
+.file-icon-wrap[data-file-type="z"] figcaption,
+.file-icon-wrap[data-file-type="7z"] figcaption {
+    background-color:#333333;
+}
+.file-icon-wrap[data-file-type="deb"] figcaption,
+.file-icon-wrap[data-file-type="rpm"] figcaption {
+    background-color:#b52d58;
+}
+
+/* Disc and Media Files */
+.file-icon-wrap[data-file-type="bin"] figure,
+.file-icon-wrap[data-file-type="cda"] figure,
+.file-icon-wrap[data-file-type="dmg"] figure,
+.file-icon-wrap[data-file-type="toast"] figure,
+.file-icon-wrap[data-file-type="vcd"] figure,
+.file-icon-wrap[data-file-type="iso"] figure {
+    background-image: url(../../../Img/dashboard/file-icons/iso.svg);
+}
+.file-icon-wrap[data-file-type="dmg"] figcaption,
+.file-icon-wrap[data-file-type="iso"] figcaption {
+    background-color: #4ea4a4;
+}
+.file-icon-wrap[data-file-type="abc"] figcaption,
+.file-icon-wrap[data-file-type="amf"] figcaption,
+.file-icon-wrap[data-file-type="toast"] figcaption,
+.file-icon-wrap[data-file-type="vcd"] figcaption {
+    background-color: #d87740;
+}
+.file-icon-wrap[data-file-type="bin"] figcaption {
+    background-color:#506dba;
+}
+
+/* system files */
+.file-icon-wrap[data-file-type="exe"] figure {
+    background-image: url(../../../Img/dashboard/file-icons/exe.svg);
+}
+.file-icon-wrap[data-file-type="ini"] figure,
+.file-icon-wrap[data-file-type="bat"] figure,
+.file-icon-wrap[data-file-type="cgi"] figure,
+.file-icon-wrap[data-file-type="pl"] figure,
+.file-icon-wrap[data-file-type="cfg"] figure {
+    background-image: url(../../../Img/dashboard/file-icons/cfg.svg);
+}
+.file-icon-wrap[data-file-type="g"] figcaption,
+.file-icon-wrap[data-file-type="gco"] figcaption,
+.file-icon-wrap[data-file-type="cfg"] figcaption,
+.file-icon-wrap[data-file-type="mid"] figcaption,
+.file-icon-wrap[data-file-type="midi"] figcaption,
+.file-icon-wrap[data-file-type="json"] figcaption,
+.file-icon-wrap[data-file-type="php"] figcaption {
+    background-color: #4ea4a4;
+}
+
+.file-icon-wrap[data-file-type="dll"] figure {
+    background-image: url(../../../Img/dashboard/file-icons/dll.svg);
+}
+.file-icon-wrap[data-file-type="dll"] figcaption,
+.file-icon-wrap[data-file-type="bat"] figcaption {
+    background-color: #2b478d;
+}
+.file-icon-wrap[data-file-type="ico"] figure,
+.file-icon-wrap[data-file-type="icns"] figure {
+    background-image: url(../../../Img/dashboard/file-icons/ico.svg);
+}
+.file-icon-wrap[data-file-type="usd"] figcaption,
+.file-icon-wrap[data-file-type="usdc"] figcaption,
+.file-icon-wrap[data-file-type="usda"] figcaption,
+.file-icon-wrap[data-file-type="mp3"] figcaption,
+.file-icon-wrap[data-file-type="wav"] figcaption,
+.file-icon-wrap[data-file-type="css"] figcaption,
+.file-icon-wrap[data-file-type="log"] figcaption,
+.file-icon-wrap[data-file-type="less"] figcaption,
+.file-icon-wrap[data-file-type="scss"] figcaption,
+.file-icon-wrap[data-file-type="ico"] figcaption,
+.file-icon-wrap[data-file-type="cgi"] figcaption,
+.file-icon-wrap[data-file-type="icns"] figcaption {
+    background-color: #d25c7f;
+}
+.file-icon-wrap[data-file-type="ini"] figcaption,
+.file-icon-wrap[data-file-type="pl"] figcaption {
+    background-color:#beb01b;
+}
+.file-icon-wrap[data-file-type="msi"] figure {
+    background-image: url(../../../Img/dashboard/file-icons/msi.svg);
+}
+.file-icon-wrap[data-file-type="msi"] figcaption,
+.file-icon-wrap[data-file-type="xml"] figcaption {
+    background-color: #50b3de;
+}
+.file-icon-wrap[data-file-type="apk"] figure {
+    background-image: url(../../../Img/dashboard/file-icons/apk.svg);
+}
+.file-icon-wrap[data-file-type="apk"] figcaption {
+    background-color: #79c257;
+}
+.file-icon-wrap[data-file-type="ios"] figure {
+    background-image: url(../../../Img/dashboard/file-icons/ios.svg);
+}
+.file-icon-wrap[data-file-type="ios"] figcaption {
+    background-color: #000000;
+}
+
+/* Internet related files */
+.file-icon-wrap[data-file-type="htm"] figure,
+.file-icon-wrap[data-file-type="html"] figure,
+.file-icon-wrap[data-file-type="xml"] figure,
+.file-icon-wrap[data-file-type="class"] figure,
+.file-icon-wrap[data-file-type="xhtml"] figure {
+    background-image: url(../../../Img/dashboard/file-icons/htm.svg);
+}
+.file-icon-wrap[data-file-type="htm"] figcaption,
+.file-icon-wrap[data-file-type="html"] figcaption,
+.file-icon-wrap[data-file-type="xhtml"] figcaption,
+.file-icon-wrap[data-file-type="class"] figcaption,
+.file-icon-wrap[data-file-type="shx"] figcaption,
+.file-icon-wrap[data-file-type="hgt"] figcaption,
+.file-icon-wrap[data-file-type="shp"] figcaption {
+    background-color: #50b3de;
+}
+.file-icon-wrap[data-file-type="scss"] figure,
+.file-icon-wrap[data-file-type="less"] figure,
+.file-icon-wrap[data-file-type="css"] figure {
+    background-image: url(../../../Img/dashboard/file-icons/css.svg);
+}
+.file-icon-wrap[data-file-type="c"] figure,
+.file-icon-wrap[data-file-type="h"] figure,
+.file-icon-wrap[data-file-type="json"] figure,
+.file-icon-wrap[data-file-type="java"] figure,
+.file-icon-wrap[data-file-type="cpp"] figure,
+.file-icon-wrap[data-file-type="js"] figure {
+    background-image: url(../../../Img/dashboard/file-icons/js.svg);
+}
+.file-icon-wrap[data-file-type="cs"] figure {
+    background-image: url(../../../Img/dashboard/file-icons/css.svg);
+}
+.file-icon-wrap[data-file-type="php"] figure {
+    background-image: url(../../../Img/dashboard/file-icons/php.svg);
+}
+.file-icon-wrap[data-file-type="py"] figure {
+    background-image: url(../../../Img/dashboard/file-icons/py.svg);
+}
+.file-icon-wrap[data-file-type="vb"] figure,
+.file-icon-wrap[data-file-type="vbx"] figure {
+    background-image: url(../../../Img/dashboard/file-icons/vb.svg);
+}
+.file-icon-wrap[data-file-type="sh"] figure {
+    background-image: url(../../../Img/dashboard/file-icons/sh.svg);
+}
+.file-icon-wrap[data-file-type="vb"] figcaption,
+.file-icon-wrap[data-file-type="vbx"] figcaption {
+    background-color: #2c90ef;
+}
+
+.file-icon-wrap[data-file-type="pdf"] figure {
+    background-image: url(../../../Img/dashboard/file-icons/pdf.svg);
+}
+.file-icon-wrap[data-file-type="pdf"] figcaption,
+.file-icon-wrap[data-file-type="exe"] figcaption,
+.file-icon-wrap[data-file-type="swf"] figcaption {
+    background-color: #b30c01;
+}
+.file-icon-wrap[data-file-type="prproj"] figure,
+.file-icon-wrap[data-file-type="prj"] figure {
+    background-image: url(../../../Img/dashboard/file-icons/ppj.svg);
+}
+.file-icon-wrap[data-file-type="fla"] figure,
+.file-icon-wrap[data-file-type="ansym"] figure,
+.file-icon-wrap[data-file-type="antmpl"] figure,
+.file-icon-wrap[data-file-type="flv"] figure,
+.file-icon-wrap[data-file-type="an"] figure,
+.file-icon-wrap[data-file-type="spa"] figure,
+.file-icon-wrap[data-file-type="xfl"] figure {
+    background-image: url(../../../Img/dashboard/file-icons/xfl.svg);
+}
+.file-icon-wrap[data-file-type="xfl"] figcaption,
+.file-icon-wrap[data-file-type="ansym"] figcaption,
+.file-icon-wrap[data-file-type="antmpl"] figcaption,
+.file-icon-wrap[data-file-type="fla"] figcaption,
+.file-icon-wrap[data-file-type="an"] figcaption,
+.file-icon-wrap[data-file-type="spa"] figcaption,
+.file-icon-wrap[data-file-type="flv"] figcaption,
+.file-icon-wrap[data-file-type="prproj"] figcaption,
+.file-icon-wrap[data-file-type="prj"] figcaption,
+.file-icon-wrap[data-file-type="arcut"] figcaption,
+.file-icon-wrap[data-file-type="aep"] figcaption,
+.file-icon-wrap[data-file-type="aepx"] figcaption,
+.file-icon-wrap[data-file-type="aet"] figcaption,
+.file-icon-wrap[data-file-type="aetx"] figcaption,
+.file-icon-wrap[data-file-type="ars"] figcaption,
+.file-icon-wrap[data-file-type="aom"] figcaption,
+.file-icon-wrap[data-file-type="aec"] figcaption,
+.file-icon-wrap[data-file-type="aaf"] figcaption,
+.file-icon-wrap[data-file-type="sesx"] figcaption {
+    background-color: #01015c;
+    color: #9999ff;
+}
+.file-icon-wrap[data-file-type="aep"] figure,
+.file-icon-wrap[data-file-type="aepx"] figure,
+.file-icon-wrap[data-file-type="aet"] figure,
+.file-icon-wrap[data-file-type="aetx"] figure,
+.file-icon-wrap[data-file-type="ars"] figure,
+.file-icon-wrap[data-file-type="aom"] figure,
+.file-icon-wrap[data-file-type="aec"] figure,
+.file-icon-wrap[data-file-type="aaf"] figure {
+    background-image: url(../../../Img/dashboard/file-icons/aep.svg);
+}
+.file-icon-wrap[data-file-type="sesx"] figure {
+    background-image: url(../../../Img/dashboard/file-icons/sesx.svg);
+}
+.file-icon-wrap[data-file-type="arcut"] figure {
+    background-image: url(../../../Img/dashboard/file-icons/pl.svg);
+}
+.file-icon-wrap[data-file-type="swf"] figure {
+    background-image: url(../../../Img/dashboard/file-icons/swf.svg);
+}
+/* FONTs */
+.file-icon-wrap[data-file-type="ttf"] figure,
+.file-icon-wrap[data-file-type="woff"] figure,
+.file-icon-wrap[data-file-type="woff2"] figure,
+.file-icon-wrap[data-file-type="otf"] figure,
+.file-icon-wrap[data-file-type="vlw"] figure,
+.file-icon-wrap[data-file-type="jfproj"] figure,
+.file-icon-wrap[data-file-type="fnt"] figure,
+.file-icon-wrap[data-file-type="vfb"] figure,
+.file-icon-wrap[data-file-type="pfa"] figure,
+.file-icon-wrap[data-file-type="fot"] figure,
+.file-icon-wrap[data-file-type="etx"] figure {
+    background-image: url(../../../Img/dashboard/file-icons/ttf.svg);
+}
+.file-icon-wrap[data-file-type="ttf"] figcaption,
+.file-icon-wrap[data-file-type="woff"] figcaption,
+.file-icon-wrap[data-file-type="woff2"] figcaption,
+.file-icon-wrap[data-file-type="otf"] figcaption,
+.file-icon-wrap[data-file-type="vlw"] figcaption,
+.file-icon-wrap[data-file-type="jfproj"] figcaption,
+.file-icon-wrap[data-file-type="fnt"] figcaption,
+.file-icon-wrap[data-file-type="vfb"] figcaption,
+.file-icon-wrap[data-file-type="pfa"] figcaption,
+.file-icon-wrap[data-file-type="fot"] figcaption,
+.file-icon-wrap[data-file-type="etx"] figcaption {
+    background-color: #50b3de;
+}
+.file-icon-wrap[data-file-type="ttf"] figcaption,
+.file-icon-wrap[data-file-type="otf"] figcaption {
+    background-color: #b52d58;
+}
+/* Audio file formats*/
+.file-icon-wrap[data-file-type="mp3"] figure,
+.file-icon-wrap[data-file-type="mp2"] figure,
+.file-icon-wrap[data-file-type="mpa"] figure,
+.file-icon-wrap[data-file-type="wma"] figure {
+    background-image: url(../../../Img/dashboard/file-icons/mp3.svg);
+}
+.file-icon-wrap[data-file-type="ogg"] figure,
+.file-icon-wrap[data-file-type="ogv"] figure,
+.file-icon-wrap[data-file-type="oga"] figure,
+.file-icon-wrap[data-file-type="ogx"] figure,
+.file-icon-wrap[data-file-type="spx"] figure,
+.file-icon-wrap[data-file-type="wav"] figure,
+.file-icon-wrap[data-file-type="aiff"] figure,
+.file-icon-wrap[data-file-type="aifc"] figure,
+.file-icon-wrap[data-file-type="aif"] figure {
+    background-image: url(../../../Img/dashboard/file-icons/wav.svg);
+}
+.file-icon-wrap[data-file-type="mid"] figure,
+.file-icon-wrap[data-file-type="midi"] figure {
+    background-image: url(../../../Img/dashboard/file-icons/mid.svg);
+}
+/* Database */
+.file-icon-wrap[data-file-type="db"] figure,
+.file-icon-wrap[data-file-type="ora"] figure,
+.file-icon-wrap[data-file-type="odb"] figure,
+.file-icon-wrap[data-file-type="mdb"] figure,
+.file-icon-wrap[data-file-type="mdf"] figure,
+.file-icon-wrap[data-file-type="dat"] figure,
+.file-icon-wrap[data-file-type="sql"] figure,
+.file-icon-wrap[data-file-type="dbf"] figure {
+    background-image: url(../../../Img/dashboard/file-icons/db.svg);
+}
+.file-icon-wrap[data-file-type="db"] figcaption, 
+.file-icon-wrap[data-file-type="wma"] figcaption, 
+.file-icon-wrap[data-file-type="dbf"] figcaption {
+    background-color: #0e85cd;
+}
+.file-icon-wrap[data-file-type="csv"] figure {
+    background-image: url(../../../Img/dashboard/file-icons/csv.svg);
+}
+.file-icon-wrap[data-file-type="log"] figure {
+    background-image: url(../../../Img/dashboard/file-icons/log.svg);
+}
+.file-icon-wrap[data-file-type="odb"] figcaption, 
+.file-icon-wrap[data-file-type="ora"] figcaption {
+    background-color:#da2f36;
+}
+/* presentation */
+.file-icon-wrap[data-file-type="odp"] figure,
+.file-icon-wrap[data-file-type="otg"] figure {
+    background-image: url(../../../Img/dashboard/file-icons/odp.svg);
+}
+.file-icon-wrap[data-file-type="odt"] figure {
+    background-image: url(../../../Img/dashboard/file-icons/odt.svg);
+}
+.file-icon-wrap[data-file-type="odp"] figcaption,
+.file-icon-wrap[data-file-type="odt"] figcaption,
+.file-icon-wrap[data-file-type="ods"] figcaption,
+.file-icon-wrap[data-file-type="otg"] figcaption {
+    background-color: #0e85cd;
+}
+.file-icon-wrap[data-file-type="key"] figure {
+    background-image: url(../../../Img/dashboard/file-icons/key.svg);
+}
+.file-icon-wrap[data-file-type="key"] figcaption {
+    background-color: #3f72ff;
+}
+.file-icon-wrap[data-file-type="txt"] figure,
+.file-icon-wrap[data-file-type="rtf"] figure,
+.file-icon-wrap[data-file-type="wpd"] figure,
+.file-icon-wrap[data-file-type="tex"] figure {
+    background-image: url(../../../Img/dashboard/file-icons/txt.svg);
+}
+.file-icon-wrap[data-file-type="tex"] figcaption,
+.file-icon-wrap[data-file-type="txt"] figcaption {
+    background-color: #50b3de;
+}
+.file-icon-wrap[data-file-type="rtf"] figcaption {
+    background-color: #97ab18;
+}
+.file-icon-wrap[data-file-type="wpd"] figcaption {
+    background-color:#d87740;
+}
+/* ms office */
+.file-icon-wrap[data-file-type="doc"] figure,
+.file-icon-wrap[data-file-type="docx"] figure {
+    background-image: url(../../../Img/dashboard/file-icons/doc.svg);
+}
+.file-icon-wrap[data-file-type="doc"] figcaption,
+.file-icon-wrap[data-file-type="docx"] figcaption {
+    background-color: #2a5696;
+}
+
+.file-icon-wrap[data-file-type="xls"] figure,
+.file-icon-wrap[data-file-type="xlsm"] figure,
+.file-icon-wrap[data-file-type="xlsx"] figure {
+    background-image: url(../../../Img/dashboard/file-icons/xls.svg);
+}
+.file-icon-wrap[data-file-type="csv"] figcaption,
+.file-icon-wrap[data-file-type="xls"] figcaption,
+.file-icon-wrap[data-file-type="xlsm"] figcaption,
+.file-icon-wrap[data-file-type="xlsx"] figcaption {
+    background-color: #1d7044;
+}
+.file-icon-wrap[data-file-type="accdb"] figure {
+    background-image: url(../../../Img/dashboard/file-icons/accdb.svg);
+}
+.file-icon-wrap[data-file-type="accdb"] figcaption {
+    background-color: #a03537;
+}
+.file-icon-wrap[data-file-type="ppt"] figure,
+.file-icon-wrap[data-file-type="pps"] figure,
+.file-icon-wrap[data-file-type="pptm"] figure,
+.file-icon-wrap[data-file-type="pptx"] figure {
+    background-image: url(../../../Img/dashboard/file-icons/ppt.svg);
+}
+.file-icon-wrap[data-file-type="pptx"] figcaption,
+.file-icon-wrap[data-file-type="pps"] figcaption,
+.file-icon-wrap[data-file-type="ppt"] figcaption,
+.file-icon-wrap[data-file-type="pptm"] figcaption {
+    background-color: #d04424;
+}
+.file-icon-wrap[data-file-type="xsd"] figure,
+.file-icon-wrap[data-file-type="xsn"] figure {
+    background-image: url(../../../Img/dashboard/file-icons/xsn.svg);
+}
+.file-icon-wrap[data-file-type="xsd"] figcaption,
+.file-icon-wrap[data-file-type="xsn"] figcaption {
+    background-color: #683784;
+}
+.file-icon-wrap[data-file-type="one"] figure,
+.file-icon-wrap[data-file-type="onetoc2"] figure {
+    background-image: url(../../../Img/dashboard/file-icons/one.svg);
+}
+.file-icon-wrap[data-file-type="one"] figcaption,
+.file-icon-wrap[data-file-type="onetoc2"] figcaption {
+    background-color: #7d3777;
+}
+.file-icon-wrap[data-file-type="vsdx"] figure,
+.file-icon-wrap[data-file-type="vsd"] figure {
+    background-image: url(../../../Img/dashboard/file-icons/vsdx.svg);
+}
+.file-icon-wrap[data-file-type="vsd"] figcaption,
+.file-icon-wrap[data-file-type="vsdx"] figcaption {
+    background-color: #37539d;
+}
+.file-icon-wrap[data-file-type="cab"] figure  {
+    background-image: url(../../../Img/dashboard/file-icons/cab.svg);
+}
+.file-icon-wrap[data-file-type="cab"] figcaption,
+.file-icon-wrap[data-file-type="py"] figcaption {
+    background-color: #506dba;
+}
+
+.file-icon-wrap[data-file-type="ods"] figure  {
+    background-image: url(../../../Img/dashboard/file-icons/ods.svg);
+}
+/* adobe */
+.file-icon-wrap[data-file-type="psd"] figure,
+.file-icon-wrap[data-file-type="psb"] figure {
+    background-image: url(../../../Img/dashboard/file-icons/psd.svg);
+}
+.file-icon-wrap[data-file-type="psd"] figcaption,
+.file-icon-wrap[data-file-type="psb"] figcaption {
+    background-color: #011e37;
+    color: #00adff;
+}
+.file-icon-wrap[data-file-type="ai"] figure {
+    background-image: url(../../../Img/dashboard/file-icons/ai.svg);
+}
+.file-icon-wrap[data-file-type="ai"] figcaption {
+    background-color: #390000;
+    color: #ff9000;
+}
+.file-icon-wrap[data-file-type="indd"] figure,
+.file-icon-wrap[data-file-type="idml"] figure,
+.file-icon-wrap[data-file-type="indt"] figure,
+.file-icon-wrap[data-file-type="icml"] figure,
+.file-icon-wrap[data-file-type="icap"] figure {
+    background-image: url(../../../Img/dashboard/file-icons/indd.svg);
+}
+.file-icon-wrap[data-file-type="indd"] figcaption,
+.file-icon-wrap[data-file-type="idml"] figcaption,
+.file-icon-wrap[data-file-type="indt"] figcaption,
+.file-icon-wrap[data-file-type="icml"] figcaption,
+.file-icon-wrap[data-file-type="icap"] figcaption {
+    background-color: #50001f;
+    color: #ff0063;
+}
+.file-icon-wrap[data-file-type="chproj"] figure {
+    background-image: url(../../../Img/dashboard/file-icons/chproj.svg);
+}
+.file-icon-wrap[data-file-type="chproj"] figcaption {
+    background-color: #380044;
+    color: #fa85ff;
+}
+.file-icon-wrap[data-file-type="mcat"] figure,
+.file-icon-wrap[data-file-type="aglib"] figure,
+.file-icon-wrap[data-file-type="dng"] figure,
+.file-icon-wrap[data-file-type="dcp"] figure {
+    background-image: url(../../../Img/dashboard/file-icons/mcat.svg);
+}
+.file-icon-wrap[data-file-type="mcat"] figcaption,
+.file-icon-wrap[data-file-type="aglib"] figcaption,
+.file-icon-wrap[data-file-type="dng"] figcaption,
+.file-icon-wrap[data-file-type="dcp"] figcaption {
+    background-color: #011e37;
+    color: #00adff;
+}
+.file-icon-wrap[data-file-type="xd"] figure {
+    background-image: url(../../../Img/dashboard/file-icons/xd.svg);
+}
+.file-icon-wrap[data-file-type="xd"] figcaption {
+    background-color: #4e0039;
+    color: #ff48fd;
+}
+/* video types */
+.file-icon-wrap[data-file-type="fcpevent"] figure,
+.file-icon-wrap[data-file-type="fcarch"] figure,
+.file-icon-wrap[data-file-type="fcp"] figure,
+.file-icon-wrap[data-file-type="fcpproject"] figure,
+.file-icon-wrap[data-file-type="fcproject"] figure,
+.file-icon-wrap[data-file-type="fcpxml"] figure,
+.file-icon-wrap[data-file-type="cboard"] figure {
+    background-image: url(../../../Img/dashboard/file-icons/fcpevent.svg);
+}
+.file-icon-wrap[data-file-type="fcpevent"] figcaption,
+.file-icon-wrap[data-file-type="fcarch"] figcaption,
+.file-icon-wrap[data-file-type="fcp"] figcaption,
+.file-icon-wrap[data-file-type="fcpproject"] figcaption,
+.file-icon-wrap[data-file-type="fcproject"] figcaption,
+.file-icon-wrap[data-file-type="fcpxml"] figcaption,
+.file-icon-wrap[data-file-type="cboard"] figcaption {
+    background-color: #9681c9;
+}
+.file-icon-wrap[data-file-type="cine"] figure,
+.file-icon-wrap[data-file-type="mov"] figure,
+.file-icon-wrap[data-file-type="r3d"] figure {
+    background-image: url(../../../Img/dashboard/file-icons/r3d.svg);
+}
+.file-icon-wrap[data-file-type="cine"] figcaption,
+.file-icon-wrap[data-file-type="r3d"] figcaption {
+    background-color: #002222;
+    color: #00cfd2;
+}
+.file-icon-wrap[data-file-type="avi"] figure,
+.file-icon-wrap[data-file-type="wmv"] figure,
+.file-icon-wrap[data-file-type="webm"] figure,
+.file-icon-wrap[data-file-type="mpeg"] figure,
+.file-icon-wrap[data-file-type="mpg"] figure,
+.file-icon-wrap[data-file-type="mp4"] figure {
+    background-image: url(../../../Img/dashboard/file-icons/avi.svg);
+}
+.file-icon-wrap[data-file-type="avi"] figcaption,
+.file-icon-wrap[data-file-type="mkv"] figcaption,
+.file-icon-wrap[data-file-type="wmv"] figcaption,
+.file-icon-wrap[data-file-type="webm"] figcaption,
+.file-icon-wrap[data-file-type="mpg"] figcaption,
+.file-icon-wrap[data-file-type="mp4"] figcaption {
+    background-color: #9b347e;
+}
+.file-icon-wrap[data-file-type="h264"] figure {
+    background-image: url(../../../Img/dashboard/file-icons/h264.svg);
+}
+.file-icon-wrap[data-file-type="h264"] figcaption {
+    background-color:#d49520;
+}
+.file-icon-wrap[data-file-type="m4v"] figure,
+.file-icon-wrap[data-file-type="3gp"] figure,
+.file-icon-wrap[data-file-type="3g2"] figure {
+    background-image: url(../../../Img/dashboard/file-icons/3gp.svg);
+}
+.file-icon-wrap[data-file-type="3gp"] figcaption,
+.file-icon-wrap[data-file-type="dat"] figcaption,
+.file-icon-wrap[data-file-type="cda"] figcaption,
+.file-icon-wrap[data-file-type="mpeg"] figcaption,
+.file-icon-wrap[data-file-type="3g2"] figcaption {
+    background-color:#2b478d;
+}
+.file-icon-wrap[data-file-type="m4v"] figcaption,
+.file-icon-wrap[data-file-type="mov"] figcaption {
+    background-color:#127e81;
+}
+.file-icon-wrap[data-file-type="mkv"] figure,
+.file-icon-wrap[data-file-type="vob"] figure {
+    background-image: url(../../../Img/dashboard/file-icons/disk.svg);
+}
+.file-icon-wrap[data-file-type="vob"] figcaption,
+.file-icon-wrap[data-file-type="mkv"] figcaption {
+    background-color: #97ab18;
+}

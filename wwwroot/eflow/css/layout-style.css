@@ -1,0 +1,68 @@
+﻿textarea:focus, input:focus {
+    outline: none;
+}
+
+.sticky.is-sticky {
+}
+
+.unRead {
+    background-color: #f9f9fc
+}
+
+.kt-notification .kt-notification__item::after {
+    content: none !important;
+}
+
+.btn.btn-default:hover {
+    border-color: transparent !important;
+}
+
+.crossBrowserWordWrap {
+    white-space: pre-wrap;
+    white-space: -moz-pre-wrap;
+    white-space: -pre-wrap;
+    white-space: -o-pre-wrap;
+    word-wrap: break-word;
+}
+
+.form-group.row > label.col-form-label > span {
+    font-weight: 500 !important;
+    color: #646c9a;
+}
+
+div.dataTables_wrapper div.dataTables_processing {
+    left: 45% !important;
+    top: 48% !important;
+    width: 200px !important;
+    position: fixed !important;
+    margin-top: -26px !important;
+    text-align: center !important;
+    padding: 1em 0 !important;
+    margin-left: 0px !important;
+}
+
+.btn-loading {
+    pointer-events: none;
+    opacity: 0.6;
+    position: relative;
+}
+
+    .btn-loading::after {
+        content: '';
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 16px;
+        height: 16px;
+        border: 2px solid #fff;
+        border-top: 2px solid #333;
+        border-radius: 50%;
+        animation: spinbtn 0.6s linear infinite;
+    }
+
+@keyframes spinbtn {
+    to {
+        transform: rotate(360deg);
+    }
+}

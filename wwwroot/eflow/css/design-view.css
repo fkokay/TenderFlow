@@ -1,0 +1,13 @@
+﻿.textinput {
+    width: 100% !important;
+    height: 40px;
+    visibility: hidden;
+}
+
+.custom-design th, .custom-design td {
+    border-top: unset;
+}
+
+.custom-design .table tr:hover {
+    background-color: unset !important;
+}

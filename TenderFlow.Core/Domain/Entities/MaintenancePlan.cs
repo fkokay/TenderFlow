@@ -11,8 +11,8 @@ namespace TenderFlow.Core.Domain.Entities
     public class MaintenancePlan : BaseEntity
     {
         public int AssetId { get; set; }
-        public string PlanName { get; set; }
-        public string MaintenanceType { get; set; }
+        public string PlanName { get; set; } = string.Empty;
+        public string MaintenanceType { get; set; } = string.Empty;
         public int IntervalDays { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime NextDueDate { get; set; }

@@ -1,0 +1,170 @@
+﻿
+.control-group {
+    margin-top: -14px;
+    margin-bottom: -14px;
+}
+
+.form-inline .form-control, .f-control.datetimepicker1.form-control-solid {
+    width: 90%;
+}
+
+div.frm-contrl-select2 {
+    width: 90%;
+}
+
+
+.data {
+    margin-top: 9.6px;
+    margin-bottom: 9.6px;
+}
+
+.form-group {
+    margin: 0px;
+    min-height: 57px;
+}
+
+.kt-checkbox-inline {
+    margin: 0px;
+}
+
+kt-radio-inline {
+    margin: 0px;
+}
+
+.form-inline .kt-radio {
+    margin-left: 0px;
+    margin-top: 8px;
+}
+
+.form-control-solid, input.form-control:not(.kt-quick-search__input), .controls .currentClickedRow span.select2-selection.select2-selection--single, select.form-select-element, .frm-assgmn-control .form-control, .controls span.select2-selection.select2-selection--multiple, .select2-container--default .select2-selection--single {
+    background-color: #f2f3f7 !important;
+    border: 1px solid #a9a9a9a3 !important;
+    color: #3F4254;
+    transition: color 0.2s ease;
+}
+
+    .form-control-solid:focus, .controls .currentClickedRow span.select2-selection.select2-selection--single:focus, .controls .currentClickedRow span.select2-selection.select2-selection--multiple:focus {
+        background-color: #b5b5c34f;
+        border-color: #4c81d1 !important;
+    }
+
+    .form-control-solid.error, .form-control.error {
+        background-color: #b5b5c34f;
+        border-color: #dc3545 !important;
+    }
+
+.form-inline .kt-checkbox {
+    margin-left: 0px;
+    margin-top: 8px;
+}
+
+.form-group.row .kt-radio-inline {
+    margin-top: 0px;
+}
+
+.form-group.row .kt-checkbox-inline {
+    margin-top: 0px;
+}
+
+.submitRowData {
+    float: right;
+}
+
+.select2-me {
+    min-width: 150px;
+}
+
+.dataInput-grid .select2-selection--single {
+    border: 1px solid #C8C8C8 !important;
+}
+
+@media only screen and (max-width: 1400px) {
+    .form-inline .form-control, .f-control.datetimepicker1.form-control-solid {
+        width: 85%;
+    }
+
+    div.frm-contrl-select2 {
+        width: 85%;
+    }
+
+    .data {
+        width: 85%;
+    }
+
+    .litbottomcontainerrow {
+        margin-left: 0px !important;
+    }
+
+    .dataInput {
+        width: 100%;
+        padding-right: 20px;
+    }
+
+    .dataInput-grid {
+        width: 100%;
+        padding-right: 0px;
+        max-width: 1150px !important;
+        margin-left: 0.8%;
+    }
+}
+
+@media only screen and (min-width: 1400px) {
+    .data {
+        width: 87%;
+        margin-right: 2px;
+    }
+
+    .dataInput {
+        width: 96%;
+        padding-right: 5px;
+    }
+
+    .litbottomcontainerrow {
+        margin-left: 0px !important;
+    }
+
+    .dataInput-grid {
+        width: 100%;
+        padding-right: 0px;
+        max-width: 1150px !important;
+        margin-left: 0.8%;
+    }
+}
+
+@media only screen and (min-width: 1920px) {
+    .data {
+        width: 90%;
+        margin-right: 5px;
+    }
+
+    .dataInput {
+        width: 100%;
+        padding-right: 4px;
+    }
+
+    .litbottomcontainerrow {
+        margin-left: -10px !important;
+    }
+
+    .dataInput-grid {
+        width: 100%;
+        padding-right: 0px;
+        max-width: 1150px !important;
+        margin-left: 0.8%;
+    }
+}
+
+@media only screen and (max-width: 500px) {
+
+    .data {
+        width: 70%;
+    }
+
+    .select2-me {
+        max-width: 150px;
+    }
+}
+
+.url-elementdiv a {
+    pointer-events: visible !important;
+}

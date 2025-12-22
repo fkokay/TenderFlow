@@ -1,0 +1,103 @@
+﻿@media only screen and (min-width: 600px) {
+
+    #kt_process_detail_form .select2-container { min-width: 317px; }
+
+    .label-search {
+        margin: 0px !important;
+    }
+
+    .label-search .select2-container {
+        min-width: 360px !important;
+        max-width: 360px !important;
+    }
+
+    .inputFixSize { }
+
+    /*table*/
+    div#tableFilteHeader[view-type="0"] #p-search-process-criteria-panel {
+        top: 78% !important;
+        left: 3px;
+    }
+
+    /*kanban*/
+    div#tableFilteHeader[view-type="1"] #p-search-process-criteria-panel {
+        top: 78% !important;
+    }
+}
+
+@media only screen and (max-width: 1050px) {
+    #kt_process_detail_form, .defaultFilter { display: none; }
+}
+
+#p-search-area-panel { margin-left: 10px; }
+
+#kt_process_detail_form #p-search-area-panel { top: 78% !important; }
+
+#kt_process_detail_form .btn-brand:hover { color: #fff; background-color: #22b9ff; border-color: #22b9ff; }
+
+#kt_process_detail_form .btn-outline-brand { color: #5867dd; border-color: #5867dd; }
+
+    #kt_process_detail_form .btn-outline-brand:hover { background: #4c81d1 !important; color: white !important; }
+
+#kt_process_detail_form #p-processSelect-area-panel,
+#kt_process_detail_form #p-search-process-criteria-panel,
+#kt_process_detail_form #p-search-process-criteria-grid-panel { height: 344px !important; }
+
+#kt_process_detail_form #processCriteriaSearchArea { border: 5px; margin-bottom: 10px; }
+
+#kt_process_detail_form .paramButtons:hover { background: #4c81d1 !important; color: white !important; font-size: 13px !important; border-color: #5867dd !important; }
+
+#kt_process_detail_form .paramButtons { color: #74788d !important; font-weight: 480; font-size: 13px !important; }
+
+#p-processSelect-area-panel > ul > li > div > div > div:nth-child(3) > span > span.selection,
+#p-search-process-criteria-panel > ul > li > div > div > div:nth-child(3) > span > span.selection,
+#p-search-process-criteria-grid-panel > ul > li > div > div > div:nth-child(3) > span > span.selection { display: none !important; }
+
+.defaultFilter .select2-dropdown { border: none; width: 360px !important; height: 259px; }
+
+.defaultFilter .select2-results__option.select2-results__option--highlighted { background: #4c81d1; color: white; }
+
+.defaultFilter { background: transparent; margin-left: 10px !important; margin-top: 16px !important; }
+
+    .defaultFilter .select2-selection { border: none; height: 40px; background: #22b9ff; }
+
+    .defaultFilter .select2-results ul li { color: #6c7293; }
+
+    .defaultFilter .select2-dropdown { background: #f8f8f8; width: 390px !important; }
+
+    .defaultFilter .select2-dropdown { z-index: 96; }
+
+    .defaultFilter .select2-container--open { top: 203px !important; left: 142px !important; }
+
+    .defaultFilter .select2-choices { min-height: 150px; max-height: 200px; overflow-y: auto; }
+
+
+#ProcessSelectAreaPanelTitle, #ProcessSearchCriteriaTitle, #SearchAreaPanelTitle { margin-left: 25px !important; }
+
+#kt_process_detail_form #processCriteriaSearchArea { margin-top: 5px !important; margin-left: 20px !important; margin-right: 16px !important; padding-bottom: 4px !important; }
+
+.filter-close { margin-right: 18px !important; }
+
+#kt_process_detail_form .kt-portlet .kt-portlet__foot { padding: 5px !important; }
+
+#btnAddFilter { padding-top: 9px !important; padding-bottom: 9px !important; }
+
+#SelectAllProcessLink { margin-left: 50px !important; height: 35px !important; }
+
+.btn-filter-secondary { background-color: #4c81d1; border: WHITE; color: white; }
+
+
+.btn.btn-filter { color: white; background: white; border-color: white; border: 1px solid #e8ecfa; }
+
+    .btn.btn-filter:hover { color: white; background: white; border-color: white; border: 1px solid #e8ecfa; }
+
+#p-search-area-panel .kt-portlet {
+    margin-bottom: -5px !important;
+}
+
+.inputFixSize, .label-select-filter .select2-selection--multiple {
+    background-color: #f2f3f7 !important;
+    color: #3F4254;
+    transition: color 0.2s ease;
+    border: 1px solid #f2f3f7;
+}

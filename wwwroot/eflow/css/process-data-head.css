@@ -1,0 +1,131 @@
+﻿
+/*@media only screen and (min-width: 1490px) {
+.process-data-ktsection
+{
+    width: 1200px;
+}
+
+.netoloji-grid-view {
+    flex: 0.5 0 70% !important;
+    margin-left: -20px !important;
+}
+}
+
+@media only screen and (min-width: 1920px) {
+    .process-data-ktsection {
+        width: 1600px !important;
+    }
+
+    .netoloji-grid-view {
+        flex: 0.5 0 70% !important;
+        margin-left: -20px !important;
+    }
+}
+
+@media only screen and (max-width:1490px) {
+    .netoloji-grid-view {
+        flex: 0.5 0 70% !important;
+        margin-left: -20px !important;
+    }
+}*/
+
+/*@media (max-width: 1280px) {
+    .netoloji-grid-view .editRow {
+        margin-left: 88.78% !important;
+    }
+}
+
+@media (min-width: 1600px) {
+    .netoloji-grid-view .editRow {
+        margin-left: 94.61% !important;
+    }
+}
+
+@media (max-width: 1600px) {
+    .netoloji-grid-view .editRow {
+        margin-left: 89.50% !important;
+    }
+}*/
+
+
+/*@media (max-width: 1600px) {
+    [id^="dragdrop"] {
+        width: 880px;
+    }
+
+    .frm-search-detail {
+        margin-left: -69px !important;
+    }
+
+    .grp-search-detail {
+        width: 1320px !important;
+    }
+
+    .none-grp-search-detail {
+        width: 1230px !important;
+    }
+
+    .none-frm-search-detail {
+        margin-left: -160px !important;
+    }
+}*/
+
+/*@media (max-width: 1280px) {
+    [id^="dragdrop"] {
+        width: 680px;
+    }
+
+    .frm-search-detail {
+        margin-left: -69px !important;
+    }
+
+    .grp-search-detail, .none-grp-search-detail {
+        width: 1600px !important;
+    }
+
+    .none-frm-search-detail {
+        margin-left: -196px !important;
+    }
+
+    .submitRowData {
+        margin-right: 0px !important;
+    }
+}*/
+
+/*@media (min-width: 1601px) {
+    [id^="dragdrop"] {
+        width: 1050px;
+    }
+
+    .frm-search-detail {
+        margin-left: -69px !important;
+    }
+
+    .grp-search-detail, .none-grp-search-detail {
+        width: 1530px !important;
+    }
+
+    .none-frm-search-detail {
+        margin-left: -196px !important;
+    }
+
+    .submitRowData {
+        margin-right: 40px !important;
+    }
+
+    [id^="row-count"] {
+        margin-right: 50px !important;
+    }
+}*/
+
+.headbar-row {
+    display: none;
+}
+
+.netoloji-grid-label {
+    padding-right: 30px;
+}
+
+.netoloji-grid-view {
+    margin-left: -30px;
+}

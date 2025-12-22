@@ -2,7 +2,7 @@
 
 namespace TenderFlow.Models
 {
-    public class ShipmentOrderListRequest
+    public class OrderListRequest
     {
         public required GridCommand Grid { get; set; }
         public required ShipmentFilter Filters { get; set; }

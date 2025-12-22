@@ -1,0 +1,41 @@
+﻿/*ul#breadcrumb {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    list-style: none;
+    border-radius: 0.42rem;
+}
+
+#TurnBack + #breadcrumb-item {
+    margin-left: 5px;
+}
+
+#breadcrumb-item + #breadcrumb-item {
+    margin-left: 2px;
+    padding-left: 0.5rem;
+}
+
+    #breadcrumb-item + #breadcrumb-item::before {
+        display: inline-block;
+        padding-right: 0.5rem;
+        color: #7E8299;
+        content: ".";
+    }
+
+    #breadcrumb-item + #breadcrumb-item:hover::before {
+        text-decoration: underline;
+    }
+
+    #breadcrumb-item + #breadcrumb-item:hover::before {
+        text-decoration: none;
+    }
+
+#breadcrumb-item.active {
+    color: #7E8299;
+}
+
+#breadcrumb-item:last-child {
+    pointer-events: none;
+}*/

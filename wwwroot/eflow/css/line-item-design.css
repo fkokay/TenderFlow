@@ -1,0 +1,236 @@
+﻿.swal2-popup .swal2-styled.swal2-confirm {
+    /*visibility: hidden !important;*/
+}
+
+.k-grid {
+    border: 1px solid #f0f3ff;
+}
+
+    .k-grid > .k-grid-header th.k-header {
+        background-color: white;
+    }
+
+.k-grid-content table tr td {
+    background-color: white;
+}
+
+.k-grid > .k-header.k-grid-toolbar {
+    background-color: transparent !important;
+}
+
+.k-grid {
+    font-family: Poppins;
+    -webkit-font-smoothing: antialiased;
+}
+
+    .k-grid > .k-header.k-grid-toolbar {
+        border-color: transparent;
+    }
+
+
+    .k-grid > .k-grid-header .k-header {
+        color: #646c9a;
+        background-color: transparent;
+        font-size: 1rem;
+        font-weight: 400;
+    }
+
+    .k-grid > .k-grid-header th.k-header {
+        border-style: none;
+    }
+
+    .k-grid .k-pager-wrap {
+        background-color: transparent;
+    }
+
+    .k-grid > k-header {
+        border-color: transparent;
+    }
+
+    .k-grid > .k-pager-wrap {
+        border: 1px solid #f0f3ff;
+    }
+
+.k-grid-edit-row .k-textbox {
+    border-color: #5fccff;
+}
+
+.k-numeric-wrap.k-state-default {
+    border-color: #5fccff !important;
+}
+
+.k-picker-wrap.k-state-default {
+    border-color: #5fccff;
+}
+
+.la-trash {
+    color: #93a2dd !important;
+}
+
+.k-grid > div.k-grid-header {
+    border-color: #f0f3ff;
+}
+
+
+.k-edit-cell > .input-group {
+    width: 99% !important;
+}
+
+    .k-edit-cell > .input-group > .form-control {
+        margin-left: 1%;
+    }
+
+.k-dropdown-wrap.k-state-focused {
+    background-color: white;
+}
+
+.k-grid-content tr:last-child td {
+    border-bottom-width: 1px !important;
+    border-color: #f0f3ff !important;
+}
+
+.k-grid-content tr td {
+    border-bottom-width: 1px;
+    border-right-width: 1px;
+    border-color: #f0f3ff;
+}
+
+.k-picker-wrap.k-state-default.k-state-focused > .k-select {
+    background-color: white !important;
+}
+
+.k-grid-header th.k-header {
+    padding-left: 15px !important;
+}
+
+.k-grid-header-wrap.k-auto-scrollable {
+    border: none !important;
+}
+
+.k-pager-info.k-label {
+    font-family: Poppins;
+    font-size: 12px;
+}
+
+.k-grid .k-pager-numbers {
+    font-family: Poppins;
+    font-size: 12px;
+}
+
+div.k-header.k-grid-toolbar {
+    font-family: Poppins;
+    font-size: 12px;
+}
+
+.k-grid-my-create {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    border-radius: 0.2rem;
+    background-color: #5867dd !important;
+}
+
+input.k-textbox {
+    text-indent: .1em !important;
+}
+
+.k-numeric-wrap .k-input {
+    text-indent: 0.4em !important;
+}
+
+.k-textbox:focus {
+    -webkit-box-shadow: none !important;
+    -moz-box-shadow: none !important;
+    box-shadow: none !important;
+}
+
+.k-numeric-wrap {
+    -webkit-box-shadow: none !important;
+    -moz-box-shadow: none !important;
+    box-shadow: none !important;
+}
+
+.k-picker-wrap {
+    -webkit-box-shadow: none !important;
+    -moz-box-shadow: none !important;
+    box-shadow: none !important;
+}
+
+.k-dropdown-wrap {
+    -webkit-box-shadow: none !important;
+    -moz-box-shadow: none !important;
+    box-shadow: none !important;
+}
+
+    .k-dropdown-wrap.k-state-focused {
+        border: 1px solid #5fccff !important;
+    }
+
+.k-grid tbody .k-button, .k-ie8 .k-grid tbody button.k-button {
+    min-width: 40px;
+    height: 33px;
+}
+
+.k-grid .k-header .k-button {
+    background-color: #5867dd;
+    border-color: #5867dd;
+}
+
+.k-grid td {
+    padding: 10px;
+}
+
+.k-grid .k-dropzone {
+    padding: 0px !important;
+}
+
+.k-current-page {
+    display: none;
+}
+
+span.k-pager-info.k-label {
+    float: left !important;
+}
+
+.k-grid .k-link {
+    float: right;
+    margin-top: 5px;
+}
+
+.k-grid .k-pager-numbers {
+    float: right;
+}
+
+.k-pager-wrap {
+    padding-right: 20px !important;
+}
+
+.k-pager-numbers .k-state-selected {
+    border: none !important;
+    background: #4c81d1;
+    color: #ffffff;
+    margin-top: 12px;
+    padding: 1px !important;
+    border-radius: 3px;
+    font-weight: 400;
+}
+
+.k-grid-pager .k-link, .k-grid-pager .k-link:link {
+    color: #93a2dd;
+    font-weight: 400;
+}
+
+.k-grid > .k-edit-cell > .k-textbox, .k-edit-cell > .k-widget, .k-grid-edit-row > td > .k-textbox, .k-grid-edit-row > td > .k-widget, .k-grid-edit-row > td > .text-box {
+    width: 97% !important;
+    margin-left: 1.6% !important;
+}
+
+.grid-invalid
+{
+    height:0px !important;
+}
+
+.TaskAction
+{
+   border:none;
+}

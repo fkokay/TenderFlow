@@ -2,6 +2,6 @@
 {
     public class DeleteShipmentRequest
     {
-        public string DocumentNumber { get; set; }
+        public string DocumentNumber { get; set; } = string.Empty;
     }
 }

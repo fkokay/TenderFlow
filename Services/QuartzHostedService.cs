@@ -8,7 +8,7 @@ namespace TenderFlow.Services
     {
         private readonly ISchedulerFactory _schedulerFactory;
         private readonly IJobFactory _jobFactory;
-        private IScheduler _scheduler;
+        private IScheduler? _scheduler;
 
         public QuartzHostedService(ISchedulerFactory schedulerFactory, IJobFactory jobFactory)
         {

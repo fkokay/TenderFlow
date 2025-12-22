@@ -1,0 +1,33 @@
+﻿.table-hover tbody tr:hover {
+    color: #212529;
+    background-color: transparent !important;
+}
+
+.editRow {
+    display: none;
+}
+
+.kt-portlet__body {
+    /*width: 90%;
+    margin-left: 2%;
+    margin-right: 5%;*/
+    margin-top: 20px;
+}
+
+#p-processSelect-area-panel .kt-portlet__body,
+#p-search-process-criteria-panel .kt-portlet__body,
+#p-search-area-panel .kt-portlet__body,
+#p-search-process-criteria-grid-panel .kt-portlet__body,
+#p-assignedSelect-area-panel .kt-portlet__body {
+    width: 91%;
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-top: 20px;
+}
+
+.litheadbarwrap { /*position: -webkit-sticky; position: sticky;*/ top: 55px; z-index: 96; }
+
+#select2-SelectedProcessOrderID-container .select2-selection__clear
+{
+    display:none !important;
+}

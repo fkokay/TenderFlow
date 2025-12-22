@@ -1,0 +1,59 @@
+﻿@media (min-width: 1025px) {
+    .kt-portlet.kt-portlet--sticky .kt-portlet__head.kt-portlet__head--lg {
+        height: 70px;
+        min-height: 70px;
+        left: 125px;
+        right: 25px;
+    }
+
+    .flaticon2-protection, .flaticon2-cube{
+        margin-left: -16px;
+    }
+    
+
+    .favFilterul {
+        margin-top: -50px !important;
+    }
+
+    .kt-menu__ver-arrow {
+        margin-right: -15px;
+    }
+
+    .kt-badge.kt-badge--rounded {
+        width: 26px;
+    }
+
+    #createdicon, #includedicon, #complatedicon {
+        margin-left: 10px;
+    }
+}
+
+/*Mobile and Tablet*/
+@media (max-width: 1025px) {
+    .kt-quick-search-lprocess { margin-bottom: 20px !important; }
+}
+
+#kt_aside .kt-aside-menu .kt-menu__link { cursor: default !important; }
+#kt_aside .kt-menu__link-text { color: #9899ac; }
+#kt_aside .kt-menu__link-bullet--dot > span { background-color: #b8bac3 !important; }
+
+#ulEflow_ktMenu__nav > li.kt-menu__item.kt-menu__item--submenu.kt-menu__item--submenu-fullheight.kt-menu__item--open.kt-menu__item--here.kt-menu__item--open-dropdown.kt-menu__item--hover >
+div > div > ul.kt-menu__subnav.leftPanel > li > div > span > span > ul >
+li.kt-menu__item.kt-menu__item--submenu > div > span > span > ul >
+li.kt-menu__item.kt-menu__item--submenu > div > span > span > ul >
+li.kt-menu__item.kt-menu__item--submenu > div > span > span > ul > li > a { margin-left: 25px !important; }
+
+#ulEflow_ktMenu__nav > li.kt-menu__item.kt-menu__item--submenu.kt-menu__item--submenu-fullheight.kt-menu__item--open.kt-menu__item--here.kt-menu__item--open-dropdown.kt-menu__item--hover >
+div > div > ul.kt-menu__subnav.leftPanel2 > li > div > span > span > ul >
+li.kt-menu__item.kt-menu__item--submenu > div > span > span > ul >
+li.kt-menu__item.kt-menu__item--submenu > div > span > span > ul >
+li.kt-menu__item.kt-menu__item--submenu > div > span > span > ul > li > a {
+    margin-left: 25px !important;
+}
+
+.spnleftMenuItem:hover { color: #4c81d1 !important; cursor: pointer; }
+.kt-quick-search-lprocess { margin-left: 5% !important; margin-right: 5% !important; margin-top: 12px !important; }
+/*i.kt-menu__link-icon { color: #717588 !important; }*/
+.kt-aside--minimize .kt-aside-menu .kt-menu__nav > .kt-menu__item > .kt-menu__link > .kt-menu__link-icon {
+    color: #717588;
+}

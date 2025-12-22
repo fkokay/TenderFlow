@@ -1,0 +1,50 @@
+﻿#scheduler {
+    height: calc(100vh - 190px) !important;
+}
+
+.kt-portlet {
+    margin-bottom: 0px !important;
+}
+
+body {
+    margin: 0;
+    height: 100%;
+    overflow: hidden
+}
+
+.dx-scheduler-header
+.dx-toolbar
+.dx-toolbar-items-container {
+    background: #f8f8ff;
+}
+
+.dx-scheduler-all-day-title
+{
+    display:none;
+}
+
+.dx-button-text {
+    padding-top:4px;
+}
+
+.dx-button-mode-contained.dx-state-hover {
+    background-color: #f8f8ff;
+    border-color: #f8f8ff;
+}
+
+.dx-buttongroup-item.dx-button.dx-button-mode-contained.dx-button-normal.dx-state-hover {
+    background-color: #f8f8ff;
+}
+
+.dx-scheduler-appointment-tooltip-wrapper {
+    z-index:0 !important;
+}
+
+.custom-tooltip-row-tbg {
+    font-size: 12px;
+}
+
+.tooltip-text-color
+{
+  color:black;
+}

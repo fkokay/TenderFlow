@@ -1,0 +1,31 @@
+﻿@media screen and (min-height: 700px) {
+    .popups-table { max-height: 600px; overflow-y: auto; }
+}
+
+@media screen and (min-height: 900px) {
+    .popups-table { max-height: 750px; overflow-y: auto; }
+}
+
+.netoloji-modal-pps tr { background: white !important; }
+.netoloji-modal-pps tr:hover { background-color: #F8F9F9 !important; }
+.netoloji-modal-pps .select2-container { min-width: 200px; height: 42px; }
+.netoloji-modal-pps .elect2-selection--single { margin-top: 1px; padding-top: 2px; min-height: 42px !important; }
+.netoloji-modal-pps .select2-selection__arrow { display: none; }
+.netoloji-modal-pps .select2-selection__rendered { color: #6c7293; padding-top: 12px; }
+.netoloji-modal-pps .litPopUp { background: white; }
+
+#popup-select-modal > div > div.modal-footer > div > div > span > .numbers-more { background: white;}
+#popup-select-modal > div > div.modal-footer > div > div > span > a.btn.pagenum { background: white; margin:1px; }
+#popup-select-modal > div > div.modal-footer > div > div > span > a.btn.pagenum.selectednum { color: #fff; background-color: #4c81d1; cursor: default; border-radius: 3px; }
+#popup-select-modal > div > div.modal-footer > div > div > span > a.btn.pagenum.selectednum.disabled {opacity:1 !important; color:white}
+#popup-select-modal > div > div.modal-footer .numbersarea > a { padding: 6px 12px; line-height: 1.42857143; font-size: 13px; }
+#popup-select-modal > div > div.modal-footer .numbersarea > a:hover:not(.numbers-more) { color: white; background-color: #4c81d1; border-radius: 3px; }
+
+#popup-select-modal .table .thead-light th { color: #595d6e !important; background-color: white !important; border-color: white !important; font-size: 0.95rem; padding-left: 15px; }
+#popup-select-modal .tdItemval { color: #595d6e; }
+#pps-table-root { }
+#popup-select-modal .table-bordered td { border: 0px !important; }
+#popup-select-modal tr { border-bottom: 1px solid #f0f3ff; }
+#popup-select-modal table td { padding: 1rem !important; min-width: 150px; }
+#popup-select-modal .filterInputbg { background: #eaecf2; border-color: #eaecf2 !important; height: 33px; }
+#pps-table-col-names { border-bottom: 2px solid #f0f3ff !important; }

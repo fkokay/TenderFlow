@@ -1,0 +1,144 @@
+﻿body { font-family: "Segoe UI", "Segoe UI Web Regular", "Segoe UI Symbol", "Helvetica Neue", "BBAlpha Sans", "S60 Sans",Arial, "sans-serif"; font-size: 12px; margin: 0; padding: 0; }
+#mainwrap { height: auto; margin: 0 0 0 0; width: 100%; position: relative; }
+#top { position: fixed; left: 0; top: 0; background-color: #039aae; height: 40px; width: 100%; z-index: 100; }
+#logo { width: 108px; height: 23px; float: left; margin: 9px 0 0 11px; }
+#menubar, ul.menust { height: auto; width: auto; float: left; }
+#menubar { margin: 0 0 0 80px; }
+#infobar { margin: 0 10px 0 0; float: right; height: auto; width: auto; }
+ul.menust li { display: inline; cursor: pointer; margin: 0 1px 0 1px; float: left; position: relative; }
+    ul.menust li ul { display: none; }
+    ul.menust li a { position: relative; cursor: pointer; color: #fff; display: block; font-size: 14px; line-height: 23px; padding: 8px 13px 0 13px; margin: 0; }
+    ul.menust li.mailin { height: 46px; background-color: #0d6672; }
+    ul.menust li.mail a { padding: 8px 0 0 3px; }
+    ul.menust li .m_txt { float: left; cursor: pointer; height: 32px; }
+    ul.menust li .m_icon { margin: 3px 6px 0 0; float: left; }
+    ul.menust li.mail .m_icon { margin: 3px 3px 0 0; }
+    ul.menust li.drop .m_eks { background-image: url("/images/modernui/min1.png"); background-position: -94px -33px; height: 8px; width: 8px; margin: 10px 0 0 4px; float: left; }
+    ul.menust li:hover { background-color: #038596; }
+    ul.menust li.drop:hover ul { height: auto; width: auto; display: block; position: absolute; background-color: #fff; border-width: 0 2px 2px 2px; border-style: solid; border-color: #039aae; top: 40px; left: 0; }
+    ul.menust li.drop ul li { display: block; float: none; margin: 4px 0 4px 0; }
+    ul.menust li ul li:hover { background-color: #eeeeee; }
+    ul.menust li ul li a { text-overflow: clip; padding: 0 16px 0 18px; float: none; height: 26px; color: #000; text-align: left; text-decoration: none; display: block; white-space: nowrap; }
+.contentwrap { float: left; width: 100%; position: relative; height: auto; margin: 40px 0 25px 0; z-index: 99; }
+.mainleft { width: 200px; position: absolute; height: 100%; top: 0; left: 0; margin: -1px 0 0 0; background: #f3f3f3; border-bottom: 1px solid #ddd; overflow: auto; z-index: 101; }
+.mainright { width: 100%; float: left; border-bottom: 1px solid #ddd; height: auto; }
+.maincontent { padding: 0 10px 0 16px; min-height: 700px; margin-left: 200px; }
+#pagetop { position: relative; float: left; min-height: 30px; width: 100%; padding: 10px 0 10px 0; border-bottom: 1px solid #ccc; }
+    #pagetop h2 { font-weight: normal; font-family: "Segoe UI Web Light", "Segoe UI Light", "Segoe UI Web Regular", "Segoe UI", "Segoe UI Symbol", "Helvetica Neue",Arial; font-size: 150%; }
+#pagecontent { position: relative; overflow: hidden; float: left; height: auto; margin: 10px 0 0 0; padding: 0 0 29px 0; width: 100%; }
+    #pagecontent fieldset { border: 1px solid #ccc; padding: 8px; }
+        #pagecontent fieldset legend { font-family: "Segoe UI", "Segoe UI Web Regular", "Segoe UI Symbol", "Helvetica Neue", "BBAlpha Sans", "S60 Sans",Arial, "sans-serif"; font-size: 14px; padding: 0 5px 0 5px; }
+.leftcontent { height: 100%; width: 200px; float: left; position: relative; padding: 10px 0 10px 0; }
+    .leftcontent ul { width: 200px; height: auto; display: block; overflow: hidden; }
+#diagramdesigner { background: transparent url('/images/modernui/designericon.png') 10px 3px no-repeat; height: 28px; padding: 0 10px 0 10px; }
+li#diagramdesigner:hover { background-color: #fff; }
+#diagramdesigner a { display: block; width: 100%; height: 21px; padding: 7px 0 0 30px; font-size: 12px; white-space: nowrap; }
+.progressFolder { width: 100%; height: auto; margin: 5px 0 5px 0; }
+    .progressFolder h1 { height: 32px; cursor: pointer; padding: 6px 10px 0 10px; }
+        .progressFolder h1 a { font-family: "Segoe UI Web Light","Segoe UI Light","Segoe UI Web Regular","Segoe UI","Segoe UI Symbol","Helvetica Neue",Arial; display: block; width: auto; height: 21px; padding: 1px 0 0 0; font-size: 18px; font-weight: normal; white-space: nowrap; }
+    .progressFolder span { display: block; float: left; }
+    .progressFolder h1 span.icon { width: 11px; background: transparent url('/images/modernui/min2.png') no-repeat; height: 11px; background-position: -35px -212px; margin: 8px 3px 0 0; }
+    .progressFolder.on h1 span.icon { background-position: -35px -223px; }
+    .progressFolder ul li { height: 25px; padding: 5px 10px 0 10px; }
+        .progressFolder ul li:hover { background-color: #e3e3e3; }
+        .progressFolder ul li span.icon { background: transparent url('/images/modernui/min2.png') no-repeat; width: 12px; height: 14px; margin: 2px 5px 0 14px; background-position: -1px -155px; }
+        .progressFolder ul li:hover span.icon { background-position: -18px -291px; }
+        .progressFolder ul li a { color: #444444; font-size: 14px; }
+    .progressFolder ul li { display: none; }
+    .progressFolder.on ul li { display: list-item; }
+.maincontent h2 { font-size: 16px; font-weight: normal; }
+#pagecontenttop { width: 100%; height: auto; padding: 5px 0 16px 0; float: left; }
+    #pagecontenttop h2 { font-size: 18px; font-weight: normal; }
+#messagearea { padding: 0 0 3px 0; width: 100%; }
+    #messagearea span { margin-left: 155px; color: #4f0b0b; }
+#tabletop { width: 100%; height: 25px; padding: 5px 0 3px 0; border-bottom: 3px solid #efefef; }
+#tabletop2 { width: 100%; height: 25px; padding: 5px 0 8px 0; border-bottom: 3px solid #efefef; }
+.tabletopright { position: relative; float: right; }
+#tablebottom { height: 30px; position: absolute; width: 100%; bottom: 0px; left: 0px; border-top: 1px solid #ccc; }
+.fooright { position: relative; margin-right: 10px; float: right; padding: 2px 0 0 15px; }
+.fooleft { position: relative; margin-left: 200px; float: left; padding: 7px 0 0 15px; }
+.printerfriendly { display: block; cursor: pointer; height: 17px; background: transparent url('/images/modernui/printer.png') no-repeat 0 0; padding: 4px 0 0 25px; }
+    .printerfriendly span { color: #929292; font-size: 12px; font-weight: bold; float: right; }
+    .printerfriendly:hover span { color: #666; }
+/* Task Table Begin */
+.listtable { width: 100%; position: relative; }
+    .listtable thead tr { border-top: 1px solid #ccc; border-bottom: 1px solid #ccc; }
+    .listtable th { font-weight: normal; color: #555; font-size: 14px; height: 30px; text-align: left; text-indent: 4px; cursor: pointer; }
+        .listtable th:hover { background-color: #f9f9f9; }
+        .listtable th.BackColor:hover { background-color: inherit; cursor: default; }
+    .listtable tbody tr { height: 34px; color: #000; position: relative; border-bottom: 1px dashed #000; }
+        .listtable tbody tr td { padding: 0 0 0 2px; }
+            .listtable tbody tr td.BackColor { width: 8px; }
+                .listtable tbody tr td.BackColor span { display: table; height: 80%; width: 4px; }
+        .listtable tbody tr:hover td.BackColor span { width: 8px; }
+        .listtable tbody tr td.Actions { width: 59px; }
+        .listtable tbody tr td.Status { width: 150px; }
+        .listtable tbody tr td a.actbtn { width: 25px; height: 26px; display: block; float: left; }
+        .listtable tbody tr td a.peek { background: transparent url("/images/modernui/btns1.png") no-repeat 0 0; float: left; }
+        .listtable tbody tr td a.delete { margin: 0 3px 0 3px; background: transparent url("/images/modernui/btns1.png") no-repeat 0 -52px; }
+        .listtable tbody tr td a.work { margin: 0 0 0 3px; background: transparent url("/images/modernui/btns1.png") no-repeat -25px 0; }
+        .listtable tbody tr td a.edit { background: transparent url("/images/modernui/btns1.png") no-repeat -25px -52px; float: left; }
+        .listtable tbody tr td a.peek:hover { background-position: 0 -26px; }
+        .listtable tbody tr td a.delete:hover { background-position: 0 -78px; }
+        .listtable tbody tr td a.work:hover { background-position: -25px -26px; }
+        .listtable tbody tr td a.edit:hover { background-position: -25px -78px; }
+        .listtable tbody tr td span.overdue { color: Red; }
+        .listtable tbody tr td.datetime { text-indent: 10px; }
+/* Task Table End */
+.dropselect a { font-size: 12px; }
+    .dropselect a span { float: left; padding: 0 4px 0 0; }
+    .dropselect a .m_eks { background-image: url("/images/modernui/min1.png"); background-position: -94px -17px; height: 8px; width: 8px; margin: 7px 0 0 0; padding: 0; float: left; }
+.dropselect ul { display: none; }
+.listpaging a { width: 8px; height: 11px; background-image: url("/images/modernui/min1.png"); display: block; margin: 8px 7px 0 1px; float: left; opacity: 0.7; }
+    .listpaging a:hover { opacity: 1; }
+    .listpaging a.disabled { display: none; }
+    .listpaging a.prevPage { background-position: -115px -17px; }
+    .listpaging a.nextPage { background-position: -145px -17px; }
+.listpaging div { float: left; }
+
+
+.fleft { float: left; }
+.fright { float: right; }
+.detailtimer { line-height: 20px; height: 20px; font-family: Arial, Arial, Helvetica, sans-serif; font-size: 12px; color: #444; margin: 4px 0 0 0; }
+.detailtask { float: left; width: 100%; }
+.taskmain { width: 100%; margin: 4px 0 0 0; }
+    .taskmain label { clear: both; font-size: 14px; padding: 0 5px 0 0; color: #444; float: left; margin: 0 0 5px 0; }
+    .taskmain span { font-size: 14px; float: left; }
+.taskinputs { font-family: Verdana, Verdana, Geneva, sans-serif; width: 100%; height: auto; clear: both; }
+    .taskinputs table { width: 100%; table-layout: fixed; }
+
+    .taskinputs .gridcontainer { width: 100%; height: 100%; position: relative; float: left; overflow: auto; }
+
+    .taskinputs .gridelement { background-color: white; border-collapse: collapse; border-color: gray; border-spacing: 0; border-style: solid; border-width: 1px; table-layout: fixed; margin: 0 0 8px 0; float: left; width: auto; }
+
+        .taskinputs .gridelement th { background-color: #E9E9E9; border-color: gray; text-align: center; border-style: solid; border-width: 1px; font-size: 12px; height: 20px; }
+        .taskinputs .gridelement tr { border-bottom: none; }
+        .taskinputs .gridelement td { background-color: #FFFFFF; border-color: #C0C0C0; border-style: solid; border-width: 1px; padding: 0; font-size: 12px; height: 20px; overflow: hidden; white-space: nowrap; }
+table.gridelement td input, table.gridelement td select { border: medium none; font-family: Helvetica,Arial; font-size: 12px; height: 19px; outline: medium none; width: 100%; }
+table.gridelement td input { padding: 0 1px 0 0; }
+.taskinputs table tr, table tr { border-bottom: 4px solid #fff; }
+.taskinputs table td, table td { padding: 4px 0 4px 0; }
+
+    table td.lbltd { width: 170px; text-align: right; font-weight: bold; padding-right: 4px; color: #444; }
+    table td.lbl { width: 140px; text-align: right; padding-right: 4px; color: #444; }
+    table td.validation { color: #971111; padding-left: 4px; }
+    table td.ayractd { width: 10px; }
+
+.mini-icon { background-image: url("/images/modernui/mini-icons.png"); background-repeat: no-repeat; display: inline-block; height: 14px; line-height: 14px; margin-top: 1px; vertical-align: text-top; width: 14px; }
+.m-upload { background-position: -145px -25px; }
+/* POPUP */
+.backmask { width: 100%; height: 100%; background-color: #000; opacity: 0.3; z-index: 901; position: absolute; top: 0; left: 0; }
+.eflowpopup { position: absolute; z-index: 902; padding: 5px; background-color: #fff; }
+.popupwrap { position: relative; width: 100%; padding: 5px; height: 100%; }
+.popcontent { float: left; padding: 10px; margin: 20px 0 0 0; }
+    .popcontent .contentimage { float: left; padding: 0 10px 0 0; }
+.popupheader { width: 100%; height: 24px; position: absolute; background-color: #039AAE; top: -5px; left: -5px; }
+    .popupheader span { width: auto; float: left; color: #fff; padding: 2px 4px 2px 4px; font-size: 14px; }
+    .popupheader a.popclose { color: #fff; display: block; position: relative; float: right; height: 24px; width: 24px; }
+        .popupheader a.popclose:hover { background-color: #057e8e; }
+.popupbuttons { background-color: #FDFDFD; border-top: 1px solid #DDDDDD; bottom: -5px; height: 30px; left: -5px; padding: 7px 0 0; position: absolute; width: 100%; }
+    .popupbuttons .buttonwrapper { padding: 0 10px 10px 10px; float: right; }
+        .popupbuttons .buttonwrapper .button { float: right; margin: 0 0 0 10px; }
+.loading { padding: 0 18px; width: auto; height: 15px; background-image: url("/images/modernui/uploader/loading.gif"); background-repeat: no-repeat; }
+#popupclose { margin: 6px 0 0 7px; width: 11px; height: 11px; display: block; background: transparent url("/images/modernui/min1.png") -161px -33px; }
+/* POPUP END */

@@ -1,0 +1,18 @@
+﻿.kt-radio-inline-p, .kt-checkbox-inline-p {
+    padding-top: 7px;
+}
+
+    .kt-checkbox-inline-p .kt-checkbox {
+        margin-bottom: 0px !important;
+        margin-top: 2px;
+    }
+
+    .kt-radio-inline-p .kt-radio {
+        margin-bottom: 0px !important;
+        margin-top: 2px;
+    }
+
+.grid-element-size {
+    width: 99%;
+    margin-left: 3px;
+}

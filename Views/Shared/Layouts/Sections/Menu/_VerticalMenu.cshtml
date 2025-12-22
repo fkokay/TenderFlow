@@ -73,15 +73,15 @@
                 <ul class="menu-sub">
                     @if (User.IsInRole("Administrator") || User.IsInRole("Satýþ"))
                     {
-                        <li class='menu-item@(path == "/Shipment/ShipmentOrder" ? " active" : "")'>
-                            <a asp-controller="Shipment" asp-action="ShipmentOrder" class="menu-link">
+                        <li class='menu-item@(path == "/Shipment/OrderList" ? " active" : "")'>
+                            <a asp-controller="Shipment" asp-action="OrderList" class="menu-link">
                                 <i class="menu-icon tf-icons ti ti-archive"></i>
                                 <div data-i18n="Sevkiyat Emri">Sevkiyat Emri</div>
                             </a>
                         </li>
                     }
-                    <li class='menu-item@(path == "/Shipment/ShipmentOrderManagement" ? " active" : "")'>
-                        <a asp-controller="Shipment" asp-action="ShipmentOrderManagement" class="menu-link">
+                    <li class='menu-item@(path == "/Shipment/OrderManagement" ? " active" : "")'>
+                        <a asp-controller="Shipment" asp-action="OrderManagement" class="menu-link">
                             <i class="menu-icon tf-icons ti ti-archive"></i>
                             <div data-i18n="Sevkiyat Emri Yönetimi">Sevkiyat Emri Yönetimi</div>
                         </a>

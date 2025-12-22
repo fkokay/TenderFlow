@@ -1,0 +1,117 @@
+/* iCheck.js Square skin
+----------------------------------- */
+
+.icheckbox_square-aero,
+.icheckbox_square,
+.iradio_square-aero { display: block; margin: 0; padding: 0; width: 22px; height: 22px; border: none; cursor: pointer; margin-top:5px; }
+
+.theme-blue .icheckbox_square, 
+.theme-blue .iradio_square-aero.checked, 
+.theme-blue .iradio_square-aero, 
+.theme-blue .icheckbox_square-aero { background-image: url(../../../../img/plugins/icheck/square/blue.png) !important; }
+
+.theme-orange .icheckbox_square, 
+.theme-orange .iradio_square-aero, 
+.theme-orange .iradio_square-aero.checked, 
+.theme-orange .icheckbox_square-aero { background-image: url(../../../../img/plugins/icheck/square/orange.png) !important; }
+
+.theme-red .icheckbox_square, 
+.theme-red .iradio_square-aero, 
+.theme-red .iradio_square-aero.checked, 
+.theme-red .icheckbox_square-aero { background-image: url(../../../../img/plugins/icheck/square/red.png) !important; }
+
+.theme-green .icheckbox_square, 
+.theme-green .iradio_square-aero, 
+.theme-green .iradio_square-aero.checked, 
+.theme-green .icheckbox_square-aero { background-image: url(../../../../img/plugins/icheck/square/green.png) !important; }
+
+.theme-brown .icheckbox_square, 
+.theme-brown .iradio_square-aero, 
+.theme-brown .iradio_square-aero.checked, 
+.theme-brown .icheckbox_square-aero { background-image: url(../../../../img/plugins/icheck/square/brown.png) !important; }
+
+.theme-lime .icheckbox_square, 
+.theme-lime .iradio_square-aero, 
+.theme-lime .iradio_square-aero.checked, 
+.theme-lime .icheckbox_square-aero { background-image: url(../../../../img/plugins/icheck/square/lime.png) !important; }
+
+.theme-pink .icheckbox_square, 
+.theme-pink .iradio_square-aero.checked, 
+.theme-pink .iradio_square-aero, 
+.theme-pink .icheckbox_square-aero { background-image: url(../../../../img/plugins/icheck/square/pink.png) !important; }
+
+.theme-purple .icheckbox_square, 
+.theme-purple .iradio_square-aero, 
+.theme-purple .iradio_square-aero.checked, 
+.theme-purple .icheckbox_square-aero { background-image: url(../../../../img/plugins/icheck/square/purple.png) !important; }
+
+.theme-lightred .icheckbox_square, 
+.iradio_square-aero.checked, 
+.iradio_square-aero, 
+.icheckbox_square-aero { background-image: url(../../../../img/plugins/icheck/square/lightred.png) !important; }
+
+.theme-lightgrey .icheckbox_square, 
+.theme-lightgrey .iradio_square-aero, 
+.theme-lightgrey .iradio_square-aero.checked, 
+.theme-lightgrey .icheckbox_square-aero { background-image: url(../../../../img/plugins/icheck/square/lightgrey.png) !important; }
+
+.theme-grey .icheckbox_square, 
+.theme-grey .iradio_square-aero, 
+.theme-grey .iradio_square-aero.checked, 
+.theme-grey .icheckbox_square-aero { background-image: url(../../../../img/plugins/icheck/square/grey.png) !important; }
+
+.theme-satblue .icheckbox_square, 
+.theme-satblue .iradio_square-aero, 
+.theme-satblue .iradio_square-aero.checked, 
+.theme-satblue .icheckbox_square-aero { background-image: url(../../../../img/plugins/icheck/square/satblue.png) !important; }
+
+.theme-satgreen .icheckbox_square, 
+.theme-satgreen .iradio_square-aero, 
+.theme-satgreen .iradio_square-aero.checked, 
+.theme-satgreen .icheckbox_square-aero { background-image: url(../../../../img/plugins/icheck/square/satgreen.png) !important; }
+
+.theme-magenta .icheckbox_square, 
+.theme-magenta .iradio_square-aero, 
+.theme-magenta .iradio_square-aero.checked, 
+.theme-magenta .icheckbox_square-aero { background-image: url(../../../../img/plugins/icheck/square/magenta.png) !important; }
+
+.theme-teal .icheckbox_square,
+.theme-teal .iradio_square-aero, 
+.theme-teal .iradio_square-aero.checked, 
+.theme-teal .icheckbox_square-aero { background-image: url(../../../../img/plugins/icheck/square/aero.png) !important; }
+
+.theme-darkblue .icheckbox_square, 
+.theme-darkblue .iradio_square-aero, 
+.theme-darkblue .iradio_square-aero.checked, 
+.theme-darkblue .icheckbox_square-aero { background-image: url(../../../../img/plugins/icheck/square/darkblue.png) !important; }
+
+.icheckbox_square-aero { background-image: url(../../../../img/plugins/icheck/square/aero.png) !important; }
+
+.icheckbox_square,
+.icheckbox_square.static:hover { background-position: 0 0; }
+    .icheckbox_square.hover,
+    .icheckbox_square:hover { background-position: -24px 0; }
+    .icheckbox_square.checked { background-position: -48px 0; }
+    .icheckbox_square.disabled { background-position: -72px 0; cursor: default; }
+    .icheckbox_square.checked.disabled { background-position: -96px 0; }
+
+    .icheckbox_square-aero,
+        .icheckbox_square-aero.hover,
+        .icheckbox_square-aero:hover { background-position: -24px 0; }
+        .icheckbox_square-aero.checked { background-position: -48px 0; }
+        .icheckbox_square-aero.disabled { background-position: -72px 0; cursor: default; }
+        .icheckbox_square-aero.checked.disabled { background-position: -96px 0; }
+
+.iradio_square-aero,
+.iradio_square-aero.static:hover { background-position: -120px 0; }
+    .iradio_square-aero.hover,
+    .iradio_square-aero:hover { background-position: -144px 0; }
+    .iradio_square-aero.checked { background-position: -168px 0; }
+    .iradio_square-aero.disabled { background-position: -192px 0; cursor: default; }
+    .iradio_square-aero.checked.disabled { background-position: -216px 0; }
+
+/* Retina support */
+@media only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (-moz-min-device-pixel-ratio: 1.5), only screen and (-o-min-device-pixel-ratio: 3/2), only screen and (min-device-pixel-ratio: 1.5) {
+    .icheckbox_square,
+    .iradio_square { background-image: url(../../../../img/plugins/icheck/square/square@2x.png); -webkit-background-size: 240px 24px; background-size: 240px 24px; }
+}

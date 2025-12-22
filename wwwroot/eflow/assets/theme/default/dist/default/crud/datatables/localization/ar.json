@@ -1,0 +1,31 @@
+{
+  "sDecimal": ",",
+  "sEmptyTable": "لا توجد أي بيانات متاحة",
+  "sInfo": "سرد إجمالي _TOTAL_ من السجلات",
+  "sInfoEmpty": "",
+  "sInfoFiltered": "",
+  "sInfoPostFix": "",
+  "sInfoThousands": ".",
+  "sLengthMenu": "إظهار سجل _MENU_ على الصفحة",
+  "sLoadingRecords": "جار التحميل...",
+  "sProcessing": "جار التحميل ...",
+  "sSearch": "تجد:",
+  "sZeroRecords": "لا توجد أي بيانات متاحة",
+  "oPaginate": {
+    "sFirst": "أول",
+    "sLast": "الاخير",
+    "sNext": "التالى",
+    "sPrevious": "السابق"
+  },
+  "oAria": {
+    "sSortAscending": ": تفعيل الزيادة",
+    "sSortDescending": ": استفاد تنازليًا"
+  },
+  "select": {
+    "rows": {
+      "_": "%d تم تحديد السجل",
+      "0": "",
+      "1": "1 تم تحديد السجل"
+    }
+  }
+}

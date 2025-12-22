@@ -1,0 +1,34 @@
+﻿.customWidth {
+    width: 40% !important;
+}
+
+.kt-portlet .kt-portlet__body
+{
+    padding-bottom:0px !important;
+}
+
+@media only screen and (min-width: 1200px) {
+    #spnExactMatch
+    {
+        float:right;
+    }
+}
+
+#spnExactMatch {
+    color: #484b5a !important;
+}
+.kt-portlet {
+    margin-bottom: 0px !important;
+}
+.select2-container--default .select2-selection--multiple, .select2-container--default .select2-selection--single {
+    border-color: #a9a9a9a3 !important;
+}
+input.form-control {
+    border-color: #a9a9a9a3 !important;
+}
+#form-search .col-form-label, #form-search .d-none.d-md-flex {
+    color: #484b5a !important;
+}
+.select2-container--default .select2-selection--single .select2-selection__rendered{
+ color: #484b5a !important;
+}

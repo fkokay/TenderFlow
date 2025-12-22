@@ -1,0 +1,19 @@
+﻿
+.select2-selection--single {
+    height: 37px !important;
+}
+
+#aside-settingsicon {
+    color: #4c81d1 !important;
+}
+
+#form-options .control-label, .select2-container--default .select2-selection--single .select2-selection__rendered {
+    color: #484b5a !important;
+}
+.select2-container--default .select2-selection--multiple, .select2-container--default .select2-selection--single {
+    border-color: #a9a9a9a3 !important;
+}
+#form-options .form-control {
+    border-color: #a9a9a9a3 !important;
+    color: #484b5a !important;
+}

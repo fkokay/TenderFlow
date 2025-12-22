@@ -1,0 +1,11 @@
+﻿.kt-nav__link { font-weight: 400 !important; color: #a7abc3 !important; }
+
+.kt-portlet .kt-portlet__head { min-height: 40px; }
+
+.text-muted-fixed { margin-top: 10px; min-height: 60px; }
+
+.kt-portlet__head-toolbar { margin-top: 7px; }
+
+.reportBoxDate { margin-bottom: 3px; margin-right: 3px; }
+
+.hide { display: none; }

@@ -6,10 +6,10 @@ namespace TenderFlow.Netsis.Models
 {
     public class OrderLineModel
     {
-        public string SIPARIS_NO { get; set; }
+        public string SIPARIS_NO { get; set; } = string.Empty;
         public int SIRA { get; set; }
-        public string STOK_KODU { get; set; }
-        public string STOK_ADI { get; set; }
+        public string STOK_KODU { get; set; } = string.Empty;
+        public string STOK_ADI { get; set; } = string.Empty;
         public decimal MIKTAR { get; set; }
         public decimal KALAN { get; set; }
         public decimal FIYAT { get; set; }
