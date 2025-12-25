@@ -182,7 +182,8 @@
                         <table id="Table" class="table-bordered table">
                             <thead>
                                 <tr>
-
+                                    <th>Alt Kurum Kodu</th>
+                                    <th>Alt Kurum Adı</th>
                                     <th>Stok Kodu</th>
                                     <th>Miktar</th>
                                     <th>Birim</th>
@@ -195,7 +196,8 @@
                                 @foreach (var item in Model.Opexs)
                                 {
                                     <tr>
-
+                                        <td>@item.UnitCode</td>
+                                        <td>@item.UnitName</td>
                                         <td>@item.StockCode</td>
                                         <td>@item.Quantity</td>
                                         <td>@item.Unit</td>
@@ -213,6 +215,8 @@
                         <table id="Table" class="table-bordered table">
                             <thead>
                                 <tr>
+                                    <th>Alt Kurum Kodu</th>
+                                    <th>Alt Kurum Adı</th>
                                     <th>Demirbaş Kodu</th>
                                     <th>Miktar</th>
                                     <th>Birim</th>
@@ -223,6 +227,8 @@
                                 @foreach (var item in Model.Capexs)
                                 {
                                     <tr>
+                                        <td>@item.UnitCode</td>
+                                        <td>@item.UnitName</td>
                                         <td>@item.AssetCode</td>
                                         <td>@item.Quantity</td>
                                         <td>@item.Unit</td>
@@ -238,6 +244,8 @@
                         <table id="Table" class="table-bordered table">
                             <thead>
                                 <tr>
+                                    <th>Alt Kurum Kodu</th>
+                                    <th>Alt Kurum Adı</th>
                                     <th>Stok Kodu</th>
                                     <th>Sut Kodu</th>
                                     <th>Test Adı</th>
@@ -253,6 +261,8 @@
                                 @foreach (var item in Model.Reaktifs)
                                 {
                                     <tr>
+                                        <td>@item.UnitCode</td>
+                                        <td>@item.UnitName</td>
                                         <td>@item.StockCode</td>
                                         <td>@item.SutCode</td>
                                         <td>@item.TestName</td>
@@ -270,7 +280,7 @@
                 <div class="tab-pane fade show" id="navs-documents" role="tabpanel">
                     <div class="tab-pane fade show" id="navs-documents" role="tabpanel">
                         <div class="table-responsive" style="min-height: 650px;">
-                            <table id="Table" class="table table-bordered align-middle">
+                            <table id="Table" class="table-bordered table align-middle">
                                 <thead>
                                     <tr>
                                         <th>Belge</th>
@@ -290,24 +300,11 @@
                                                     @item.DocumentName
                                                 </td>
                                                 <td class="text-center">
-                                                    @if (item.IsMandatory)
-                                                    {
-                                                        <span class="badge rounded-pill bg-danger">
-                                                            <i class="bi bi-exclamation-circle me-1"></i>
-                                                            Zorunlu
-                                                        </span>
-                                                    }
-                                                    else
-                                                    {
-                                                        <span class="badge rounded-pill bg-secondary">
-                                                            <i class="bi bi-info-circle me-1"></i>
-                                                            Opsiyonel
-                                                        </span>
-                                                    }
+                                                    <input class="form-check-input" type="checkbox" @(item.IsMandatory ? "checked" : "") title="Zorunlu" readonly>
                                                 </td>
 
                                                 <td class="text-center">
-                                                    <input class="form-check-input" type="checkbox" @(item.Submitted ? "checked" : "") title="Yüklendi" disabled>
+                                                    <input class="form-check-input" type="checkbox" @(item.Submitted ? "checked" : "") title="Yüklendi" readonly>
                                                 </td>
 
                                                 <td class="text-center">
@@ -319,10 +316,10 @@
                                                     {
                                                         <button class="btn btn-outline-primary btn-sm"
                                                                 onclick="openFile(
-                                                                                            '@Convert.ToBase64String(item.FileContent)',
-                                                                                            '@item.FileName',
-                                                                                            '@item.FileType'
-                                                                                        )"
+                                                                                                        '@Convert.ToBase64String(item.FileContent)',
+                                                                                                        '@item.FileName',
+                                                                                                        '@item.FileType'
+                                                                                                    )"
                                                                 title="Belge Aç / İndir">
                                                             @if (item.FileType == "application/pdf")
                                                             {
@@ -346,7 +343,7 @@
                                     else
                                     {
                                         <tr>
-                                            <td colspan="3" class="text-center text-muted">
+                                            <td colspan="3" class="text-muted text-center">
                                                 Belge bulunamadı
                                             </td>
                                         </tr>

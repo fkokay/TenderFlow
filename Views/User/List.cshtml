@@ -1,0 +1,158 @@
+﻿@{
+    ViewData["Title"] = "List";
+}
+
+<h4 class="fw-bold mb-4 py-3"><span class="text-muted fw-light">Kullanıcılar</span></h4>
+
+<!-- DataTable with Buttons -->
+
+
+<div class="card">
+    <div class="card-datatable table-responsive">
+        <table id="Table" class="dt-fixedheader table table-bordered dataTable dtr-column">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Ad</th>
+                    <th>Soyad</th>
+                    <th>Email</th>
+                    <th>Telefon</th>
+                    <th>Roller</th>
+                    <th>Aktif</th>
+                    <th>İşlemler</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+   
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+
+            const table = $('#Table').DataTable({
+                language: {
+                    paginate: {
+                        next: '<i class="icon-base ti ti-chevron-right scaleX-n1-rtl icon-18px"></i>',
+                        previous: '<i class="icon-base ti ti-chevron-left scaleX-n1-rtl icon-18px"></i>',
+                        first: '<i class="icon-base ti ti-chevrons-left scaleX-n1-rtl icon-18px"></i>',
+                        last: '<i class="icon-base ti ti-chevrons-right scaleX-n1-rtl icon-18px"></i>'
+                    },
+                    url: 'https://cdn.datatables.net/plug-ins/2.3.2/i18n/tr.json',
+                },
+                serverSide: true,
+                order: [[1, 'asc']],
+                responsive: false,
+                ajax: {
+                    url: '/User/UserList',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: function (d) {
+                        return JSON.stringify(d);
+                    },
+                },
+                columns: [
+                    { data: 'Id', visible: false },
+                    { data: 'FirstName' },
+                    { data: 'LastName' },
+                    { data: 'Email' },
+                    { data: 'Phone' },
+                    { data: 'Roles' },
+                    {
+                        data: 'Active',
+                        orderable: false,
+                        searchable: false,
+                        className: 'text-center',
+                        render: (data) => `
+                            <input
+                                class="form-check-input"
+                                type="checkbox"
+                                ${data ? 'checked' : ''}
+                                title="Aktif"
+                                disabled
+                            >
+                        `
+                    },
+                    {
+                        data: 'Id',
+                        orderable: false,
+                        searchable: false,
+                        title: 'İşlemler',
+                        render: (data) => `
+                            <a href="Edit?id=${data}"
+                               class="btn btn-text-secondary rounded-pill waves-effect btn-icon"
+                               title="Düzenle">
+                                <i class="icon-base ti ti-pencil icon-22px"></i>
+                            </a>
+                        `
+                    }
+                ],
+                displayLength: 10,
+                layout: {
+                    topStart: {
+                        rowClass: "card-header d-flex border-top rounded-0 flex-wrap py-0 flex-column flex-md-row align-items-start",
+                        features: [{
+                            search: {
+                                className: "me-5 ms-n4 pe-5 mb-n6 mb-md-0",
+                                placeholder: "Ara..",
+                                text: "_INPUT_"
+                            }
+                        }]
+                    },
+                    topEnd: {
+                        rowClass: "row m-3 my-0 justify-content-between",
+                        features: [{
+                            pageLength: {
+                                menu: [10, 25, 50, 100],
+                                text: "_MENU_"
+                            },
+                            buttons: [
+                                {
+                                    text: `<i class="icon-base ti ti-plus me-0 me-sm-1 icon-16px"></i>
+                                       <span class="d-none d-sm-inline-block">Yeni Ekle</span>`,
+                                    className: "add-new btn btn-primary",
+                                    action: function () {
+                                        window.location.href = "Create";
+                                    }
+                                }
+                            ]
+                        }]
+                    },
+
+                    bottomStart: {
+                        rowClass: "row mx-3 justify-content-between",
+                        features: ["info"]
+                    },
+                    bottomEnd: "paging"
+                },
+
+
+                initComplete: function () {
+                    const adjustments = [
+                        { selector: ".dt-buttons .btn", classToRemove: "btn-secondary" },
+                        { selector: ".dt-buttons.btn-group", classToAdd: "mb-md-0 mb-6" },
+                        { selector: ".dt-search .form-control", classToRemove: "form-control-sm", classToAdd: "ms-0" },
+                        { selector: ".dt-search", classToAdd: "mb-0 mb-md-6" },
+                        { selector: ".dt-length .form-select", classToRemove: "form-select-sm" },
+                        { selector: ".dt-layout-end", classToAdd: "gap-md-2 gap-0 mt-0" },
+                        { selector: ".dt-layout-start", classToAdd: "mt-0" },
+                        { selector: ".dt-layout-table", classToRemove: "row mt-2" },
+                        { selector: ".dt-layout-full", classToRemove: "col-md col-12", classToAdd: "table-responsive" }
+                    ];
+
+                    adjustments.forEach(({ selector, classToRemove, classToAdd }) => {
+                        document.querySelectorAll(selector).forEach(el => {
+                            if (classToRemove)
+                                classToRemove.split(" ").forEach(cls => el.classList.remove(cls));
+                            if (classToAdd)
+                                classToAdd.split(" ").forEach(cls => el.classList.add(cls));
+                        });
+                    });
+                }
+            });
+
+        });
+    </script>
+
+}
