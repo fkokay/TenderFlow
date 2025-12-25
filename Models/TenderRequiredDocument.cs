@@ -22,7 +22,7 @@
 
         //Document File Info
         public string? FileName { get; set; }
-        public int?  TenderRequiredDocumentFileId{ get; set; }
+        public int? TenderRequiredDocumentFileId { get; set; }
         public string? FileType { get; set; }
         public byte[]? FileContent { get; set; }
     }

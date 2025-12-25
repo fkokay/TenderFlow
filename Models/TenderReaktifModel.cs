@@ -7,6 +7,10 @@ namespace TenderFlow.Models
         public int Id { get; set; }
 
         public int TenderId { get; set; }
+        public int TenderAuthorityId { get; set; }
+        public string ParentAuthorityCode { get; set; }
+        public string UnitCode { get; set; }
+        public string UnitName { get; set; }
 
         public string StockCode { get; set; } = string.Empty;
 
