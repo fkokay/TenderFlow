@@ -1,0 +1,92 @@
+﻿@model CreateModuleModel
+@{
+    ViewData["Title"] = "Modül Ekle";
+}
+
+<div class="col-md mb-4 mb-md-0">
+    <div class="card">
+        <h5 class="card-header">@ViewData["Title"]</h5>
+        <div class="card-body">
+            <form id="createModuleForm"
+                  class="browser-default-validation"
+                  asp-action="Create"
+                  method="post">
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label" asp-for="Code">Kodu</label>
+                        <input type="text" class="form-control" asp-for="Code" required />
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label" asp-for="Name">Adı</label>
+                        <input type="text" class="form-control" asp-for="Name" required />
+                    </div>
+
+
+                    <div class="col-12 d-flex gap-2">
+                        <button type="submit" class="btn btn-primary">
+                            Kaydet
+                        </button>
+                        <a href="/Module/List" class="btn btn-outline-secondary">
+                            Vazgeç
+                        </a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+@section PageScripts {
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        document.getElementById("createModuleForm").addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            const form = this;
+            const formData = new FormData(form);
+
+            fetch(form.action, {
+                method: "POST",
+                body: formData
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Başarılı',
+                        text: data.message,
+                        confirmButtonText: 'Tamam'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = '/Module/List';
+                        }
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Hata',
+                        text: data.message,
+                        confirmButtonText: 'Tamam'
+                    });
+                }
+            })
+            .catch(() => {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Hata',
+                    text: 'Bir hata oluştu',
+                    confirmButtonText: 'Tamam'
+                });
+            });
+        });
+    </script>
+
+}
+
+
+

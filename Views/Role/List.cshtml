@@ -1,5 +1,6 @@
-﻿@{
-    ViewData["Title"] = "Kullanıcı Listesi";
+﻿
+@{
+    ViewData["Title"] = "Rol Listesi";
 }
 
 <h4 class="fw-bold mb-4 py-3"><span class="text-muted fw-light">@ViewData["Title"]</span></h4>
@@ -12,20 +13,14 @@
             <thead>
                 <tr>
                     <th>Id</th>
-                    <th>Ad</th>
-                    <th>Soyad</th>
-                    <th>Email</th>
-                    <th>Telefon</th>
-                    <th>Roller</th>
-                    <th>Aktif</th>
+                    <th>Rol Ad</th>
                     <th>İşlemler</th>
                 </tr>
             </thead>
         </table>
     </div>
-   
-</div>
 
+</div>
 @section PageScripts {
     <script>
         $(document).ready(function () {
@@ -44,7 +39,7 @@
                 order: [[1, 'asc']],
                 responsive: false,
                 ajax: {
-                    url: '/User/UserList',
+                    url: '/Role/RoleList',
                     type: 'POST',
                     contentType: 'application/json',
                     data: function (d) {
@@ -53,26 +48,7 @@
                 },
                 columns: [
                     { data: 'Id', visible: false },
-                    { data: 'FirstName' },
-                    { data: 'LastName' },
-                    { data: 'Email' },
-                    { data: 'Phone' },
-                    { data: 'Roles' },
-                    {
-                        data: 'Active',
-                        orderable: false,
-                        searchable: false,
-                        className: 'text-center',
-                        render: (data) => `
-                            <input
-                                class="form-check-input"
-                                type="checkbox"
-                                ${data ? 'checked' : ''}
-                                title="Aktif"
-                                disabled
-                            >
-                        `
-                    },
+                    { data: 'Name' },
                     {
                         data: 'Id',
                         orderable: false,

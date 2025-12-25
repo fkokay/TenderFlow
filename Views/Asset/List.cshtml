@@ -5,7 +5,6 @@
 
 <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Demirbaşlar</span></h4>
 
-<!-- DataTable with Buttons -->
 <div class="card">
     <div class="card-datatable text-nowrap pt-0">
         <table id="Table" class="table table-bordered">
@@ -36,10 +35,8 @@
         </table>
     </div>
 </div>
-<!--/ DataTable with Buttons -->
 
-
-@section Scripts {
+@section PageScripts {
     <script>
         const table = $('#Table').DataTable({
             language: {
@@ -160,7 +157,7 @@
                 },
                 bottomEnd: "paging"
             },
-            scrollX: true,
+            scrollX: false,
 
             initComplete: function () {
             }
@@ -172,8 +169,8 @@
                 { selector: ".dt-buttons .btn", classToRemove: "btn-secondary" },
                 { selector: ".dt-buttons.btn-group", classToAdd: "mb-md-0 mb-6" },
                 { selector: ".dt-search .form-control", classToRemove: "form-control-sm", classToAdd: "ms-0" },
-                { selector: ".dt-search", classToAdd: "mb-0 mb-md-6" },
-                { selector: ".dt-length .form-select", classToRemove: "form-select-sm" },
+                { selector: ".dt-search", classToAdd: "mb-0 mb-md-6 mt-3" },
+                { selector: ".dt-length .form-select", classToRemove: "form-select-sm",classToAdd: "mb-0 mb-md-6 mt-3" },
                 { selector: ".dt-layout-end", classToAdd: "gap-md-2 gap-0 mt-0" },
                 { selector: ".dt-layout-start", classToAdd: "mt-0" },
                 { selector: ".dt-layout-table", classToRemove: "row mt-2" },

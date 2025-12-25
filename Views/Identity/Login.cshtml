@@ -1,5 +1,4 @@
-﻿
-@model LoginModel
+﻿@model LoginModel
 @{
     Layout = null;
 }
@@ -122,6 +121,20 @@
                                    autofocus />
                         </div>
 
+                        <div class="mb-3">
+                            <label class="form-label">Firma</label>
+                            <select id="firmId"
+                                    name="FirmId"
+                                    class="form-select"
+                                    required>
+                                <option value="">Firma seçiniz</option>
+                                @foreach (var firm in ViewBag.Firms)
+                                {
+                                    <option value="@firm.Id">@firm.FirmName</option>
+                                }
+                            </select>
+                        </div>
+
                         <div class="form-password-toggle mb-3">
                             <div class="d-flex justify-content-between">
                                 <label class="form-label" for="password">Şifre</label>
@@ -184,7 +197,7 @@
 
 
     <script>
-                const loginValidation = FormValidation.formValidation(
+        const loginValidation = FormValidation.formValidation(
             document.getElementById('loginForm'),
             {
                 locale: 'tr_TR',
@@ -210,6 +223,13 @@
                                 message: 'Şifre en az 6 karakter olmalıdır'
                             }
                         }
+                    },
+                    FirmId: {
+                        validators: {
+                            notEmpty: {
+                                message: 'Firma seçmelisiniz'
+                            }
+                        }
                     }
                 },
                 plugins: {
@@ -222,6 +242,7 @@
                     autoFocus: new FormValidation.plugins.AutoFocus()
                 },
                 init: instance => {
+
                     instance.on('plugins.message.placed', function (e) {
                         if (e.element.parentElement.classList.contains('input-group')) {
                             e.element.parentElement.insertAdjacentElement('afterend', e.messageElement);
@@ -229,31 +250,33 @@
                     });
 
                     instance.on('core.form.valid', function () {
+
                         const formData = {
                             Email: $('#email').val(),
-                            Password: $('#password').val()
+                            Password: $('#password').val(),
+                            FirmId: $('#firmId').val()
                         };
 
                         $.ajax({
-                            url: '/Identity/Login', // Controller'ına göre burayı değiştir
+                            url: '/Identity/Login',
                             method: 'POST',
                             data: formData,
                             success: function (response) {
-                               if(response.success){
+                                if (response.success === true) {
                                     window.location.href = '/Home/Index';
-                               }else{
-                                    alert(response.message || 'Giriş başarısız. Lütfen bilgilerinizi kontrol edin.');
-                               }
+                                } else {
+                                    alert(response.message || 'Giriş başarısız.');
+                                }
                             },
-                            error: function (xhr) {
-                                alert(xhr.responseText || 'Giriş yapılırken bir hata oluştu.');
+                            error: function () {
+                                alert('Giriş yapılırken bir hata oluştu.');
                             }
                         });
                     });
                 }
             }
         );
-
     </script>
+
 </body>
 </html>

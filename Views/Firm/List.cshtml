@@ -1,10 +1,9 @@
-﻿@{
-    ViewData["Title"] = "Kullanıcı Listesi";
+﻿
+@{
+    ViewData["Title"] = "Firma Listesi";
 }
 
 <h4 class="fw-bold mb-4 py-3"><span class="text-muted fw-light">@ViewData["Title"]</span></h4>
-
-
 
 <div class="card">
     <div class="card-datatable table-responsive">
@@ -12,25 +11,25 @@
             <thead>
                 <tr>
                     <th>Id</th>
-                    <th>Ad</th>
-                    <th>Soyad</th>
-                    <th>Email</th>
-                    <th>Telefon</th>
-                    <th>Roller</th>
-                    <th>Aktif</th>
+                    <th>Firma Kodu</th>
+                    <th>Firma Adı</th>
                     <th>İşlemler</th>
                 </tr>
             </thead>
         </table>
     </div>
-   
-</div>
 
+</div>
 @section PageScripts {
+
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
+
+         let table;
         $(document).ready(function () {
 
-            const table = $('#Table').DataTable({
+            table = $('#Table').DataTable({
                 language: {
                     paginate: {
                         next: '<i class="icon-base ti ti-chevron-right scaleX-n1-rtl icon-18px"></i>',
@@ -44,7 +43,7 @@
                 order: [[1, 'asc']],
                 responsive: false,
                 ajax: {
-                    url: '/User/UserList',
+                    url: '/Firm/FirmList',
                     type: 'POST',
                     contentType: 'application/json',
                     data: function (d) {
@@ -53,26 +52,8 @@
                 },
                 columns: [
                     { data: 'Id', visible: false },
-                    { data: 'FirstName' },
-                    { data: 'LastName' },
-                    { data: 'Email' },
-                    { data: 'Phone' },
-                    { data: 'Roles' },
-                    {
-                        data: 'Active',
-                        orderable: false,
-                        searchable: false,
-                        className: 'text-center',
-                        render: (data) => `
-                            <input
-                                class="form-check-input"
-                                type="checkbox"
-                                ${data ? 'checked' : ''}
-                                title="Aktif"
-                                disabled
-                            >
-                        `
-                    },
+                    { data: 'FirmCode' },
+                    { data: 'FirmName' },
                     {
                         data: 'Id',
                         orderable: false,
@@ -84,6 +65,12 @@
                                title="Düzenle">
                                 <i class="icon-base ti ti-pencil icon-22px"></i>
                             </a>
+
+                              <button class="btn btn-text-danger rounded-pill btn-icon btn-delete"
+                                    data-id="${data}"
+                                    title="Sil">
+                                <i class="icon-base text-danger ti ti-trash icon-22px"></i>
+                            </button>
                         `
                     }
                 ],
@@ -152,5 +139,41 @@
             });
 
         });
+
+
+          $('#Table').on('click', '.btn-delete', function () {
+            const id = $(this).data('id');
+
+            Swal.fire({
+                title: 'Emin misiniz?',
+                text: 'Bu kayıt silinecek!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Sil',
+                cancelButtonText: 'İptal'
+            }).then(result => {
+                if (result.isConfirmed) {
+                    $.post('/Firm/Delete', { id })
+                        .done(res => {
+                            if (res.success) {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Silindi',
+                                    text: res.message,
+                                    timer: 1500,
+                                    showConfirmButton: false
+                                });
+                                table.ajax.reload(null, false);
+                            } else {
+                                Swal.fire('Hata', res.message, 'error');
+                            }
+                        })
+                        .fail(() => {
+                            Swal.fire('Hata', 'Silme sırasında hata oluştu.', 'error');
+                        });
+                }
+            });
+        });
     </script>
 }
+

@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
+using TenderFlow.Core.Domain.Entities;
 using TenderFlow.Data;
 using TenderFlow.Models.Identity;
 
@@ -16,6 +18,13 @@ namespace TenderFlow.Controllers
         }
         public IActionResult Login()
         {
+            var firms = _db.Firms.Select(f => new
+            {
+                f.Id,
+                f.FirmName
+            }).ToList();
+
+            ViewBag.Firms = firms;
             return View();
         }
 
@@ -42,7 +51,9 @@ namespace TenderFlow.Controllers
                 new Claim(ClaimTypes.Name, user.FirstName),
                 new Claim(ClaimTypes.Surname, user.LastName),
                 new Claim(ClaimTypes.Email, user.Email),
-                new Claim(ClaimTypes.MobilePhone, user.Phone ?? "")
+                new Claim(ClaimTypes.MobilePhone, user.Phone ?? ""), 
+                new Claim("FirmId", model.FirmId.ToString())
+
             };
 
             foreach (var role in roles)
@@ -50,8 +61,18 @@ namespace TenderFlow.Controllers
                 userClaims.Add(new Claim(ClaimTypes.Role, role));
             }
 
-            var identity = new ClaimsIdentity(userClaims, "TenderFlowAuth");
+            var identity = new ClaimsIdentity(
+                userClaims,
+                CookieAuthenticationDefaults.AuthenticationScheme
+            );
+
             var principal = new ClaimsPrincipal(identity);
+
+            await HttpContext.SignInAsync(
+                CookieAuthenticationDefaults.AuthenticationScheme,
+                principal
+            );
+
 
             await HttpContext.SignInAsync(principal);
 
