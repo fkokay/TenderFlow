@@ -179,3 +179,7 @@ table.table-bordered.dataTable th:first-child, table.table-bordered.dataTable th
     pointer-events: auto;
     transform: translateY(0);
 }
+
+.app-brand-text.demo {
+    font-size: 1rem !important;
+}

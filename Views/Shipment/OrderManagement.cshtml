@@ -337,6 +337,8 @@
     <script src="~/pages/order-management-list.js" asp-append-version="true"></script>
 
     <script>
+        var CreateShipmentInvoice = @Html.Raw(JsonSerializer.Serialize(ViewBag.CreateShipmentInvoice));
+        var CreateShipmentDispatch = @Html.Raw(JsonSerializer.Serialize(ViewBag.CreateShipmentDispatch));
         var userRoles = @Html.Raw(JsonSerializer.Serialize(User.Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value)));
         document.addEventListener("DOMContentLoaded", function () {
            TenderFlow.OrderManagementList.init();

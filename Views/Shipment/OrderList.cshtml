@@ -157,6 +157,8 @@
     <script src="~/pages/customer-selector.js"></script>
     <script src="~/pages/order-list.js"></script>
     <script>
+        var CreateShipmentForMultipleOrders = @ViewBag.CreateShipmentForMultipleOrders;
+
         TenderFlow.CustomerSelector.init();
         TenderFlow.OrderList.init();
     </script>

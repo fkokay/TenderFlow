@@ -1,0 +1,389 @@
+﻿<style>
+    @@media only screen and (max-width: 500px) {
+        .kt-aside--on {
+            width: 80% !important;
+        }
+    }
+
+    #navWrapper .kt-menu__link:hover {
+        background: transparent !important;
+    }
+
+    #navWrapper .kt-menu__link {
+        background: white !important;
+    }
+
+    #navWrapper .kt-menu__item--active > .kt-menu__link {
+        background: rgba(77, 89, 149, 0.06) !important;
+    }
+</style>
+
+
+<button class="kt-header-menu-wrapper-close" id="kt_header_menu_mobile_close_btn"><i class="la la-close"></i></button>
+<div class="kt-header-menu-wrapper kt-grid__item kt-grid__item--fluid" id="kt_header_menu_wrapper">
+    <div id="kt_header_menu" class="kt-header-menu kt-header-menu-mobile kt-header-menu--layout-">
+        <ul id="navWrapper" class="kt-menu__nav">
+            <li class="kt-menu__item" aria-haspopup="true">
+                <a href="/DashboardPanel/Index" class="kt-menu__link"><span class="kt-menu__link-text"> Dashboard </span></a>
+            </li>
+            <li id="defaultLi" class="kt-menu__item" aria-haspopup="true">
+                <a href="/Task/List" class="kt-menu__link"><span class="kt-menu__link-text">Görev Listesi</span></a>
+            </li>
+            <li class="kt-menu__item" aria-haspopup="true">
+                <a href="/Search" class="kt-menu__link"><span class="kt-menu__link-text">Arama</span></a>
+            </li>
+            <li class="kt-menu__item kt-menu__item--submenu kt-menu__item--rel" data-ktmenu-submenu-toggle="click" aria-haspopup="true">
+                <a href="javascript:;" class="kt-menu__link kt-menu__toggle"><span class="kt-menu__link-text">Ayarlar</span><i class="kt-menu__hor-arrow la la-angle-down"></i></a>
+                <div class="kt-menu__submenu kt-menu__submenu--classic kt-menu__submenu--left">
+                    <ul class="kt-menu__subnav">
+
+                        <li class="kt-menu__item" aria-haspopup="true"><a href="/Preferences/Localization" class="kt-menu__link"><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Yerelleştirme</span></a></li>
+
+                        <li class="kt-menu__item" aria-haspopup="true"><a href="/Preferences/Password" class="kt-menu__link"><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Şifre</span></a></li>
+
+                        <li class="kt-menu__item" aria-haspopup="true"><a href="/Preferences/Views" class="kt-menu__link"><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Görünümler</span></a></li>
+
+                        <li class="kt-menu__item" aria-haspopup="true"><a href="/Preferences/Delegation" class="kt-menu__link"><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Delegasyon</span></a></li>
+                        <li class="kt-menu__item" aria-haspopup="true"><a href="/Preferences/Options" class="kt-menu__link"><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Seçenekler</span></a></li>
+                    </ul>
+                </div>
+            </li>
+
+            <li class="kt-menu__item kt-menu__item--submenu kt-menu__item--rel kt-menu__item--active" data-ktmenu-submenu-toggle="click" aria-haspopup="true">
+                <a href="javascript:;" class="kt-menu__link kt-menu__toggle"><span class="kt-menu__link-text">Yönetim</span><i class="kt-menu__hor-arrow la la-angle-down"></i></a>
+                <div class="kt-menu__submenu kt-menu__submenu--classic kt-menu__submenu--left">
+                    <ul class="kt-menu__subnav">
+                        <li class="kt-menu__item kt-menu__item--active" aria-haspopup="true"><a href="/Admin/UserList" class="kt-menu__link"><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Kullanıcılar</span></a></li>
+                        <li class="kt-menu__item" aria-haspopup="true"><a href="/Admin/Groups" class="kt-menu__link"><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Gruplar / Roller</span></a></li>
+                        <li class="kt-menu__item" aria-haspopup="true"><a href="/Admin/DataSources" class="kt-menu__link"><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Veri Kaynakları</span></a></li>
+                        <li class="kt-menu__item" aria-haspopup="true"><a href="/Admin/CompanyList" class="kt-menu__link"><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Firma Listesi</span></a></li>
+                        <li class="kt-menu__item" aria-haspopup="true"><a href="/Admin/License" class="kt-menu__link"><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Lisanslar</span></a></li>
+                        <li compid="0" class="kt-menu__item" aria-haspopup="true"><a href="/Log/Index" class="kt-menu__link"><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Sistem Logları</span></a></li>
+
+                    </ul>
+                </div>
+            </li>
+
+            <li class="kt-menu__item" aria-haspopup="true">
+                <a href="/Reports/Index" class="kt-menu__link"><span class="kt-menu__link-text">Raporlar</span></a>
+            </li>
+
+
+            <li class="kt-menu__item" aria-haspopup="true">
+                <a id="helpLinkUrl" target="_blank" href="https://netoloji.com/dokumanlar/is-akis-otomasyonu-nedir/" class="kt-menu__link"><span class="kt-menu__link-text">Yardım</span></a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $(function () {
+            setActiveMenuLink();
+            changeHelpUrlByLang();
+        });
+
+        function setActiveMenuLink() {
+            var current_page_URL = window.location.pathname;
+            current_page_URL = convertToParentUrl(current_page_URL);
+
+            $("#navWrapper li").each(function () {
+                var page_URL = $(this).find('a').attr("href")
+                if (page_URL == current_page_URL) {
+                    $(this).siblings().removeClass("kt-menu__item--active");
+                    $(this).addClass('kt-menu__item--active');
+
+                    if ($(this).parents('.kt-menu__subnav').length != 0) {
+                        $('#defaultLi').removeClass("kt-menu__item--active");
+                        $(this).parents().eq(2).addClass('kt-menu__item--active');
+                    }
+                }
+            });
+        }
+
+        function convertToParentUrl(url) {
+            if (url == '/Search/SearchResults' || url == '/Search/Detail')
+                url = '/Search';
+            if (url == '/Preferences/ViewDetail')
+                url = '/Preferences/Views';
+            if (url == '/Preferences/AddDelegation')
+                url = '/Preferences/Delegation';
+            if (url == '/Account/UserWizard')
+                url = '/Admin/UserList';
+            if (url == '/Admin/AddDataSource')
+                url = '/Admin/DataSources';
+            if (url == '/Admin/AddCompany' || url == '/Admin/CompanyDetail')
+                url = '/Admin/CompanyList';
+            if (url == '/Dms/Document/Index/4')
+                url = '/DMS2';
+            if (url.indexOf('Reports') > -1)
+                url = '/Reports/Index';
+
+            return url;
+        }
+
+        function changeHelpUrlByLang() {
+            var url = "https://netoloji.com/dokumanlar/is-akis-otomasyonu-nedir/";
+
+            if (EFlang.localeCode == "tr") {
+                url = "https://netoloji.com/dokumanlar/is-akis-otomasyonu-nedir/";
+            }
+            else if (EFlang.localeCode == "en") {
+                url = "https://netoloji.com/en/work-flow-automation/";
+            }
+            else if (EFlang.localeCode == "de") {
+                url = "https://netoloji.com/de/workflow-automatisierung/";
+            }
+            else if (EFlang.localeCode == "pt") {
+                url = "https://netoloji.com/pt/automacao-de-fluxo-de-trabalho/";
+            }
+            else if (EFlang.localeCode == "es") {
+                url = "https://netoloji.com/es/work-flow-automation/";
+            }
+            else {
+                url = "https://netoloji.com/en/work-flow-automation/";
+            }
+
+            $("#helpLinkUrl").prop('href', url);
+        }
+    });
+</script>
+
+<div id="wait" style="display:none; margin: auto;width: 20px;height: 20px;position: absolute;top: 200px;bottom: 0px;left: -100px;right: 0px;" class="loadingDiv kt-spinner kt-spinner--v2 kt-spinner--md kt-spinner--info"></div>
+
+<!-- begin:: Header Topbar -->
+<div class="kt-header__topbar">
+
+
+    <div id="taskHeaderSearch" style="" class="kt-header__topbar-item kt-header__topbar-item--search">
+        <div id="headerSearchBar" class="kt-header__topbar-wrapper" style="width:150px;">
+            <div class="kt-quick-search">
+                <div class="kt-quick-search__form">
+                    <div class="input-group">
+                        <div class="input-group-prepend"><span class="input-group-text"><i class="flaticon2-search-1"></i></span></div>
+                        <input id="txtGeneralSearch" type="text" class="form-control kt-quick-search__input" placeholder="Ara . . .">
+                        <div class="input-group-append"><span class="input-group-text"><i class="la la-close kt-quick-search__close"></i></span></div>
+                    </div>
+                </div>
+                <div id="kt_quick_search_toggle" data-toggle="dropdown" data-offset="10px, 0px"></div>
+                <div class="dropdown-menu dropdown-menu-fit dropdown-menu-right dropdown-menu-anim dropdown-menu-lg">
+                    <div class="kt-quick-search__wrapper kt-scroll" data-scroll="true" data-height="300" data-mobile-height="200" style="height: 200px; overflow: auto;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        $(function () {
+
+            if (
+                (window.location.href.indexOf('Task/List') > 0) ||
+                (window.location.href.indexOf('Task/Index') > 0) ||
+                (window.location.href.indexOf('Admin/UserList') > 0) ||
+                (window.location.href.indexOf('Admin/Groups') > 0) ||
+                (window.location.href.indexOf('Partials/ProcessesIncludedByMe') > 0) ||
+                (window.location.href.indexOf('Partials/ProcessesCompletedByMe') > 0) ||
+                (window.location.href.indexOf('Partials/ProcessesCreatedByMe') > 0) ||
+                (window.location.href.toLowerCase().indexOf('dms') > 0) ||
+                (window.location.href.toLowerCase().indexOf('dms2') > 0) ||
+                (window.location.href.indexOf('Reports') > 0)
+            ) {
+                $("#taskHeaderSearch").show();
+            }
+
+            $('#txtGeneralSearch').focus(function () {
+                $("#headerSearchBar").animate({ width: 205 }, 'slow');
+            }).blur(function () {
+                $("#headerSearchBar").animate({ width: 150 }, 'slow');
+            });
+
+        });
+    </script>
+
+    <div class="kt-header__topbar-item dropdown">
+        <div class="kt-header__topbar-wrapper infinite tada" data-toggle="dropdown" data-offset="10px,0px" id="btnNotify">
+            <span class="kt-header__topbar-icon kt-header__topbar-icon--success"><i class="flaticon2-bell-alarm-symbol"></i></span>
+            <span class="kt-hidden kt-badge kt-badge--danger notify" style="top: 22px;left: 20px;height: 16px !important;width: 16px !important;position: absolute;"></span>
+
+        </div>
+        <div class="dropdown-menu dropdown-menu-fit dropdown-menu-right dropdown-menu-anim dropdown-menu-xl head-notification-wp">
+            <form>
+
+                <!--begin: Head -->
+                <div class="head-notification-wp-title kt-head kt-head--skin-light kt-head--fit-x kt-head--fit-b" style="display: none;">
+                    <h3 class="kt-head__title taskCount"></h3>
+                    <ul class="nav nav-tabs nav-tabs-line nav-tabs-bold nav-tabs-line-3x nav-tabs-line-brand kt-notification-item-padding-x" role="tablist" style="display: none;">
+                        <li class="nav-item">
+                            <a style="border-bottom: 1px solid #ffb822" class="nav-link active show" data-toggle="tab" href="#topbar_notifications_notifications" role="tab" aria-selected="true">Yeni Bildirim</a>
+                        </li>
+
+                    </ul>
+                </div>
+
+                <!--end: Head -->
+                <div class="tab-content">
+                    <div class="tab-pane active show" id="topbar_notifications_notifications" role="tabpanel">
+                        <div class="kt-notification kt-margin-t-10 kt-margin-b-10 kt-scroll noti hided" data-scroll="true" data-height="300" data-mobile-height="200" style="height: 200px; overflow: auto;"><div style="margin-left: 0px;margin-top:15%;"> <div class="kt-grid kt-grid--hor kt-grid__item kt-grid__item--fluid kt-grid__item--middle"><div class="kt-grid__item kt-grid__item--middle kt-align-center"> <i class="bell fa fa-bell" style=" font-size: 50px; padding-bottom: 30px; color: #e7e6e6;"></i> <br> <span style="font-weight: 400; font-size: 18px;"> <img src="/Assets/theme/default/dist/default/assets/media/icons/svg/Navigation/Double-check.svg"> Tüm Bildirimler Görüntülendi!  </span> <br><br> Yeni Bildiriminiz Bulunmamaktadır. </div></div> </div> </div>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+
+
+
+    <div class="kt-header__topbar-item kt-header__topbar-item--langs">
+        <div class="kt-header__topbar-wrapper" data-toggle="dropdown" data-offset="10px,0px">
+            <span class="kt-header__topbar-icon kt-header__topbar-icon--brand">
+
+                <img class="" src="/assets/theme/default/dist/demo7/assets/media/flags/006-turkey.svg" alt="">
+            </span>
+        </div>
+        <div class="dropdown-menu dropdown-menu-fit dropdown-menu-right dropdown-menu-anim">
+            <ul class="kt-nav kt-margin-t-10 kt-margin-b-10">
+
+                <li class="kt-nav__item">
+                    <a href="/Partials/ChangeLanguage?lang=tr&amp;RefUrl=http%3A%2F%2F192.168.1.100%3A9033%2FAdmin%2FUserList" class="kt-nav__link">
+                        <span class="kt-nav__link-icon"><img src="/assets/theme/default/dist/demo7/assets/media/flags/006-turkey.svg" alt=""></span>
+                        <span class="kt-nav__link-text">Türkçe</span>
+                    </a>
+                </li>
+                <li class="kt-nav__item">
+                    <a href="/Partials/ChangeLanguage?lang=en&amp;RefUrl=http%3A%2F%2F192.168.1.100%3A9033%2FAdmin%2FUserList" class="kt-nav__link">
+                        <span class="kt-nav__link-icon"><img src="/assets/theme/default/dist/demo7/assets/media/flags/012-uk.svg" alt=""></span>
+                        <span class="kt-nav__link-text">English</span>
+                    </a>
+                </li>
+                <li class="kt-nav__item">
+                    <a href="/Partials/ChangeLanguage?lang=ru&amp;RefUrl=http%3A%2F%2F192.168.1.100%3A9033%2FAdmin%2FUserList" class="kt-nav__link">
+                        <span class="kt-nav__link-icon"><img src="/assets/theme/default/dist/demo7/assets/media/flags/013-russia.svg" alt=""></span>
+                        <span style="font-size:14px;" class="kt-nav__link-text">Pусский</span>
+                    </a>
+                </li>
+                <li class="kt-nav__item">
+                    <a href="/Partials/ChangeLanguage?lang=de&amp;RefUrl=http%3A%2F%2F192.168.1.100%3A9033%2FAdmin%2FUserList" class="kt-nav__link">
+                        <span class="kt-nav__link-icon"><img src="/assets/theme/default/dist/demo7/assets/media/flags/017-germany.svg" alt=""></span>
+                        <span class="kt-nav__link-text">Deutsch</span>
+                    </a>
+                </li>
+                <li class="kt-nav__item">
+                    <a href="/Partials/ChangeLanguage?lang=es&amp;RefUrl=http%3A%2F%2F192.168.1.100%3A9033%2FAdmin%2FUserList" class="kt-nav__link">
+                        <span class="kt-nav__link-icon"><img src="/assets/theme/default/dist/demo7/assets/media/flags/016-spain.svg" alt=""></span>
+                        <span class="kt-nav__link-text">Español</span>
+                    </a>
+                </li>
+                <li class="kt-nav__item">
+                    <a href="/Partials/ChangeLanguage?lang=fr&amp;RefUrl=http%3A%2F%2F192.168.1.100%3A9033%2FAdmin%2FUserList" class="kt-nav__link">
+                        <span class="kt-nav__link-icon"><img src="/assets/theme/default/dist/demo7/assets/media/flags/019-france.svg" alt=""></span>
+                        <span class="kt-nav__link-text">Français</span>
+                    </a>
+                </li>
+                <li class="kt-nav__item">
+                    <a href="/Partials/ChangeLanguage?lang=az&amp;RefUrl=http%3A%2F%2F192.168.1.100%3A9033%2FAdmin%2FUserList" class="kt-nav__link">
+                        <span class="kt-nav__link-icon"><img src="/assets/theme/default/dist/demo7/assets/media/flags/021-flag.png" alt=""></span>
+                        <span class="kt-nav__link-text">Azərbaycan</span>
+                    </a>
+                </li>
+                <li class="kt-nav__item">
+                    <a href="/Partials/ChangeLanguage?lang=pt&amp;RefUrl=http%3A%2F%2F192.168.1.100%3A9033%2FAdmin%2FUserList" class="kt-nav__link">
+                        <span class="kt-nav__link-icon"><img src="/assets/theme/default/dist/demo7/assets/media/flags/011-brazil.svg" alt=""></span>
+                        <span class="kt-nav__link-text">Português</span>
+                    </a>
+                </li>
+                <li class="kt-nav__item">
+                    <a href="/Partials/ChangeLanguage?lang=pl&amp;RefUrl=http%3A%2F%2F192.168.1.100%3A9033%2FAdmin%2FUserList" class="kt-nav__link">
+                        <span class="kt-nav__link-icon"><img src="/assets/theme/default/dist/demo7/assets/media/flags/022-polish.svg" alt=""></span>
+                        <span class="kt-nav__link-text">Polski</span>
+                    </a>
+                </li>
+                <li class="kt-nav__item">
+                    <a href="/Partials/ChangeLanguage?lang=ar-EG&amp;RefUrl=http%3A%2F%2F192.168.1.100%3A9033%2FAdmin%2FUserList" class="kt-nav__link">
+                        <span class="kt-nav__link-icon"><img src="/assets/theme/default/dist/demo7/assets/media/flags/008-saudi-arabia.svg" alt=""></span>
+                        <span class="kt-nav__link-text">عربى</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+
+    <link rel="stylesheet" href="/css/plugins/file-pond/filepond.min.css?v=3.24.00">
+    <link rel="stylesheet" href="/css/plugins/file-pond/filepond-plugin-image-preview.min.css?v=3.24.00">
+
+    <!--begin: User bar -->
+    <div class="kt-header__topbar-item kt-header__topbar-item--user">
+        <div class="kt-header__topbar-wrapper" data-toggle="dropdown" data-offset="10px,0px">
+
+
+            <span class="kt-header__topbar-icon">AA</span>
+        </div>
+        <div class="dropdown-menu dropdown-menu-fit dropdown-menu-right dropdown-menu-anim dropdown-menu-xl">
+
+            <!--begin: Head -->
+            <div class="kt-user-card kt-user-card--skin-light kt-notification-item-padding-x">
+                <div class="kt-user-card__avatar">
+                    <!-- avatar/initials are still injected by JS; this is just the edit button -->
+                    <div class="current-avatar-btn-wrap">
+                        <button type="button" class="btn btn-info btn-sm btn-icon avatar-edit-btn js-avatar-edit" aria-label="Düzenle" title="Düzenle">
+                            <i class="fa fa-pen"></i>
+                        </button>
+                        <button type="button" class="btn btn-warning btn-sm btn-icon avatar-remove-btn js-avatar-remove d-none" aria-label="Sil" title="Sil">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                    </div>
+                    <span class="kt-badge kt-badge--username kt-badge--lg kt-badge--rounded">AA</span>
+                </div>
+                <div class="kt-user-card__name">
+                    <span class="kt-user__name">admin admin</span>
+                    <span class="kt-user__company">Default Company (0)</span>
+                    <span class="kt-user__mail">fatihkokay@gmail.com</span>
+                </div>
+            </div>
+            <!--end: Head -->
+            <!--begin: Navigation -->
+            <div class="kt-notification ef3__user">
+                <br>
+                <a href="/Account/Logout" class="kt-notification__item">
+                    <div class="kt-notification__item-icon">
+                        <i class="fa fa-power-off"></i>
+                    </div>
+                    <div class="kt-notification__item-details">
+                        <div class="kt-notification__item-title kt-font-bold">
+                            Çıkış
+                        </div>
+                    </div>
+                </a>
+
+            </div>
+            <!--end: Navigation -->
+        </div>
+    </div>
+
+    <script src="/scripts/plugins/file-pond/filepond.min.js?v=3.24.00"></script>
+    <script src="/scripts/plugins/file-pond/filepond-plugin-image-preview.min.js?v=3.24.00"></script>
+    <script src="/scripts/plugins/file-pond/filepond-plugin-file-validate-type.min.js?v=3.24.00"></script>
+    <script src="/scripts/plugins/file-pond/filepond-plugin-file-validate-size.min.js?v=3.24.00"></script>
+    <link rel="stylesheet" href="/css/plugins/file-pond/cropper.min.css?v=3.24.00">
+    <script src="/scripts/plugins/file-pond/cropper.min.js?v=3.24.00"></script>
+
+    <script>
+        FilePond.registerPlugin(
+            FilePondPluginImagePreview,
+            FilePondPluginFileValidateType,
+            FilePondPluginFileValidateSize
+        );
+    </script>
+
+    <div style="display:none;" class="kt-header__topbar-item kt-header__topbar-item--quickpanel" data-toggle="kt-tooltip" title="Quick panel" data-placement="top">
+        <div class="kt-header__topbar-wrapper">
+            <span class="kt-header__topbar-icon" id="kt_quick_panel_toggler_btn"><i class="flaticon2-cube-1"></i></span>
+        </div>
+    </div>
+
+</div>
+
+<!-- end:: Header Topbar -->

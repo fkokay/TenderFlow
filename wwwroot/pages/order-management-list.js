@@ -147,21 +147,23 @@ TenderFlow.OrderManagementList = (function ($) {
                                     : ''
                                 }
 
-                                        ${row.TOPLAM_IRS_EDILMEYEN > 0
-                                    ? `<li>
-                                                   <a href="javascript:;" class="dropdown-item"
-                                                      onclick="TenderFlow.OrderManagementList.createDocument('${row.BELGE_NO}')">
-                                                       <i class="ti ti-plus me-1"></i> İrsaliye Oluştur
-                                                   </a>
-                                               </li>
-                                         <li>
-                                                   <a href="javascript:;" class="dropdown-item"
-                                                      onclick="TenderFlow.OrderManagementList.createInvoice('${row.BELGE_NO}',${row.EFATURA_CARISI == 'E'})">
-                                                       <i class="ti ti-plus me-1"></i> Fatura Oluştur
-                                                   </a>
-                                               </li>`
-                                    : ''
-                                }
+                                    ${row.TOPLAM_IRS_EDILMEYEN > 0 ? `
+                                        ${CreateShipmentDispatch == 1 ? `
+                                            <li>
+                                                <a href = "javascript:;" class="dropdown-item" onclick = "TenderFlow.OrderManagementList.createDocument('${row.BELGE_NO}')" >
+                                                    <i class="ti ti-plus me-1"></i> İrsaliye Oluştur
+                                                </a>
+                                            </li>`: ''
+                                        }
+                                        ${CreateShipmentInvoice == 1 ? `
+                                            <li>
+                                                <a href="javascript:;" class="dropdown-item" onclick = "TenderFlow.OrderManagementList.createInvoice('${row.BELGE_NO}',${row.EFATURA_CARISI == 'E'})" >
+                                                    <i class="ti ti-plus me-1"></i> Fatura Oluştur
+                                                </a>
+                                            </li>`: ''
+                                        }`
+                                        : ''
+                                    }
 
                                         ${row.TOPLAM_IRS_EDILMEYEN > 0 && row.TOPLAM_IRS_EDILEN > 0 ? `<div class="dropdown-divider"></div>` : ''}
                                         ${userRoles.includes("Admin") || userRoles.includes("Satış") ?
@@ -449,7 +451,7 @@ TenderFlow.OrderManagementList = (function ($) {
         $("#EIrsaliyeModal input").val("");
     }
 
-    function showDocuments(shipmentNo,einvoice) {
+    function showDocuments(shipmentNo, einvoice) {
 
         if ($.fn.DataTable.isDataTable('#TableDocument')) {
             $('#TableDocument').DataTable().clear().destroy();
@@ -496,7 +498,7 @@ TenderFlow.OrderManagementList = (function ($) {
         modal.show();
     }
 
-    function viewDocumentPopup(documentNumber,einvoice, documentType) {
+    function viewDocumentPopup(documentNumber, einvoice, documentType) {
 
         const tick = new Date().getTime();
         const url = `/Shipment/DocumentView?documentNumber=${documentNumber}&einvoice=${einvoice}&documentType=${documentType}&_=${tick}`;

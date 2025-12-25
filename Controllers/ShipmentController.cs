@@ -8,7 +8,9 @@ using NetOpenX.Rest.Client.Model;
 using NetOpenX.Rest.Client.Model.Custom;
 using NetOpenX.Rest.Client.Model.Enums;
 using NetOpenX.Rest.Client.Model.NetOpenX;
+using TenderFlow.Core.Domain.Entities;
 using TenderFlow.Core.Grid;
+using TenderFlow.Data;
 using TenderFlow.Models;
 using TenderFlow.Models.Picker;
 using TenderFlow.Netsis;
@@ -19,6 +21,12 @@ namespace TenderFlow.Controllers
 
     public class ShipmentController : Controller
     {
+        private readonly TenderFlowContext _db;
+        public ShipmentController(TenderFlowContext db)
+        {
+            _db = db;
+        }
+
         [HttpGet]
         [Authorize(Roles = "Administrator,Satış")]
         public async Task<IActionResult> OrderList()
@@ -42,7 +50,12 @@ namespace TenderFlow.Controllers
         {
             try
             {
-                using var con = CreateNetsisConnection();
+                var firm = _db.Firms.FirstOrDefault();
+                if (firm == null)
+                {
+                    return NotFound("Firma bilgileri bulunamadı.");
+                }
+                using var con = CreateNetsisConnection(firm);
 
                 var shipmentManager = new ShipmentManager(con);
                 short rowNumber = 1;
@@ -101,7 +114,12 @@ namespace TenderFlow.Controllers
         [Authorize(Roles = "Administrator,Satış,Sevkiyat")]
         public async Task<IActionResult> Edit(string belgeNo)
         {
-            using var con = CreateNetsisConnection();
+            var firm = _db.Firms.FirstOrDefault();
+            if (firm == null)
+            {
+                return NotFound("Firma bilgileri bulunamadı.");
+            }
+            using var con = CreateNetsisConnection(firm);
 
             var shipmentService = new ShipmentManager(con);
             var model = await shipmentService.GetShipmentAsync(belgeNo);
@@ -116,7 +134,12 @@ namespace TenderFlow.Controllers
         [Authorize(Roles = "Administrator,Satış,Sevkiyat")]
         public async Task<IActionResult> OrderDetails(string siparisNo)
         {
-            using var con = CreateNetsisConnection();
+            var firm = _db.Firms.FirstOrDefault();
+            if (firm == null)
+            {
+                return NotFound("Firma bilgileri bulunamadı.");
+            }
+            using var con = CreateNetsisConnection(firm);
 
             var shipmentService = new ShipmentManager(con);
             var model = await shipmentService.GetOrderDetailsAsync(siparisNo);
@@ -131,6 +154,8 @@ namespace TenderFlow.Controllers
         [Authorize(Roles = "Administrator,Satış,Sevkiyat")]
         public IActionResult OrderManagement()
         {
+            ViewBag.CreateShipmentInvoice = _db.Settings.Where(s => s.Key == "CreateShipmentInvoice").Select(s => s.Value).FirstOrDefault();
+            ViewBag.CreateShipmentDispatch = _db.Settings.Where(s => s.Key == "CreateShipmentDispatch").Select(s => s.Value).FirstOrDefault();
             return View();
         }
 
@@ -138,7 +163,12 @@ namespace TenderFlow.Controllers
         [Authorize(Roles = "Administrator,Satış")]
         public async Task<IActionResult> OrderList([FromBody] OrderListRequest request)
         {
-            using var con = CreateNetsisConnection();
+            var firm = _db.Firms.FirstOrDefault();
+            if (firm == null)
+            {
+                return NotFound("Firma bilgileri bulunamadı.");
+            }
+            using var con = CreateNetsisConnection(firm);
 
             var shipmentManager = new ShipmentManager(con);
 
@@ -157,7 +187,12 @@ namespace TenderFlow.Controllers
         [Authorize(Roles = "Administrator,Satış,Sevkiyat")]
         public async Task<IActionResult> OrderManagementList([FromBody] OrderManagementListListRequest request)
         {
-            using var con = CreateNetsisConnection();
+            var firm = _db.Firms.FirstOrDefault();
+            if (firm == null)
+            {
+                return NotFound("Firma bilgileri bulunamadı.");
+            }
+            using var con = CreateNetsisConnection(firm);
 
             var manager = new ShipmentManager(con);
 
@@ -178,7 +213,12 @@ namespace TenderFlow.Controllers
         [Authorize(Roles = "Administrator,Satış,Sevkiyat")]
         public async Task<IActionResult> DocumentList(string shipmentNo)
         {
-            using var con = CreateNetsisConnection();
+            var firm = _db.Firms.FirstOrDefault();
+            if (firm == null)
+            {
+                return NotFound("Firma bilgileri bulunamadı.");
+            }
+            using var con = CreateNetsisConnection(firm);
 
             var manager = new ShipmentManager(con);
             var list = await manager.GetDocuments(shipmentNo: shipmentNo);
@@ -195,7 +235,12 @@ namespace TenderFlow.Controllers
                 return Json(new { success = false, errorMessage = "Belge numarası boş olamaz." });
             }
 
-            using var con = CreateNetsisConnection();
+            var firm = _db.Firms.FirstOrDefault();
+            if (firm == null)
+            {
+                return NotFound("Firma bilgileri bulunamadı.");
+            }
+            using var con = CreateNetsisConnection(firm);
 
             var shipmentService = new ShipmentManager(con);
             var shipments = await shipmentService.GetShipmentManagementsByDocumentNumbersAsync(new List<string> { request.DocumentNumber });
@@ -210,23 +255,23 @@ namespace TenderFlow.Controllers
 
                 var shipmentLines = await shipmentService.GetShipmentOrderLinesAsync(shipment.BELGE_NO);
 
-                oAuth2 auth2 = new oAuth2("http://192.168.1.100:7070");
+                oAuth2 auth2 = new oAuth2(firm.NetsisRestApiUrl);
                 var token = await auth2.LoginAsync(new JLogin()
                 {
-                    BranchCode = 0,
-                    DbName = "MAKROLAB25",
+                    BranchCode = firm.NetsisBranchCode,
+                    DbName = firm.NetsisDbName,
                     DbPassword = "",
                     DbType = JNVTTipi.vtMSSQL,
                     DbUser = "TEMELSET",
-                    NetsisUser = "Netsis",
-                    NetsisPassword = "net2"
+                    NetsisUser = firm.NetsisUser,
+                    NetsisPassword = firm.NetsisPassword
                 });
 
                 ItemSlipsManager InvoiceManager = new ItemSlipsManager(auth2);
                 var fatNo = InvoiceManager.NewEWaybillNumber(new NetOpenX.Rest.Client.Model.Custom.ItemSlipsCodeParam()
                 {
                     DocumentType = JTFaturaTip.ftSIrs,
-                    Code = "IRS"
+                    Code = firm.EIRSSeri
                 });
 
                 ItemSlips itemSlip = new ItemSlips();
@@ -317,7 +362,12 @@ namespace TenderFlow.Controllers
                 return Json(new { success = false, errorMessage = "Belge numarası boş olamaz." });
             }
 
-            using var con = CreateNetsisConnection();
+            var firm = _db.Firms.FirstOrDefault();
+            if (firm == null)
+            {
+                return NotFound("Firma bilgileri bulunamadı.");
+            }
+            using var con = CreateNetsisConnection(firm);
 
             var shipmentService = new ShipmentManager(con);
             var shipments = await shipmentService.GetShipmentManagementsByDocumentNumbersAsync(new List<string> { request.DocumentNumber });
@@ -332,16 +382,16 @@ namespace TenderFlow.Controllers
 
                 var shipmentLines = await shipmentService.GetShipmentOrderLinesAsync(shipment.BELGE_NO);
 
-                oAuth2 auth2 = new oAuth2("http://192.168.1.100:7070");
+                oAuth2 auth2 = new oAuth2(firm.NetsisRestApiUrl);
                 var token = await auth2.LoginAsync(new JLogin()
                 {
-                    BranchCode = 0,
-                    DbName = "MAKROLAB25",
+                    BranchCode = firm.NetsisBranchCode,
+                    DbName = firm.NetsisDbName,
                     DbPassword = "",
                     DbType = JNVTTipi.vtMSSQL,
                     DbUser = "TEMELSET",
-                    NetsisUser = "Netsis",
-                    NetsisPassword = "net2"
+                    NetsisUser = firm.NetsisUser,
+                    NetsisPassword = firm.NetsisPassword    
                 });
 
                 ItemSlipsManager InvoiceManager = new ItemSlipsManager(auth2);
@@ -352,13 +402,13 @@ namespace TenderFlow.Controllers
                     var fatNoResult = InvoiceManager.NewNumber(new NetOpenX.Rest.Client.Model.Custom.ItemSlipsCodeParam()
                     {
                         DocumentType = JTFaturaTip.ftSFat,
-                        Code = "MKL"
+                        Code = firm.EFATSeri
                     });
                     fatNo = fatNoResult.Data.ToString();
                 }
                 else
                 {
-                    var fatNoResult = InvoiceManager.NewEArchiveNumber("EAR");
+                    var fatNoResult = InvoiceManager.NewEArchiveNumber(firm.EARSSeri);
                     fatNo = fatNoResult.Data.ToString();
                 }
 
@@ -398,7 +448,7 @@ namespace TenderFlow.Controllers
                         STra_SatIsk3 = shipmentLine.STRA_SATISK3 == null ? null : Convert.ToDouble(shipmentLine.STRA_SATISK3),
                         STra_SatIsk4 = shipmentLine.STRA_SATISK4 == null ? null : Convert.ToDouble(shipmentLine.STRA_SATISK4),
                         STra_SatIsk5 = shipmentLine.STRA_SATISK5 == null ? null : Convert.ToDouble(shipmentLine.STRA_SATISK5),
-                        STra_SatIsk6 = shipmentLine.STRA_SATISK6 == null ? null : Convert.ToDouble(shipmentLine.STRA_SATISK6),
+                        STra_SatIsk6 = shipmentLine.STRA_SATISK6 == null ? null : Convert.ToDouble(shipmentLine.STRA_SATISK6)
                     });
 
                 }
@@ -437,16 +487,21 @@ namespace TenderFlow.Controllers
         [Authorize(Roles = "Administrator,Satış,Sevkiyat")]
         public async Task<IActionResult> DocumentView(string documentNumber,bool einvoice, string documentType)
         {
-            oAuth2 auth2 = new oAuth2("http://192.168.1.100:7070");
+            var firm = _db.Firms.FirstOrDefault();
+            if (firm == null)
+            {
+                return NotFound("Firma bilgileri bulunamadı.");
+            }
+            oAuth2 auth2 = new oAuth2(firm.NetsisRestApiUrl);
             var token = await auth2.LoginAsync(new JLogin()
             {
-                BranchCode = 0,
-                DbName = "MAKROLAB25",
+                BranchCode = firm.NetsisBranchCode,
+                DbName = firm.NetsisDbName,
                 DbPassword = "",
                 DbType = JNVTTipi.vtMSSQL,
                 DbUser = "TEMELSET",
-                NetsisUser = "Netsis",
-                NetsisPassword = "net2"
+                NetsisUser = firm.NetsisUser,
+                NetsisPassword = firm.NetsisPassword    
             });
 
             EDocumentManager EDocumentManager = new EDocumentManager(auth2);
@@ -477,7 +532,12 @@ namespace TenderFlow.Controllers
         [Authorize(Roles = "Administrator,Satış,Sevkiyat")]
         public async Task<IActionResult> CustomerList([FromBody] GridCommand command)
         {
-            using var con = CreateNetsisConnection();
+            var firm = _db.Firms.FirstOrDefault();
+            if (firm == null)
+            {
+                return NotFound("Firma bilgileri bulunamadı.");
+            }
+            using var con = CreateNetsisConnection(firm);
 
             var manager = new ShipmentManager(con);
             var list = await manager.GetCustomersAsync();
@@ -489,7 +549,12 @@ namespace TenderFlow.Controllers
         [Authorize(Roles = "Administrator,Satış,Sevkiyat")]
         public async Task<IActionResult> ShipmentTemplateList()
         {
-            using var con = CreateNetsisConnection();
+            var firm = _db.Firms.FirstOrDefault();
+            if (firm == null)
+            {
+                return NotFound("Firma bilgileri bulunamadı.");
+            }
+            using var con = CreateNetsisConnection(firm);
 
             var shipmentManager = new ShipmentManager(con);
             var list = await shipmentManager.GetShipmentTemplates();
@@ -503,7 +568,12 @@ namespace TenderFlow.Controllers
         {
             try
             {
-                using var con = CreateNetsisConnection();
+                var firm = _db.Firms.FirstOrDefault();
+                if (firm == null)
+                {
+                    return NotFound("Firma bilgileri bulunamadı.");
+                }
+                using var con = CreateNetsisConnection(firm);
 
                 var shipmentManager = new ShipmentManager(con);
                 var result = await shipmentManager.DeleteShipmentAsync(request.DocumentNumber);
@@ -517,28 +587,41 @@ namespace TenderFlow.Controllers
         }
 
 
-        private SqlConnection CreateNetsisConnection()
+        private SqlConnection CreateNetsisConnection(Firm firm)
         {
             var config = new NetsisConfig
             {
-                Server = "192.168.1.100",
-                Database = "MAKROLAB25",
-                User = "sa",
-                Password = "sapass"
+                Server = firm.NetsisDbServer,
+                Database = firm.NetsisDbName,
+                User = firm.NetsisDbUser,
+                Password = firm.NetsisDbPassword,
+                ApplicationName = firm.NetsisApplicationName,
             };
 
             return new NetsisConnection(config).Open();
         }
         private async Task PrepareShipmentOrder()
         {
-            using var con = CreateNetsisConnection();
+            var firm = _db.Firms.FirstOrDefault();
+            if (firm == null)
+            {
+                throw new Exception("Firma bilgileri bulunamadı.");
+            }
+
+            using var con = CreateNetsisConnection(firm);
             var manager = new ShipmentManager(con);
 
             ViewBag.Warehouses = (await manager.GetWarehousesAsync()).ToList();
+            ViewBag.CreateShipmentForMultipleOrders = _db.Settings.Where(s => s.Key == "CreateShipmentForMultipleOrders").Select(s => s.Value).FirstOrDefault();
         }
         private async Task PrepareShipmentCreate(ShipmentRequestModel request, ShipmentModel model)
         {
-            using var con = CreateNetsisConnection();
+            var firm = _db.Firms.FirstOrDefault();
+            if (firm == null)
+            {
+                throw new Exception("Firma bilgileri bulunamadı.");
+            }
+            using var con = CreateNetsisConnection(firm);
 
             var shipmentService = new ShipmentManager(con);
             var orders = await shipmentService.GetShipmentOrdersByIdsAsync(request.Ids);
@@ -645,7 +728,6 @@ namespace TenderFlow.Controllers
             </body>
             </html>";
         }
-
         private string CurrentUser => User.Identity?.Name ?? "SYSTEM";
 
     }

@@ -330,7 +330,7 @@ namespace TenderFlow.Netsis
         {
 
             string sql = @"
-			USE [MAKROLAB25];
+			USE [KABLOTEST2026];
 			IF OBJECT_ID('tempdb..#TDURUMSAYI') IS NOT NULL DROP TABLE #TDURUMSAYI
 			SELECT SEVKMAS.BELGENO AS BELGE_NO, DETAY.DURUM, DETAY.SAYI
 			INTO #TDURUMSAYI FROM SEVKMAS
@@ -701,8 +701,8 @@ namespace TenderFlow.Netsis
             SEVKTARIHI,
             KOD1,
             KOD2,
-            KAPALI = C_YEDEK1,
-            KISMI_TESLIMAT = C_YEDEK2
+			KAPALI = CASE WHEN C_YEDEK1 = 'E' THEN 1 ELSE 0 END,
+            KISMI_TESLIMAT = CASE WHEN C_YEDEK2 = 'E' THEN 1 ELSE 0 END
         FROM TBLSEVKMAS
         WHERE BELGENO = @BELGENO";
 

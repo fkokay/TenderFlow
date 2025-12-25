@@ -176,13 +176,16 @@ TenderFlow.OrderList = (function ($) {
 
         const siparisNolari = [...new Set(selectedRows.map(x => x.SIPARIS_NO))];
 
-        if (siparisNolari.length > 1) {
-            TenderFlow.Table.showToast(
-                "Seçilen ürünler aynı sipariş numarasına ait değil. Sevkiyat oluşturulamaz.",
-                "warning"
-            );
-            return;
+        if (CreateShipmentForMultipleOrders == 0) {
+            if (siparisNolari.length > 1) {
+                TenderFlow.Table.showToast(
+                    "Seçilen ürünler aynı sipariş numarasına ait değil. Sevkiyat oluşturulamaz.",
+                    "warning"
+                );
+                return;
+            }
         }
+
 
         $("#tableLoading").show();
 

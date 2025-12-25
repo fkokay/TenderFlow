@@ -8,7 +8,6 @@
 		<GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
 	</PropertyGroup>
 
-<<<<<<< HEAD
 	<ItemGroup>
 		<Compile Remove="TenderFlow.AI\**" />
 		<Compile Remove="TenderFlow.Core\**" />
@@ -52,49 +51,47 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="wwwroot\eflow\" />
+		<Folder Include="wwwroot\eflow\" />
 	</ItemGroup>
-=======
-  <ItemGroup>
-    <Compile Remove="TenderFlow.AI\**" />
-    <Compile Remove="TenderFlow.Core\**" />
-    <Compile Remove="TenderFlow.Data\**" />
-    <Compile Remove="TenderFlow.Netsis\**" />
-    <Content Remove="TenderFlow.AI\**" />
-    <Content Remove="TenderFlow.Core\**" />
-    <Content Remove="TenderFlow.Data\**" />
-    <Content Remove="TenderFlow.Netsis\**" />
-    <EmbeddedResource Remove="TenderFlow.AI\**" />
-    <EmbeddedResource Remove="TenderFlow.Core\**" />
-    <EmbeddedResource Remove="TenderFlow.Data\**" />
-    <EmbeddedResource Remove="TenderFlow.Netsis\**" />
-    <None Remove="TenderFlow.AI\**" />
-    <None Remove="TenderFlow.Core\**" />
-    <None Remove="TenderFlow.Data\**" />
-    <None Remove="TenderFlow.Netsis\**" />
-  </ItemGroup>
+	<ItemGroup>
+		<Compile Remove="TenderFlow.AI\**" />
+		<Compile Remove="TenderFlow.Core\**" />
+		<Compile Remove="TenderFlow.Data\**" />
+		<Compile Remove="TenderFlow.Netsis\**" />
+		<Content Remove="TenderFlow.AI\**" />
+		<Content Remove="TenderFlow.Core\**" />
+		<Content Remove="TenderFlow.Data\**" />
+		<Content Remove="TenderFlow.Netsis\**" />
+		<EmbeddedResource Remove="TenderFlow.AI\**" />
+		<EmbeddedResource Remove="TenderFlow.Core\**" />
+		<EmbeddedResource Remove="TenderFlow.Data\**" />
+		<EmbeddedResource Remove="TenderFlow.Netsis\**" />
+		<None Remove="TenderFlow.AI\**" />
+		<None Remove="TenderFlow.Core\**" />
+		<None Remove="TenderFlow.Data\**" />
+		<None Remove="TenderFlow.Netsis\**" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
-    <PackageReference Include="Quartz" Version="3.15.1" />
-    <PackageReference Include="Quartz.Extensions.Hosting" Version="3.15.1" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="10.0.1" />
-    <PackageReference Include="System.Net.Http.Formatting.Extension" Version="5.2.3" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.0" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+		<PackageReference Include="Quartz" Version="3.15.1" />
+		<PackageReference Include="Quartz.Extensions.Hosting" Version="3.15.1" />
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="10.0.1" />
+		<PackageReference Include="System.Net.Http.Formatting.Extension" Version="5.2.3" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="TenderFlow.AI\TenderFlow.AI.csproj" />
-    <ProjectReference Include="TenderFlow.Core\TenderFlow.Core.csproj" />
-    <ProjectReference Include="TenderFlow.Data\TenderFlow.Data.csproj" />
-    <ProjectReference Include="TenderFlow.Netsis\TenderFlow.Netsis.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="TenderFlow.AI\TenderFlow.AI.csproj" />
+		<ProjectReference Include="TenderFlow.Core\TenderFlow.Core.csproj" />
+		<ProjectReference Include="TenderFlow.Data\TenderFlow.Data.csproj" />
+		<ProjectReference Include="TenderFlow.Netsis\TenderFlow.Netsis.csproj" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <Reference Include="NetOpenX.Rest.Client">
-      <HintPath>bin\Debug\net10.0\NetOpenX.Rest.Client.dll</HintPath>
-    </Reference>
-  </ItemGroup>
->>>>>>> a52d2246997c9f5b7a8ea32d1ef7c5d2ef2c0fd7
+	<ItemGroup>
+		<Reference Include="NetOpenX.Rest.Client">
+			<HintPath>bin\Debug\net10.0\NetOpenX.Rest.Client.dll</HintPath>
+		</Reference>
+	</ItemGroup>
 
 </Project>

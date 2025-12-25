@@ -1,0 +1,79 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+    <meta name="description" content="Latest updates and statistic charts" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+    <link href="~/eflow/css/font.css" rel="stylesheet" />
+    <link href="~/eflow/css/layout-style.css" rel="stylesheet" />
+    <link href="~/eflow/css/boostrap-datepicker-resize.css" rel="stylesheet" />
+    <link href="~/eflow/assets/theme/default/dist/default/assets/vendors/custom/datatables/datatables.bundle.rtl.css" rel="stylesheet" />
+    <link href="~/eflow/assets/theme/default/dist/default/assets/vendors/custom/datatables/datatables.bundle.css" rel="stylesheet" />
+
+    @RenderSection("masterstyle", false)
+
+    <script src="@Url.Content("~/eflow/scripts/localizations/langs.tr.js")" type="text/javascript" asp-append-version="true"></script>
+    <link rel="shortcut icon" href="/eflow/assets/theme/default/dist/demo7/assets/media/logos/favicon.ico" />
+    <script src="~/eflow/Scripts/jquery.cookie.min.js" asp-append-version="true"></script>
+    <script src="@Url.Content("~/eflow/scripts/left-menu-courses-V2.js")" asp-append-version="true"></script>
+    <link href="~/eflow/css/aside-menuV2.css" rel="stylesheet" asp-append-version="true" />
+
+</head>
+<body class="kt-header--fixed kt-header-mobile--fixed kt-subheader--enabled kt-subheader--transparent kt-aside--enabled kt-aside--minimize kt-page--loading kt-aside--fixed" style="background: #eef0f8 !important;">
+
+    <partial name="Layouts/_HeaderMobile" />
+    <div class="kt-grid kt-grid--hor kt-grid--root">
+        <div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--ver kt-page">
+
+            <!-- begin:: Aside -->
+            <button class="kt-aside-close" id="kt_aside_close_btn"><i class="la la-close"></i></button>
+            <div class="kt-aside kt-aside--fixed kt-grid__item kt-grid kt-grid--desktop kt-grid--hor-desktop" id="kt_aside">
+                <partial name="Layouts/_Brand" />
+                <partial name="Layouts/_AsideMenu" />
+
+            </div>
+            <div class="kt-aside-menu-overlay"></div>
+            <!-- end:: Aside -->
+
+            <div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor kt-wrapper"
+                 id="kt_wrapper" style="min-height:100vh">
+
+                <!-- begin:: Header -->
+                <div id="kt_header" class="kt-header kt-grid kt-grid--ver kt-header--fixed">
+                    <partial name="Layouts/_HeaderMenu" />
+
+                    <!-- begin:: Header Topbar -->
+                    <div class="kt-header__topbar">
+                        <partial name="Layouts/_HeaderSearch" />
+                        <partial name="Layouts/_HeaderNotifications" />
+                        <partial name="Layouts/_LanguageSelector" />
+                        <partial name="Layouts/_HeaderUserBar" />
+                        <partial name="Layouts/_HeaderQuickPanelToggler" />
+
+                    </div>
+
+                    <!-- end:: Header Topbar -->
+                </div>
+
+                <!-- end:: Header -->
+                @RenderBody()
+
+                <!-- begin:: ai icon animation modal -->
+                <div class="progress__indicator-outer">
+                    <div class="progress__inner">
+                        <div class="loading d-flex flex-column">
+                            <lottie-player id="ntlOcrJson" background="transparent" loop autoplay style="width: 225px; height: 225px;"></lottie-player>
+                            <p class="d-flex justify-content-center ai-loader-message"></p>
+                        </div>
+                    </div>
+                </div>
+                <!-- end:: ai icon animation modal -->
+                <partial name="Layouts/_Footer" />
+            </div>
+        </div>
+    </div>
+</body>
+</html>
