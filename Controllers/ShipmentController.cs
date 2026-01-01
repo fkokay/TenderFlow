@@ -1,4 +1,5 @@
-﻿using Dapper;
+﻿using Azure.Core;
+using Dapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
@@ -40,7 +41,7 @@ namespace TenderFlow.Controllers
         public async Task<IActionResult> Create([FromBody] ShipmentRequestModel request)
         {
             ShipmentModel model = new ShipmentModel();
-            await PrepareShipmentCreate(request,model);
+            await PrepareShipmentCreate(request, model);
             return View(model);
         }
 
@@ -230,7 +231,7 @@ namespace TenderFlow.Controllers
         [Authorize(Roles = "Administrator,Satış,Sevkiyat")]
         public async Task<IActionResult> CreateDocumentAsync([FromBody] DocumentRequestModel request)
         {
-            if (string.IsNullOrEmpty(request.DocumentNumber))
+            if (!request.SevkEmirNumaralari.Any())
             {
                 return Json(new { success = false, errorMessage = "Belge numarası boş olamaz." });
             }
@@ -243,7 +244,9 @@ namespace TenderFlow.Controllers
             using var con = CreateNetsisConnection(firm);
 
             var shipmentService = new ShipmentManager(con);
-            var shipments = await shipmentService.GetShipmentManagementsByDocumentNumbersAsync(new List<string> { request.DocumentNumber });
+            var result = await shipmentService.GetBelgeOlusacakToplamaKalemleri(firm.NetsisDbName, request.SevkEmirNumaralari);
+
+            var shipments = await shipmentService.GetShipmentManagementsByDocumentNumbersAsync(request.SevkEmirNumaralari);
 
             foreach (var shipment in shipments)
             {
@@ -296,7 +299,7 @@ namespace TenderFlow.Controllers
                 itemSlip.Kalems = new List<ItemSlipLines>();
                 foreach (var shipmentLine in shipmentLines)
                 {
-                    itemSlip.Kalems.Add(new ItemSlipLines()
+                    var kalem = new ItemSlipLines()
                     {
                         StokKodu = shipmentLine.STOK_KODU,
                         DEPO_KODU = shipmentLine.DEPO_KODU,
@@ -312,16 +315,17 @@ namespace TenderFlow.Controllers
                         STra_SatIsk3 = shipmentLine.STRA_SATISK3 == null ? null : Convert.ToDouble(shipmentLine.STRA_SATISK3),
                         STra_SatIsk4 = shipmentLine.STRA_SATISK4 == null ? null : Convert.ToDouble(shipmentLine.STRA_SATISK4),
                         STra_SatIsk5 = shipmentLine.STRA_SATISK5 == null ? null : Convert.ToDouble(shipmentLine.STRA_SATISK5),
-                        STra_SatIsk6 = shipmentLine.STRA_SATISK6 == null ? null : Convert.ToDouble(shipmentLine.STRA_SATISK6),
-                    });
+                        STra_SatIsk6 = shipmentLine.STRA_SATISK6 == null ? null : Convert.ToDouble(shipmentLine.STRA_SATISK6)
+                    };
 
+                    itemSlip.Kalems.Add(kalem);
                 }
 
                 itemSlip.EIrsEkBilgi = request.EWaybillInfo;
 
-                var result = InvoiceManager.PostInternal(itemSlip);
+                var resultDocument = InvoiceManager.PostInternal(itemSlip);
 
-                if (result.IsSuccessful)
+                if (resultDocument.IsSuccessful)
                 {
                     EDocumentManager EDocumentManager = new EDocumentManager(auth2);
                     EDocument eDocument = new EDocument();
@@ -334,10 +338,6 @@ namespace TenderFlow.Controllers
                     var eDocumentResult = EDocumentManager.PostInternal(eDocument);
                     if (eDocumentResult.IsSuccessful)
                     {
-                        con.Execute("UPDATE TBLSEVKTRA SET IRSFLAG = 1 WHERE BELGENO = @BELGENO AND TIP = 3",
-                             new { BELGENO = request.DocumentNumber }
-                         );
-
                         return Json(new { success = true });
                     }
                     else
@@ -347,12 +347,122 @@ namespace TenderFlow.Controllers
                 }
                 else
                 {
-                    return Json(new { success = false, errorMessage = result.ErrorDesc });
+                    return Json(new { success = false, errorMessage = resultDocument.ErrorDesc });
                 }
             }
 
             return Json(new { success = true });
         }
+
+        //private async Task belgeKaydet(Firm firm, (List<ToplamaKayitModel> ToplamaKayitlari, List<NfSeriTempModel> Seriler) result)
+        //{
+        //    oAuth2 auth2 = new oAuth2(firm.NetsisRestApiUrl);
+        //    var token = await auth2.LoginAsync(new JLogin()
+        //    {
+        //        BranchCode = firm.NetsisBranchCode,
+        //        DbName = firm.NetsisDbName,
+        //        DbPassword = "",
+        //        DbType = JNVTTipi.vtMSSQL,
+        //        DbUser = "TEMELSET",
+        //        NetsisUser = firm.NetsisUser,
+        //        NetsisPassword = firm.NetsisPassword
+        //    });
+
+        //    var num5 = 1;
+        //    var num6 = 1;
+        //    while (num6 <= num5)
+        //    {
+
+        //    }
+
+        //    foreach (var item in result.ToplamaKayitlari)
+        //    {
+        //        ItemSlipsManager InvoiceManager = new ItemSlipsManager(auth2);
+        //        var fatNo = InvoiceManager.NewEWaybillNumber(new NetOpenX.Rest.Client.Model.Custom.ItemSlipsCodeParam()
+        //        {
+        //            DocumentType = JTFaturaTip.ftSIrs,
+        //            Code = firm.EIRSSeri
+        //        });
+
+        //        ItemSlips itemSlip = new ItemSlips();
+        //        itemSlip.FaturaTip = JTFaturaTip.ftSIrs;
+        //        itemSlip.SeriliHesapla = false;
+        //        itemSlip.OtomatikCevrimYapilsin = false;
+        //        itemSlip.KosulluHesapla = false;
+        //        itemSlip.SeriliHesapla = false;
+        //        itemSlip.KayitliNumaraOtomatikGuncellensin = false;
+        //        itemSlip.SonNumaraYazilsin = false;
+        //        itemSlip.FiyatSistemineGoreHesapla = false;
+        //        itemSlip.FatUst = new ItemSlipsHeader()
+        //        {
+        //            FATIRS_NO = fatNo.Data,
+        //            CariKod = item.TESLIM_CARI,
+        //            Tarih = DateTime.Now,
+        //            SIPARIS_TEST = DateTime.Now,
+        //            FIYATTARIHI = DateTime.Now,
+        //            FiiliTarih = DateTime.Now,
+        //            ENTEGRE_TRH = DateTime.Now,
+        //            EIrsaliye = true,
+        //            GEN_ISK1O = item.GENEL_ISKONTO1 != null ? Convert.ToDouble(item.GENEL_ISKONTO1) : null,
+        //            GEN_ISK2O = item.GENEL_ISKONTO2 != null ? Convert.ToDouble(item.GENEL_ISKONTO2) : null,
+        //            GEN_ISK3O = item.GENEL_ISKONTO3 != null ? Convert.ToDouble(item.GENEL_ISKONTO3) : null,
+        //        };
+
+        //        itemSlip.Kalems = new List<ItemSlipLines>();
+        //        foreach (var item in result.ToplamaKayitlari)
+        //        {
+        //            itemSlip.Kalems.Add(new ItemSlipLines()
+        //            {
+        //                STra_SIPNUM = item.SIPARIS_NO,
+        //                STra_SIPKONT = item.SIPARIS_SIRA,
+        //                Olcubr = item.OLCU_BIRIM_KODU,
+        //                STra_GCMIK = item.OLCU_BIRIM_CARPANI == null ? seri.MIKTAR : new Decimal(Math.Round(seri.MIKTAR * seri.OLCU_BIRIM_CARPANI, 8)),
+        //                StokKodu = item.STOK_KODU,
+        //                STra_BF = item.BRUT_FIYAT != null ? Convert.ToDouble(item.BRUT_FIYAT) : 0,
+        //                STra_NF = item.NET_FIYAT != null ? Convert.ToDouble(item.NET_FIYAT) : 0,
+        //                STra_DOVTIP = string.IsNullOrEmpty(item.DOVIZ_TIPI) ? null : Convert.ToInt32(item.DOVIZ_TIPI),
+        //                STra_DOVFIAT = item.DOVIZ_FIYATI != null ? Convert.ToDouble(item.DOVIZ_FIYATI) : null,
+        //                Isk_Flag = item.ISKONTO1_ORANMI ? JTFatKalemIskTipi.fkitOran : JTFatKalemIskTipi.fkitTutar,
+        //                STra_SatIsk = item.ISK1 != null ? Convert.ToDouble(item.ISK1) : null,
+        //                STra_SatIsk2 = item.ISK2 != null ? Convert.ToDouble(item.ISK2) : null,
+        //                STra_SatIsk3 = item.ISK3 != null ? Convert.ToDouble(item.ISK3) : null,
+        //                STra_SatIsk4 = item.ISK4 != null ? Convert.ToDouble(item.ISK4) : null,
+        //                STra_SatIsk5 = item.ISK5 != null ? Convert.ToDouble(item.ISK5) : null,
+        //                STra_SatIsk6 = item.ISK6 != null ? Convert.ToDouble(item.ISK6) : null,
+        //                SatirBaziAciks = new List<string>() { },
+        //                STra_KDV = item.KDV != null ? Convert.ToDouble(item.KDV) : 0,
+        //                STra_CARI_KOD = item.TESLIM_CARI,
+        //                Ambarkabulno = item.INCKEYNO.ToString(),
+        //                YapKod = seri.YAPKOD,
+        //                KalemSeri = new List<ItemSlipLineSeries>()
+        //                {
+        //                   new ItemSlipLineSeries()
+        //                   {
+        //                       Seri1 = seri.SERI,
+        //                       Seri2 = seri.SERI2,
+        //                       Seri3 = seri.SERI3,
+        //                       Seri4 = seri.SERI4,
+        //                       Aciklama1 = seri.ACIKLAMA1,
+        //                       Aciklama2 = seri.ACIKLAMA2,
+        //                       ACIKLAMA3 = seri.ACIKLAMA3,
+        //                       Aciklama4 = seri.ACIKLAMA4,
+        //                       Miktar = seri.MIKTAR,
+        //                       HareketTip=1,
+        //                       SonKulTar = seri.SON_KULLANMA_TARIHI,
+        //                   }
+        //                },
+        //                STra_GC = seri.GC,
+        //                STra_TAR = seri.SON_KULLANMA_TARIHI,
+        //                STra_ACIK = item.SIPARIS_NO,
+        //            });
+        //        }
+
+        //        itemSlip.EIrsEkBilgi = request.EWaybillInfo;
+
+        //        var documentResult = InvoiceManager.PostInternal(itemSlip);
+        //    }
+        //}
+
         [HttpPost]
         [Authorize(Roles = "Administrator,Satış,Sevkiyat")]
         public async Task<IActionResult> CreateInvoiceAsync([FromBody] DocumentRequestModel request)
@@ -370,7 +480,7 @@ namespace TenderFlow.Controllers
             using var con = CreateNetsisConnection(firm);
 
             var shipmentService = new ShipmentManager(con);
-            var shipments = await shipmentService.GetShipmentManagementsByDocumentNumbersAsync(new List<string> { request.DocumentNumber });
+            var shipments = await shipmentService.GetShipmentManagementsByDocumentNumbersAsync(request.SevkEmirNumaralari);
 
             foreach (var shipment in shipments)
             {
@@ -391,7 +501,7 @@ namespace TenderFlow.Controllers
                     DbType = JNVTTipi.vtMSSQL,
                     DbUser = "TEMELSET",
                     NetsisUser = firm.NetsisUser,
-                    NetsisPassword = firm.NetsisPassword    
+                    NetsisPassword = firm.NetsisPassword
                 });
 
                 ItemSlipsManager InvoiceManager = new ItemSlipsManager(auth2);
@@ -485,7 +595,7 @@ namespace TenderFlow.Controllers
 
         [HttpGet]
         [Authorize(Roles = "Administrator,Satış,Sevkiyat")]
-        public async Task<IActionResult> DocumentView(string documentNumber,bool einvoice, string documentType)
+        public async Task<IActionResult> DocumentView(string documentNumber, bool einvoice, string documentType)
         {
             var firm = _db.Firms.FirstOrDefault();
             if (firm == null)
@@ -501,7 +611,7 @@ namespace TenderFlow.Controllers
                 DbType = JNVTTipi.vtMSSQL,
                 DbUser = "TEMELSET",
                 NetsisUser = firm.NetsisUser,
-                NetsisPassword = firm.NetsisPassword    
+                NetsisPassword = firm.NetsisPassword
             });
 
             EDocumentManager EDocumentManager = new EDocumentManager(auth2);

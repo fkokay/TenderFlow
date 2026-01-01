@@ -1,9 +1,13 @@
 ﻿using Dapper;
 using Microsoft.Data.SqlClient;
+using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Net.Sockets;
+using System.Runtime.CompilerServices;
 using System.Text;
+using System.Transactions;
 using TenderFlow.Core.Utils;
 using TenderFlow.Netsis.Models;
 
@@ -598,7 +602,6 @@ namespace TenderFlow.Netsis
             return list;
 
         }
-
         public async Task<IEnumerable<DocumentModel>> GetDocuments(string shipmentNo)
         {
             string sql = @"SELECT 
@@ -645,8 +648,6 @@ namespace TenderFlow.Netsis
             var list = (await _con.QueryAsync<ShipmentTemplateModel>(sql, commandTimeout: 120)).Select(NetsisUtils.FixAllStrings);
             return list;
         }
-
-
         public async Task<bool> DeleteShipmentAsync(string belgeNo)
         {
             using var transaction = _con.BeginTransaction();
@@ -685,8 +686,8 @@ namespace TenderFlow.Netsis
             {
                 throw;
             }
-			finally
-			{
+            finally
+            {
                 transaction.Rollback();
             }
         }
@@ -736,7 +737,6 @@ namespace TenderFlow.Netsis
 
             return header;
         }
-
         public async Task<OrderModel?> GetOrderDetailsAsync(string siparisNo)
         {
             string sqlMaster = @"
@@ -780,5 +780,125 @@ namespace TenderFlow.Netsis
 
             return order;
         }
+
+        public async Task<(List<ToplamaKayitModel> ToplamaKayitlari, List<NfSeriTempModel> Seriler)> GetBelgeOlusacakToplamaKalemleri(string sirket, List<string> listSevkEmriNo, List<int> listeInc = null)
+        {
+            var sql = $"USE [{sirket}];\r\n";
+            sql += "IF OBJECT_ID('TEMPDB..#TOPLAMA_KAYIT') IS NOT NULL DROP TABLE #TOPLAMA_KAYIT";
+            sql += "SELECT T.INCKEYNO, T.BELGE_NO, T.TESLIM_CARI, SIPKALEM.TESLIM_CARI AS TESLIM_CARI2,";
+            sql += "\t\tT.SIPARIS_NO, T.SIPARIS_SIRA, SIPKALEM.ID AS SIPINCKEY, SIPKALEM.PLASIYER_KODU,";
+            sql += "\t\tT.STOK_KODU, ISNULL(SIPKALEM.KALEM_ADI, ST.STOK_ADI) AS STOK_ADI, T.YAPKOD, Y.YAPACIK, T.MIKTAR, SIPKALEM.MIKTAR AS SIPARIS_MIKTARI, SIPKALEM.MALFAZ_ISK_ADEDI AS MAL_FAZLASI,";
+            sql += "\t\tT.DEPO_KODU, SIPKALEM.NET_FIYAT, SIPKALEM.BRUT_FIYAT, SIPKALEM.DOVIZ_TIPI, SIPKALEM.DOVIZ_FIYATI, SIPKALEM.KDV, SIPKALEM.PROJE_KODU,";
+            sql += "\t\tSIPBELGE.KOSUL_KODU, SIPBELGE.KOSUL_TARIHI,";
+            sql += "\t\tSIPBELGE.OZEL_KOD1, SIPBELGE.OZEL_KOD2,";
+            sql += "\t\tSIPBELGE.GENISK1_TIPI, SIPBELGE.GENISK2_TIPI, SIPBELGE.GENISK3_TIPI,";
+            sql += "        SIPBELGE.GENEL_ISKONTO1, SIPBELGE.GENEL_ISKONTO2, SIPBELGE.GENEL_ISKONTO3,";
+            sql += "        SIPKALEM.ISKONTO1_ORANMI, SIPKALEM.ISK1, SIPKALEM.ISK2, SIPKALEM.ISK3, SIPKALEM.ISK4, SIPKALEM.ISK5, SIPKALEM.ISK6, SIPKALEM.ISK1_TIPI, SIPKALEM.ISK2_TIPI, SIPKALEM.ISK3_TIPI, SIPKALEM.ISK4_TIPI, SIPKALEM.ISK5_TIPI, SIPKALEM.ISK6_TIPI,";
+            sql += "\t\t(CASE WHEN SIPKALEM.EKALAN_NEDEN = '1' AND ISNULL(SIPKALEM.EKALAN1, '') <> '' THEN 'E' ELSE 'H' END) AS STOK_ADI_DEGISTI,";
+            sql += "\t\tSIPKALEM.EKALAN1, SIPKALEM.EKALAN2,";
+            sql += "\t\tSIPKALEM.OLCU_BIRIM_KODU,";
+            sql += "\t\tSIPKALEM.OLCU_BIRIM_CARPANI,";
+            sql += "\t\tSIPKALEM.VADE_GUNU AS SIPARIS_VADE_GUNU,";
+            sql += "\t\tSIPKALEM.VADE_TARIHI AS SIPARIS_VADE_TARIHI";
+            sql += "INTO #TOPLAMA_KAYIT FROM VNF_PICSEVKEMRITOPLAMA AS T";
+            sql += "INNER JOIN VNF_STOK AS ST ON T.STOK_KODU = ST.STOK_KODU";
+            sql += "LEFT OUTER JOIN VNF_PICYAPLISTE AS Y ON T.STOK_KODU = Y.STOK_KODU AND T.YAPKOD = Y.YAPKOD";
+            sql += "LEFT OUTER JOIN VNF_PICSIPARIS AS SIPBELGE ON SIPBELGE.SIPARIS_NO = T.SIPARIS_NO AND SIPBELGE.CARI_KODU = T.TESLIM_CARI AND SIPBELGE.SIPARIS_TIPI = 'MS'";
+            sql += "LEFT OUTER JOIN VNF_PICSIPARISDETAY AS SIPKALEM ON SIPKALEM.SIPARIS_NO = T.SIPARIS_NO AND SIPKALEM.SIRA = T.SIPARIS_SIRA AND SIPKALEM.CARI_KODU = T.TESLIM_CARI AND SIPKALEM.SIPARIS_TIPI = 'MS'";
+            sql += "WHERE T.IRSALIYE = 'H' AND T.SEVKEMRI_NO=@sevkEmirleri";
+            if (listeInc != null)
+            {
+                sql += " AND T.INCKEYNO IN (";
+                int num = checked(listeInc.Count - 1);
+                int index = 0;
+                while (index <= num)
+                {
+                    if (index > 0)
+                        sql += ", ";
+                    sql += listeInc[index].ToString();
+                    checked { ++index; }
+                }
+                sql += ")";
+            }
+            sql += "ORDER BY T.SIPARIS_NO, T.SIPARIS_SIRA";
+            sql += "SELECT *";
+            sql += "FROM #TOPLAMA_KAYIT";
+
+            var toplamaKiyatlari = await _con.QueryAsync<ToplamaKayitModel>(sql, new { listSevkEmriNo });
+
+
+            var sqlSeri = $"USE [{sirket}];\r\n";
+            sqlSeri += "IF OBJECT_ID('TEMPDB..#TOPLAMA_KAYIT') IS NOT NULL DROP TABLE #TOPLAMA_KAYIT";
+            sqlSeri += "SELECT T.INCKEYNO, T.BELGE_NO, T.TESLIM_CARI, SIPKALEM.TESLIM_CARI AS TESLIM_CARI2,";
+            sqlSeri += "\t\tT.SIPARIS_NO, T.SIPARIS_SIRA, SIPKALEM.ID AS SIPINCKEY, SIPKALEM.PLASIYER_KODU,";
+            sqlSeri += "\t\tT.STOK_KODU, ISNULL(SIPKALEM.KALEM_ADI, ST.STOK_ADI) AS STOK_ADI, T.YAPKOD, Y.YAPACIK, T.MIKTAR, SIPKALEM.MIKTAR AS SIPARIS_MIKTARI, SIPKALEM.MALFAZ_ISK_ADEDI AS MAL_FAZLASI,";
+            sqlSeri += "\t\tT.DEPO_KODU, SIPKALEM.NET_FIYAT, SIPKALEM.BRUT_FIYAT, SIPKALEM.DOVIZ_TIPI, SIPKALEM.DOVIZ_FIYATI, SIPKALEM.KDV, SIPKALEM.PROJE_KODU,";
+            sqlSeri += "\t\tSIPBELGE.KOSUL_KODU, SIPBELGE.KOSUL_TARIHI,";
+            sqlSeri += "\t\tSIPBELGE.OZEL_KOD1, SIPBELGE.OZEL_KOD2,";
+            sqlSeri += "\t\tSIPBELGE.GENISK1_TIPI, SIPBELGE.GENISK2_TIPI, SIPBELGE.GENISK3_TIPI,";
+            sqlSeri += "        SIPBELGE.GENEL_ISKONTO1, SIPBELGE.GENEL_ISKONTO2, SIPBELGE.GENEL_ISKONTO3,";
+            sqlSeri += "        SIPKALEM.ISKONTO1_ORANMI, SIPKALEM.ISK1, SIPKALEM.ISK2, SIPKALEM.ISK3, SIPKALEM.ISK4, SIPKALEM.ISK5, SIPKALEM.ISK6, SIPKALEM.ISK1_TIPI, SIPKALEM.ISK2_TIPI, SIPKALEM.ISK3_TIPI, SIPKALEM.ISK4_TIPI, SIPKALEM.ISK5_TIPI, SIPKALEM.ISK6_TIPI,";
+            sqlSeri += "\t\t(CASE WHEN SIPKALEM.EKALAN_NEDEN = '1' AND ISNULL(SIPKALEM.EKALAN1, '') <> '' THEN 'E' ELSE 'H' END) AS STOK_ADI_DEGISTI,";
+            sqlSeri += "\t\tSIPKALEM.EKALAN1, SIPKALEM.EKALAN2,";
+            sqlSeri += "\t\tSIPKALEM.OLCU_BIRIM_KODU,";
+            sqlSeri += "\t\tSIPKALEM.OLCU_BIRIM_CARPANI,";
+            sqlSeri += "\t\tSIPKALEM.VADE_GUNU AS SIPARIS_VADE_GUNU,";
+            sqlSeri += "\t\tSIPKALEM.VADE_TARIHI AS SIPARIS_VADE_TARIHI";
+            sqlSeri += "INTO #TOPLAMA_KAYIT FROM VNF_PICSEVKEMRITOPLAMA AS T";
+            sqlSeri += "INNER JOIN VNF_STOK AS ST ON T.STOK_KODU = ST.STOK_KODU";
+            sqlSeri += "LEFT OUTER JOIN VNF_PICYAPLISTE AS Y ON T.STOK_KODU = Y.STOK_KODU AND T.YAPKOD = Y.YAPKOD";
+            sqlSeri += "LEFT OUTER JOIN VNF_PICSIPARIS AS SIPBELGE ON SIPBELGE.SIPARIS_NO = T.SIPARIS_NO AND SIPBELGE.CARI_KODU = T.TESLIM_CARI AND SIPBELGE.SIPARIS_TIPI = 'MS'";
+            sqlSeri += "LEFT OUTER JOIN VNF_PICSIPARISDETAY AS SIPKALEM ON SIPKALEM.SIPARIS_NO = T.SIPARIS_NO AND SIPKALEM.SIRA = T.SIPARIS_SIRA AND SIPKALEM.CARI_KODU = T.TESLIM_CARI AND SIPKALEM.SIPARIS_TIPI = 'MS'";
+            sqlSeri += "WHERE T.IRSALIYE = 'H' AND T.SEVKEMRI_NO=@sevkEmirleri";
+            if (listeInc != null)
+            {
+                sqlSeri += " AND T.INCKEYNO IN (";
+                int num = checked(listeInc.Count - 1);
+                int index = 0;
+                while (index <= num)
+                {
+                    if (index > 0)
+                        sqlSeri += ", ";
+                    sqlSeri += listeInc[index].ToString();
+                    checked { ++index; }
+                }
+                sqlSeri += ")";
+            }
+            sqlSeri += "ORDER BY T.SIPARIS_NO, T.SIPARIS_SIRA";
+            sqlSeri += "SELECT *";
+            sqlSeri += "FROM TBLNF_SERITEMP";
+            sqlSeri += "WHERE BELGE_TIPI = 'SE' AND REF_ID IN (SELECT INCKEYNO FROM #TOPLAMA_KAYIT)";
+
+            var seriler = await _con.QueryAsync<NfSeriTempModel>(sql, new { listSevkEmriNo });
+
+            return (toplamaKiyatlari.ToList(), seriler.ToList());
+        }
+
+        public async Task<bool> UpdateIrsaliyeSeri(string fisNo)
+        {
+            using var transaction = _con.BeginTransaction();
+			try
+			{
+
+                string sql = @"UPDATE SERI SET SERI.KAYIT_TIPI = 'A', SERI.BELGENO = STHAR.FISNO, SERI.BELGETIP = STHAR.STHAR_HTUR, SERI.STRA_INC = STHAR.INCKEYNO\r\n" + "FROM TBLSTHAR AS STHAR\r\n"
+                    + "INNER JOIN TBLNF_SERITRAEK AS SERIEK ON CAST(SERIEK.SEVKTRA_INC AS VARCHAR(MAX)) = STHAR.AMBAR_KABULNO\r\n"
+                    + "INNER JOIN TBLSERITRA AS SERI ON SERI.SIRA_NO = SERIEK.SERITRA_INC\r\n"
+                    + "WHERE STHAR.FISNO=@fisNo  AND STHAR_FTIRSIP 3 AND STHAR.AMBAR_KABULNO IS NOT NULL AND ISNUMERIC(STHAR.AMBAR_KABULNO) = 1";
+
+
+                int affectedRows = await _con.ExecuteScalarAsync<int>(sql, new { fisNo = fisNo }, transaction);
+
+                transaction.Commit();
+
+                return affectedRows > 0;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                transaction.Rollback();
+            }
+        }
     }
-}
