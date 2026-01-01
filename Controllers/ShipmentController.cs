@@ -467,7 +467,7 @@ namespace TenderFlow.Controllers
         [Authorize(Roles = "Administrator,Satış,Sevkiyat")]
         public async Task<IActionResult> CreateInvoiceAsync([FromBody] DocumentRequestModel request)
         {
-            if (string.IsNullOrEmpty(request.DocumentNumber))
+            if (!request.SevkEmirNumaralari.Any())
             {
                 return Json(new { success = false, errorMessage = "Belge numarası boş olamaz." });
             }

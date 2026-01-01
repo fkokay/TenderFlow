@@ -95,3 +95,5 @@ namespace TenderFlow.Netsis.Models
             public double Miktar { get; set; }
         }
     }
+
+}
