@@ -33,6 +33,18 @@
                 <div data-i18n="Dashboard">Dashboard</div>
             </a>
         </li>
+
+        @if (User.IsInRole("Administrator"))
+        {
+        <li class='menu-item@(path == "/Firm/List" ? " active" : "")'>
+            <a asp-controller="Firm" asp-action="List" class="menu-link">
+                <i class="menu-icon tf-icons ti ti-building"></i>
+                <div data-i18n="Firmalar">Firmalar</div>
+            </a>
+        </li>
+        }
+
+
         @if (Model.Modules.Any(m => m.Code == "TEMINAT" && m.IsActive))
         {
             if (User.IsInRole("Administrator"))
@@ -102,6 +114,44 @@
                 </li>
             }
         }
+
+
+
+        @if (User.IsInRole("Administrator"))
+        {
+            <li class='menu-item@(path.Contains("Role") || path.Contains("User") || path.Contains("Module") ? " open" : "")'>
+                <a href="javascript:void(0)" class="menu-link menu-toggle">
+                    <i class="menu-icon tf-icons ti ti-settings"></i>
+                    <div data-i18n="Ayarlar">Ayarlar</div>
+                </a>
+                <ul class="menu-sub">
+                    @if (User.IsInRole("Administrator"))
+                    {
+                        <li class='menu-item@(path == "/Role/List" ? " active" : "")'>
+                            <a asp-controller="Role" asp-action="List" class="menu-link">
+                                <i class="menu-icon tf-icons ti ti-archive"></i>
+                                <div data-i18n="Roller">Roller</div>
+                            </a>
+                        </li>
+
+                        <li class='menu-item@(path == "/User/List" ? " active" : "")'>
+                            <a asp-controller="User" asp-action="List" class="menu-link">
+                                <i class="menu-icon tf-icons ti ti-archive"></i>
+                                <div data-i18n="Kullanıcılar">Kullanıcılar</div>
+                            </a>
+                        </li>
+
+                        <li class='menu-item@(path == "/Module/List" ? " active" : "")'>
+                            <a asp-controller="Module" asp-action="List" class="menu-link">
+                                <i class="menu-icon tf-icons ti ti-puzzle"></i>
+                                <div data-i18n="Modüller">Modüller</div>
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </li>
+        }
+
     </ul>
 
 </aside>

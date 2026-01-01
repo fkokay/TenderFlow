@@ -1,5 +1,6 @@
-﻿@{
-    ViewData["Title"] = "Kullanıcı Listesi";
+﻿
+@{
+    ViewData["Title"] = "Modül Listesi";
 }
 
 <h4 class="fw-bold mb-4 py-3"><span class="text-muted fw-light">@ViewData["Title"]</span></h4>
@@ -12,25 +13,27 @@
             <thead>
                 <tr>
                     <th>Id</th>
-                    <th>Ad</th>
-                    <th>Soyad</th>
-                    <th>Email</th>
-                    <th>Telefon</th>
-                    <th>Roller</th>
+                    <th>Kodu</th>
+                    <th>Adı</th>
                     <th>Aktif</th>
                     <th>İşlemler</th>
                 </tr>
             </thead>
         </table>
     </div>
-   
 </div>
 
 @section PageScripts {
+
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <script>
+        let table; 
+
         $(document).ready(function () {
 
-            const table = $('#Table').DataTable({
+            table = $('#Table').DataTable({
                 language: {
                     paginate: {
                         next: '<i class="icon-base ti ti-chevron-right scaleX-n1-rtl icon-18px"></i>',
@@ -38,56 +41,58 @@
                         first: '<i class="icon-base ti ti-chevrons-left scaleX-n1-rtl icon-18px"></i>',
                         last: '<i class="icon-base ti ti-chevrons-right scaleX-n1-rtl icon-18px"></i>'
                     },
-                    url: 'https://cdn.datatables.net/plug-ins/2.3.2/i18n/tr.json',
+                    url: 'https://cdn.datatables.net/plug-ins/2.3.2/i18n/tr.json'
                 },
+
                 serverSide: true,
                 order: [[1, 'asc']],
                 responsive: false,
+
                 ajax: {
-                    url: '/User/UserList',
+                    url: '/Module/ModuleList',
                     type: 'POST',
                     contentType: 'application/json',
-                    data: function (d) {
-                        return JSON.stringify(d);
-                    },
+                    data: d => JSON.stringify(d)
                 },
+
                 columns: [
                     { data: 'Id', visible: false },
-                    { data: 'FirstName' },
-                    { data: 'LastName' },
-                    { data: 'Email' },
-                    { data: 'Phone' },
-                    { data: 'Roles' },
+                    { data: 'Code', title: 'Kod' },
+                    { data: 'Name', title: 'Ad' },
                     {
-                        data: 'Active',
+                        data: 'IsActive',
+                        title: 'Aktif',
                         orderable: false,
                         searchable: false,
                         className: 'text-center',
-                        render: (data) => `
-                            <input
-                                class="form-check-input"
-                                type="checkbox"
-                                ${data ? 'checked' : ''}
-                                title="Aktif"
-                                disabled
-                            >
+                        render: data => `
+                            <input class="form-check-input" type="checkbox"
+                                   ${data ? 'checked' : ''} disabled>
                         `
                     },
                     {
                         data: 'Id',
+                        title: 'İşlemler',
                         orderable: false,
                         searchable: false,
-                        title: 'İşlemler',
-                        render: (data) => `
+                        className: 'text-center',
+                        render: data => `
                             <a href="Edit?id=${data}"
-                               class="btn btn-text-secondary rounded-pill waves-effect btn-icon"
+                               class="btn btn-text-secondary rounded-pill btn-icon"
                                title="Düzenle">
                                 <i class="icon-base ti ti-pencil icon-22px"></i>
                             </a>
+                            <button class="btn btn-text-danger rounded-pill btn-icon btn-delete"
+                                    data-id="${data}"
+                                    title="Sil">
+                                <i class="icon-base text-danger ti ti-trash icon-22px"></i>
+                            </button>
                         `
                     }
                 ],
+
                 displayLength: 10,
+
                 layout: {
                     topStart: {
                         rowClass: "card-header d-flex border-top rounded-0 flex-wrap py-0 flex-column flex-md-row align-items-start",
@@ -108,17 +113,16 @@
                             },
                             buttons: [
                                 {
-                                    text: `<i class="icon-base ti ti-plus me-0 me-sm-1 icon-16px"></i>
-                                       <span class="d-none d-sm-inline-block">Yeni Ekle</span>`,
-                                    className: "add-new btn btn-primary",
-                                    action: function () {
-                                        window.location.href = "Create";
-                                    }
+                                    text: `
+                                        <i class="icon-base ti ti-plus me-1 icon-16px"></i>
+                                        <span class="d-none d-sm-inline-block">Yeni Ekle</span>
+                                    `,
+                                    className: "btn btn-primary",
+                                    action: () => location.href = "Create"
                                 }
                             ]
                         }]
                     },
-
                     bottomStart: {
                         rowClass: "row mx-3 justify-content-between",
                         features: ["info"]
@@ -126,14 +130,13 @@
                     bottomEnd: "paging"
                 },
 
-
                 initComplete: function () {
                     const adjustments = [
                         { selector: ".dt-buttons .btn", classToRemove: "btn-secondary" },
                         { selector: ".dt-buttons.btn-group", classToAdd: "mb-md-0 mb-6" },
                         { selector: ".dt-search .form-control", classToRemove: "form-control-sm", classToAdd: "ms-0" },
                         { selector: ".dt-search", classToAdd: "mb-0 mb-md-6 mt-3" },
-                        { selector: ".dt-length .form-select", classToRemove: "form-select-sm",classToAdd: "mb-0 mb-md-6 mt-3"  },
+                        { selector: ".dt-length .form-select", classToRemove: "form-select-sm", classToAdd: "mb-0 mb-md-6 mt-3" },
                         { selector: ".dt-layout-end", classToAdd: "gap-md-2 gap-0 mt-0" },
                         { selector: ".dt-layout-start", classToAdd: "mt-0" },
                         { selector: ".dt-layout-table", classToRemove: "row mt-2" },
@@ -152,5 +155,42 @@
             });
 
         });
+
+        
+        $('#Table').on('click', '.btn-delete', function () {
+            const id = $(this).data('id');
+
+            Swal.fire({
+                title: 'Emin misiniz?',
+                text: 'Bu kayıt silinecek!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Sil',
+                cancelButtonText: 'İptal'
+            }).then(result => {
+                if (result.isConfirmed) {
+                    $.post('/Module/Delete', { id })
+                        .done(res => {
+                            if (res.success) {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Silindi',
+                                    text: res.message,
+                                    timer: 1500,
+                                    showConfirmButton: false
+                                });
+                                table.ajax.reload(null, false);
+                            } else {
+                                Swal.fire('Hata', res.message, 'error');
+                            }
+                        })
+                        .fail(() => {
+                            Swal.fire('Hata', 'Silme sırasında hata oluştu.', 'error');
+                        });
+                }
+            });
+        });
+
     </script>
 }
+

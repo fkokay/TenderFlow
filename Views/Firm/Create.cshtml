@@ -1,0 +1,234 @@
+﻿@model CreateFirmModel
+@{
+    ViewData["Title"] = "Firma Ekle";
+}
+<style>
+    .form-section {
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        padding: 16px 20px;
+        margin-bottom: 24px;
+        background-color: #f9fafb;
+    }
+
+    .form-section-title {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-weight: 600;
+        margin-bottom: 16px;
+        color: #374151;
+    }
+
+        .form-section-title i {
+            font-size: 18px;
+            color: #6366f1;
+        }
+</style>
+
+<div class="col-md-12">
+    <div class="card">
+        <h5 class="card-header">@ViewData["Title"]</h5>
+
+        <div class="card-body">
+            <form id="createFirmForm"
+                  asp-action="Create"
+                  method="post">
+
+
+                <div class="form-section">
+                    <div class="form-section-title">
+                        <i class="ti ti-building"></i>
+                        Firma Bilgileri
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Firma Kodu</label>
+                        <input asp-for="FirmCode" class="form-control" required />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Firma Adı</label>
+                        <input asp-for="FirmName" class="form-control" required />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Vergi Numarası</label>
+                        <input asp-for="TaxNumber" class="form-control" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Ticaret Sicil Numarası</label>
+                        <input asp-for="RegisterNumber" class="form-control" />
+                    </div>
+                </div>
+
+             
+                <div class="form-section">
+                    <div class="form-section-title">
+                        <i class="ti ti-link"></i>
+                        Netsis Bağlantı Bilgileri
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Netsis REST API Adresi</label>
+                        <input asp-for="NetsisRestApiUrl"
+                               class="form-control"
+                               placeholder="https://netsis-api.firma.com" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Veritabanı Sunucu Adresi</label>
+                        <input asp-for="NetsisDbServer"
+                               class="form-control"
+                               placeholder="SERVER\\INSTANCE veya IP" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Veritabanı Adı</label>
+                        <input asp-for="NetsisDbName" class="form-control" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Veritabanı Kullanıcı Adı</label>
+                        <input asp-for="NetsisDbUser" class="form-control" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Veritabanı Şifresi</label>
+                        <input asp-for="NetsisDbPassword"
+                               type="password"
+                               class="form-control" />
+                    </div>
+                </div>
+
+            
+                <div class="form-section">
+                    <div class="form-section-title">
+                        <i class="ti ti-user-cog"></i>
+                        Netsis Kullanıcı ve Firma Ayarları
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Netsis Uygulama Adı</label>
+                        <input asp-for="NetsisApplicationName"
+                               class="form-control"
+                               placeholder="NetOpenX / REST Client Adı" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Netsis Kullanıcı Adı</label>
+                        <input asp-for="NetsisUser" class="form-control" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Netsis Kullanıcı Şifresi</label>
+                        <input asp-for="NetsisPassword"
+                               type="password"
+                               class="form-control" />
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Şirket Kodu</label>
+                            <input asp-for="NetsisCompanyCode"
+                                   type="number"
+                                   class="form-control" />
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Şube Kodu</label>
+                            <input asp-for="NetsisBranchCode"
+                                   type="number"
+                                   class="form-control" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <div class="form-section-title">
+                        <i class="ti ti-file-invoice"></i>
+                        e-Belge Seri Bilgileri
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">e-İrsaliye Seri</label>
+                        <input asp-for="EIRSSeri" class="form-control" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">e-Fatura Seri</label>
+                        <input asp-for="EFATSeri" class="form-control" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">e-Arşiv Seri</label>
+                        <input asp-for="EARSSeri" class="form-control" />
+                    </div>
+                </div>
+
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-primary">
+                        Kaydet
+                    </button>
+                    <a href="/Firm/List" class="btn btn-outline-secondary">
+                        Vazgeç
+                    </a>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+@section PageScripts {
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        document.getElementById("createFirmForm").addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            const form = this;
+            const formData = new FormData(form);
+
+            fetch(form.action, {
+                method: "POST",
+                body: formData
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Başarılı',
+                        text: data.message,
+                        confirmButtonText: 'Tamam'
+                    }).then(() => {
+                        window.location.href = '/Firm/List';
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Hata',
+                        text: data.message,
+                        confirmButtonText: 'Tamam'
+                    });
+                }
+            })
+            .catch(() => {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Hata',
+                    text: 'Bir hata oluştu',
+                    confirmButtonText: 'Tamam'
+                });
+            });
+        });
+    </script>
+}
+
+
+
+

@@ -5,7 +5,7 @@ using TenderFlow.Models;
 
 namespace TenderFlow.Controllers
 {
-    [Authorize(Roles = "Administrator,Satýþ,Satýnalma,Sevkiyat")]
+    [Authorize(Roles = "Administrator,Satýþ,Satýnalma,Sevkiyat,Kullanýcý")]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -16,6 +16,11 @@ namespace TenderFlow.Controllers
         }
 
         public IActionResult Index()
+        {
+            return View();
+        }
+        [AllowAnonymous]
+        public IActionResult AccessDenied()
         {
             return View();
         }
