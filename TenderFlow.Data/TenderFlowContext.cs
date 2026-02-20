@@ -45,6 +45,8 @@ namespace TenderFlow.Data
         public DbSet<UserInRole> UserInRoles { get; set; }
         public DbSet<Module> Modules { get; set; }
         public DbSet<Setting> Settings { get; set; }
+        public DbSet<Design> Designs { get; set; }
+        public DbSet<ShipmentPrint> ShipmentPrints { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

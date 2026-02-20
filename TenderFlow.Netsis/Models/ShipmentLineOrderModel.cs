@@ -17,6 +17,7 @@ namespace TenderFlow.Netsis.Models
         public int SIPARIS_SIRA { get; set; }
         public int SIRA { get; set; }
         public string STOK_KODU { get; set; } = string.Empty;
+        public string STOK_ADI { get; set; } = string.Empty;
         public string YAPKOD { get; set; } = string.Empty;
         public decimal MIKTAR { get; set; }
         public decimal STHAR_BF { get; set; }

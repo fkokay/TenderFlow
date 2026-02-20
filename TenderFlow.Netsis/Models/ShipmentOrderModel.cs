@@ -22,7 +22,7 @@ namespace TenderFlow.Netsis.Models
         public decimal SIPARIS_MIKTAR { get; set; }
         public decimal GONDERILEN_MIKTAR { get; set; }
         public decimal MIKTAR { get; set; }
-        public string DEPO_KODU { get; set; } = string.Empty;
+        public int DEPO_KODU { get; set; } = 0;
         public string DEPO_TANIMI { get; set; } = string.Empty;
         public string PROJE_KODU { get; set; } = string.Empty;
         public string EKALAN1 { get; set; } = string.Empty;
@@ -98,5 +98,7 @@ namespace TenderFlow.Netsis.Models
         public string PLASIYER_KODU { get; set; } = string.Empty;
         public string PLASIYER_ADI { get; set; } = string.Empty;
         public bool SECIM { get; set; }
+        public int TIPI { get; set; }
     }
+
 }

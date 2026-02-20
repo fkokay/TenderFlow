@@ -28,6 +28,9 @@ namespace TenderFlow.Netsis.Models
         public string? ACIK10 { get; set; }
         public string CARI_KODU { get; set; } = string.Empty;
         public string CARI_ADI { get; set; } = string.Empty;
+        public string? CARI_IL { get; set; }
+        public string? CARI_ILCE { get; set; }
+        public string? CARI_ADRES { get; set; }
         public string? KAPALI { get; set; }          // Netsis genelde 'E' / 'H'
         public string? KISMI_TESLIMAT { get; set; }  // yine 'E' / 'H' beklerim
         public string? GRUP_TANIMI { get; set; }
@@ -55,5 +58,9 @@ namespace TenderFlow.Netsis.Models
         public string? CARI_KULL7S { get; set; }
         public string? CARI_KULL8S { get; set; }
         public string EFATURA_CARISI { get; set; } = string.Empty;
+        public string OLUSAN_BELGELER { get; set;  }
+        public int PRINT_COUNT { get; set; } = 0;
+
+        public List<SevktraModel> SevktraList = new List<SevktraModel>();
     }
 }

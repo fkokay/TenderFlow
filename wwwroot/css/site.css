@@ -183,3 +183,23 @@ table.table-bordered.dataTable th:first-child, table.table-bordered.dataTable th
 .app-brand-text.demo {
     font-size: 1rem !important;
 }
+
+div.dt-button-background{
+    z-index:9999 !important;
+}
+
+div.dt-button-collection{
+    z-index:99999 !important;
+}
+
+div.dt-container div.dt-layout-row{
+    margin:0px !important;
+}
+
+div.dt-buttons{
+    padding:20px !important;
+}
+
+div.dt-container{
+    position:static;
+}

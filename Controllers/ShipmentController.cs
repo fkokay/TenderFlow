@@ -3,12 +3,14 @@ using Dapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using NetOpenX.Rest.Client;
 using NetOpenX.Rest.Client.BLL;
 using NetOpenX.Rest.Client.Model;
 using NetOpenX.Rest.Client.Model.Custom;
 using NetOpenX.Rest.Client.Model.Enums;
 using NetOpenX.Rest.Client.Model.NetOpenX;
+using TenderFlow.AI.Models;
 using TenderFlow.Core.Domain.Entities;
 using TenderFlow.Core.Grid;
 using TenderFlow.Data;
@@ -51,7 +53,7 @@ namespace TenderFlow.Controllers
         {
             try
             {
-                var firm = _db.Firms.FirstOrDefault();
+                var firm = _db.Firms.Where(m => m.Active == true).FirstOrDefault();
                 if (firm == null)
                 {
                     return NotFound("Firma bilgileri bulunamadı.");
@@ -84,7 +86,7 @@ namespace TenderFlow.Controllers
                     line.MIKTAR2 = 0;
                     line.STOKKODU = order.STOK_KODU;
                     line.STOKADI = order.STOK_ADI;
-                    line.DEPO = 1;
+                    line.DEPO = order.DEPO_KODU;
                     line.KAYITYAPANKUL = "admin";
                     line.KAYITTARIHI = DateTime.Now;
                     line.DUZELTMEYAPANKUL = null;
@@ -115,7 +117,7 @@ namespace TenderFlow.Controllers
         [Authorize(Roles = "Administrator,Satış,Sevkiyat")]
         public async Task<IActionResult> Edit(string belgeNo)
         {
-            var firm = _db.Firms.FirstOrDefault();
+            var firm = _db.Firms.Where(m => m.Active == true).FirstOrDefault();
             if (firm == null)
             {
                 return NotFound("Firma bilgileri bulunamadı.");
@@ -135,7 +137,7 @@ namespace TenderFlow.Controllers
         [Authorize(Roles = "Administrator,Satış,Sevkiyat")]
         public async Task<IActionResult> OrderDetails(string siparisNo)
         {
-            var firm = _db.Firms.FirstOrDefault();
+            var firm = _db.Firms.Where(m => m.Active == true).FirstOrDefault();
             if (firm == null)
             {
                 return NotFound("Firma bilgileri bulunamadı.");
@@ -164,7 +166,7 @@ namespace TenderFlow.Controllers
         [Authorize(Roles = "Administrator,Satış")]
         public async Task<IActionResult> OrderList([FromBody] OrderListRequest request)
         {
-            var firm = _db.Firms.FirstOrDefault();
+            var firm = _db.Firms.Where(m => m.Active == true).FirstOrDefault();
             if (firm == null)
             {
                 return NotFound("Firma bilgileri bulunamadı.");
@@ -174,6 +176,7 @@ namespace TenderFlow.Controllers
             var shipmentManager = new ShipmentManager(con);
 
             var list = await shipmentManager.GetShipmentOrdersAsync(
+                orderNo: request.Filters.OrderNo,
                 cariKodu: request.Filters.Cari,
                 startDate: request.Filters.StartDate,
                 endDate: request.Filters.EndDate,
@@ -188,7 +191,7 @@ namespace TenderFlow.Controllers
         [Authorize(Roles = "Administrator,Satış,Sevkiyat")]
         public async Task<IActionResult> OrderManagementList([FromBody] OrderManagementListListRequest request)
         {
-            var firm = _db.Firms.FirstOrDefault();
+            var firm = _db.Firms.Where(m => m.Active == true).FirstOrDefault();
             if (firm == null)
             {
                 return NotFound("Firma bilgileri bulunamadı.");
@@ -198,23 +201,99 @@ namespace TenderFlow.Controllers
             var manager = new ShipmentManager(con);
 
             var list = await manager.GetShipmentManagementsAsync(
+                orderNo: request.Filters.OrderNo,
                 startDate: request.Filters.StartDate,
                 endDate: request.Filters.EndDate,
                 status: request.Filters.Status,
                 showCompleted: request.Filters.ShowCompleted
             );
 
+            foreach (var item in list)
+            {
+                item.PRINT_COUNT = await _db.ShipmentPrints.Where(m => m.ShipmentNo == item.BELGE_NO).SumAsync(m=>m.PrintCount);
+            }
+
+            string orderColumn = "TARIH";
+            string orderDir = "ASC";
+
+            if (request.Grid?.Order != null && request.Grid.Order.Count > 0)
+            {
+                var order = request.Grid.Order[0];
+                var columnIndex = order.Column;
+
+                if (request.Grid.Columns != null && request.Grid.Columns.Count > columnIndex)
+                {
+                    orderColumn = request.Grid.Columns[columnIndex].Data ?? "TARIH";
+                    orderDir = order.Dir?.ToUpper() == "DESC" ? "DESC" : "ASC";
+                }
+            }
+
+            // 4) WHITELIST (ERP SİSTEMLERDE ŞART)
+            var allowedColumns = new HashSet<string>
+            {
+                "BELGE_NO",
+                "SIPARIS_NO",
+                "TARIH",
+                "CARI_KODU",
+                "CARI_ADI",
+                "DURUM_ACIKLAMA",
+                "KULLANICI_ADSOYAD",
+                "TOPLAM_MIKTAR",
+                "TOPLAM_TOPLANAN",
+                "TOPLAM_KALAN",
+                "TOPLAM_IRS_EDILEN",
+                "TOPLAM_IRS_EDILMEYEN",
+                "EFATURA_CARISI",
+                "OLUSAN_BELGELER",
+                "PRINT_COUNT"
+            };
+
+            if (!allowedColumns.Contains(orderColumn))
+                orderColumn = "TARIH";
+
+            // 5) DİNAMİK SIRALAMA (MODEL’E TAM UYUMLU)
+            list = orderDir == "ASC"
+                ? list.OrderBy(x => GetOrderValue(x, orderColumn)).ToList()
+                : list.OrderByDescending(x => GetOrderValue(x, orderColumn)).ToList();
+
+
             return Json(new
             {
+                draw = request.Grid.Draw,
+                recordsTotal = list.Count(),
+                recordsFiltered = list.Count(),
                 data = list
             });
+        }
+
+        private object GetOrderValue(OrderManagementListModel x, string column)
+        {
+            return column switch
+            {
+                "BELGE_NO" => x.BELGE_NO,
+                "SIPARIS_NO" => x.SIPARIS_NO,
+                "TARIH" => x.TARIH,
+                "CARI_KODU" => x.CARI_KODU,
+                "CARI_ADI" => x.CARI_ADI,
+                "DURUM_ACIKLAMA" => x.DURUM_ACIKLAMA,
+                "KULLANICI_ADSOYAD" => x.KULLANICI_ADSOYAD,
+                "TOPLAM_MIKTAR" => x.TOPLAM_MIKTAR,
+                "TOPLAM_TOPLANAN" => x.TOPLAM_TOPLANAN,
+                "TOPLAM_KALAN" => x.TOPLAM_KALAN,
+                "TOPLAM_IRS_EDILEN" => x.TOPLAM_IRS_EDILEN,
+                "TOPLAM_IRS_EDILMEYEN" => x.TOPLAM_IRS_EDILMEYEN,
+                "EFATURA_CARISI" => x.EFATURA_CARISI,
+                "OLUSAN_BELGELER" => x.OLUSAN_BELGELER,
+                "PRINT_COUNT" => x.PRINT_COUNT,
+                _ => x.TARIH
+            };
         }
 
         [HttpPost]
         [Authorize(Roles = "Administrator,Satış,Sevkiyat")]
         public async Task<IActionResult> DocumentList(string shipmentNo)
         {
-            var firm = _db.Firms.FirstOrDefault();
+            var firm = _db.Firms.Where(m => m.Active == true).FirstOrDefault();
             if (firm == null)
             {
                 return NotFound("Firma bilgileri bulunamadı.");
@@ -223,6 +302,22 @@ namespace TenderFlow.Controllers
 
             var manager = new ShipmentManager(con);
             var list = await manager.GetDocuments(shipmentNo: shipmentNo);
+
+            return Json(list);
+        }
+        [HttpPost]
+        [Authorize(Roles = "Administrator,Satış,Sevkiyat")]
+        public async Task<IActionResult> CollectionList(string shipmentNo)
+        {
+            var firm = _db.Firms.Where(m => m.Active == true).FirstOrDefault();
+            if (firm == null)
+            {
+                return NotFound("Firma bilgileri bulunamadı.");
+            }
+            using var con = CreateNetsisConnection(firm);
+
+            var manager = new ShipmentManager(con);
+            var list = await manager.GetCollections(shipmentNo: shipmentNo);
 
             return Json(list);
         }
@@ -236,7 +331,7 @@ namespace TenderFlow.Controllers
                 return Json(new { success = false, errorMessage = "Belge numarası boş olamaz." });
             }
 
-            var firm = _db.Firms.FirstOrDefault();
+            var firm = _db.Firms.Where(m => m.Active == true).FirstOrDefault();
             if (firm == null)
             {
                 return NotFound("Firma bilgileri bulunamadı.");
@@ -244,8 +339,6 @@ namespace TenderFlow.Controllers
             using var con = CreateNetsisConnection(firm);
 
             var shipmentService = new ShipmentManager(con);
-            var result = await shipmentService.GetBelgeOlusacakToplamaKalemleri(firm.NetsisDbName, request.SevkEmirNumaralari);
-
             var shipments = await shipmentService.GetShipmentManagementsByDocumentNumbersAsync(request.SevkEmirNumaralari);
 
             foreach (var shipment in shipments)
@@ -271,10 +364,15 @@ namespace TenderFlow.Controllers
                 });
 
                 ItemSlipsManager InvoiceManager = new ItemSlipsManager(auth2);
+                string seri = firm.EIRSSeri;
+                if (shipment.SIPARIS_NO.StartsWith("B"))
+                {
+                    seri = "BDL";
+                }
                 var fatNo = InvoiceManager.NewEWaybillNumber(new NetOpenX.Rest.Client.Model.Custom.ItemSlipsCodeParam()
                 {
                     DocumentType = JTFaturaTip.ftSIrs,
-                    Code = firm.EIRSSeri
+                    Code = seri
                 });
 
                 ItemSlips itemSlip = new ItemSlips();
@@ -294,6 +392,22 @@ namespace TenderFlow.Controllers
                     DovBazTarihi = DateTime.Now,
                     EIrsaliye = true,
                     Aciklama = order.ACIKLAMA,
+                    EKACK1 = order.ACIKLAMA1,
+                    EKACK2 = order.ACIKLAMA2,
+                    EKACK3 = order.ACIKLAMA3,
+                    EKACK4 = order.ACIKLAMA4,
+                    EKACK5 = order.ACIKLAMA5,
+                    EKACK6 = order.ACIKLAMA6,
+                    EKACK7 = order.ACIKLAMA7,
+                    EKACK8 = order.ACIKLAMA8,
+                    EKACK9 = order.ACIKLAMA9,
+                    EKACK10 = order.ACIKLAMA10,
+                    EKACK11 = order.ACIKLAMA11,
+                    EKACK12 = order.ACIKLAMA12,
+                    EKACK13 = order.ACIKLAMA13,
+                    EKACK14 = order.ACIKLAMA14,
+                    EKACK15 = order.ACIKLAMA15,
+                    EKACK16 = order.ACIKLAMA16,
                 };
 
                 itemSlip.Kalems = new List<ItemSlipLines>();
@@ -323,6 +437,13 @@ namespace TenderFlow.Controllers
 
                 itemSlip.EIrsEkBilgi = request.EWaybillInfo;
 
+                var calculateResult = InvoiceManager.Calculate(itemSlip);
+                if (!string.IsNullOrEmpty(order.KOD2))
+                {
+                    var tevkifat = calculateResult.Data.FatUst.KDV.Value * Convert.ToDouble(order.TEVKIFATCARPAN) * -1;
+                    itemSlip.FatUst.FAT_ALTM2 = tevkifat;
+                }
+
                 var resultDocument = InvoiceManager.PostInternal(itemSlip);
 
                 if (resultDocument.IsSuccessful)
@@ -338,7 +459,12 @@ namespace TenderFlow.Controllers
                     var eDocumentResult = EDocumentManager.PostInternal(eDocument);
                     if (eDocumentResult.IsSuccessful)
                     {
-                        return Json(new { success = true });
+
+                        var irsaliyeSeriResult = await shipmentService.UpdateIrsaliyeSeri(fatNo.Data.ToString());
+                        if (!irsaliyeSeriResult)
+                        {
+                            return Json(new { success = false, errorMessage = "Seri bilgisi güncellenirken bir hata oluştu" });
+                        }
                     }
                     else
                     {
@@ -472,7 +598,7 @@ namespace TenderFlow.Controllers
                 return Json(new { success = false, errorMessage = "Belge numarası boş olamaz." });
             }
 
-            var firm = _db.Firms.FirstOrDefault();
+            var firm = _db.Firms.Where(m => m.Active == true).FirstOrDefault();
             if (firm == null)
             {
                 return NotFound("Firma bilgileri bulunamadı.");
@@ -504,22 +630,44 @@ namespace TenderFlow.Controllers
                     NetsisPassword = firm.NetsisPassword
                 });
 
+                if (!token.IsSuccessStatusCode)
+                {
+                    return Json(new { success = false, errorMessage = token.error + " " + token.error_description });
+                }
+
                 ItemSlipsManager InvoiceManager = new ItemSlipsManager(auth2);
 
                 string fatNo = string.Empty;
                 if (request.EInovice)
                 {
-                    var fatNoResult = InvoiceManager.NewNumber(new NetOpenX.Rest.Client.Model.Custom.ItemSlipsCodeParam()
+                    var fatNoResult = InvoiceManager.NewNumber(new ItemSlipsCodeParam()
                     {
                         DocumentType = JTFaturaTip.ftSFat,
                         Code = firm.EFATSeri
                     });
-                    fatNo = fatNoResult.Data.ToString();
+
+                    if (fatNoResult.IsSuccessful)
+                    {
+                        fatNo = fatNoResult.Data.ToString();
+                    }
+                    else
+                    {
+                        return Json(new { success = false, errorMessage = fatNoResult.ErrorDesc + " " + fatNoResult.Message });
+                    }
+
                 }
                 else
                 {
                     var fatNoResult = InvoiceManager.NewEArchiveNumber(firm.EARSSeri);
-                    fatNo = fatNoResult.Data.ToString();
+                    if (fatNoResult.IsSuccessful)
+                    {
+                        fatNo = fatNoResult.Data.ToString();
+                    }
+                    else
+                    {
+                        return Json(new { success = false, errorMessage = fatNoResult.ErrorDesc + " " + fatNoResult.Message });
+                    }
+
                 }
 
                 ItemSlips itemSlip = new ItemSlips();
@@ -537,11 +685,15 @@ namespace TenderFlow.Controllers
                     FiiliTarih = DateTime.Now,
                     DovBazTarihi = DateTime.Now,
                     Aciklama = order.ACIKLAMA,
+                    KOD2 = order.KOD2,
                 };
 
                 itemSlip.Kalems = new List<ItemSlipLines>();
                 foreach (var shipmentLine in shipmentLines)
                 {
+
+                    var onayResult = await shipmentService.UpdateOnayNum(shipmentLine.INCKEYNO.ToString(), shipmentLine.STOK_KODU, 1);
+
                     itemSlip.Kalems.Add(new ItemSlipLines()
                     {
                         StokKodu = shipmentLine.STOK_KODU,
@@ -558,13 +710,21 @@ namespace TenderFlow.Controllers
                         STra_SatIsk3 = shipmentLine.STRA_SATISK3 == null ? null : Convert.ToDouble(shipmentLine.STRA_SATISK3),
                         STra_SatIsk4 = shipmentLine.STRA_SATISK4 == null ? null : Convert.ToDouble(shipmentLine.STRA_SATISK4),
                         STra_SatIsk5 = shipmentLine.STRA_SATISK5 == null ? null : Convert.ToDouble(shipmentLine.STRA_SATISK5),
-                        STra_SatIsk6 = shipmentLine.STRA_SATISK6 == null ? null : Convert.ToDouble(shipmentLine.STRA_SATISK6)
+                        STra_SatIsk6 = shipmentLine.STRA_SATISK6 == null ? null : Convert.ToDouble(shipmentLine.STRA_SATISK6),
                     });
 
                 }
-
+                var calculateResult = InvoiceManager.Calculate(itemSlip);
+                if (!string.IsNullOrEmpty(order.KOD2))
+                {
+                    var tevkifat = calculateResult.Data.FatUst.KDV.Value * Convert.ToDouble(order.TEVKIFATCARPAN) * -1;
+                    itemSlip.FatUst.FAT_ALTM2 = tevkifat;
+                }
                 var result = InvoiceManager.PostInternal(itemSlip);
 
+
+                bool success = false;
+                string errorMessage = string.Empty;
                 if (result.IsSuccessful)
                 {
                     EDocumentManager EDocumentManager = new EDocumentManager(auth2);
@@ -572,32 +732,48 @@ namespace TenderFlow.Controllers
 
                     eDocument.Tip = request.EInovice ? JTEBelgeTip.ebtEFatura : JTEBelgeTip.ebtArsiv;
                     eDocument.BelgeNo = result.Data.FatUst.FATIRS_NO;
-                    eDocument.DizaynKontrol = false;
+                    eDocument.DizaynNo = request.DesingNo;
+                    eDocument.DovizliOlustur = false;
 
                     var eDocumentResult = EDocumentManager.PostInternal(eDocument);
                     if (eDocumentResult.IsSuccessful)
                     {
-                        return Json(new { success = true });
+                        var invoiceSeriResult = await shipmentService.UpdateFaturaSeri(result.Data.FatUst.FATIRS_NO);
+                        success = true;
                     }
                     else
                     {
-                        return Json(new { success = false, errorMessage = eDocumentResult.ErrorDesc });
+                        success = false;
+                        errorMessage = eDocumentResult.ErrorDesc + " " + eDocumentResult.Message;
                     }
                 }
                 else
                 {
-                    return Json(new { success = false, errorMessage = result.ErrorDesc });
+                    success = false;
+                    errorMessage = result.ErrorDesc + " " + result.Message;
                 }
+
+                if (!success)
+                {
+                    foreach (var shipmentLine in shipmentLines)
+                    {
+                        var onayResult = await shipmentService.UpdateOnayNum(shipmentLine.INCKEYNO.ToString(), shipmentLine.STOK_KODU, 0);
+                    }
+
+                    return Json(new { success, errorMessage });
+                }
+
+                return Json(new { success, errorMessage });
             }
 
-            return Json(new { success = true });
+            return Json(new { success = false, errorMessage = "Bilinmeyen bir hata oluştu" });
         }
 
         [HttpGet]
         [Authorize(Roles = "Administrator,Satış,Sevkiyat")]
         public async Task<IActionResult> DocumentView(string documentNumber, bool einvoice, string documentType)
         {
-            var firm = _db.Firms.FirstOrDefault();
+            var firm = _db.Firms.Where(m => m.Active == true).FirstOrDefault();
             if (firm == null)
             {
                 return NotFound("Firma bilgileri bulunamadı.");
@@ -618,10 +794,10 @@ namespace TenderFlow.Controllers
 
             EDocumentShowParam eDocumentShowParam = new EDocumentShowParam
             {
-                EDocumentType = documentType == "İrsalie" ? JTEBelgeTip.ebtEIrs : einvoice ? JTEBelgeTip.ebtEFatura : JTEBelgeTip.ebtArsiv,
+                EDocumentType = documentType == "İrsaliye" ? JTEBelgeTip.ebtEIrs : einvoice ? JTEBelgeTip.ebtEFatura : JTEBelgeTip.ebtArsiv,
                 GIBDocumentNumber = documentNumber,
                 DocumentBoxType = JTEBelgeBoxType.ebAll,
-                HtmlPath = "C://TEMP",
+
                 EnvelopeId = ""
             };
 
@@ -642,7 +818,7 @@ namespace TenderFlow.Controllers
         [Authorize(Roles = "Administrator,Satış,Sevkiyat")]
         public async Task<IActionResult> CustomerList([FromBody] GridCommand command)
         {
-            var firm = _db.Firms.FirstOrDefault();
+            var firm = _db.Firms.Where(m => m.Active == true).FirstOrDefault();
             if (firm == null)
             {
                 return NotFound("Firma bilgileri bulunamadı.");
@@ -659,7 +835,7 @@ namespace TenderFlow.Controllers
         [Authorize(Roles = "Administrator,Satış,Sevkiyat")]
         public async Task<IActionResult> ShipmentTemplateList()
         {
-            var firm = _db.Firms.FirstOrDefault();
+            var firm = _db.Firms.Where(m => m.Active == true).FirstOrDefault();
             if (firm == null)
             {
                 return NotFound("Firma bilgileri bulunamadı.");
@@ -673,12 +849,21 @@ namespace TenderFlow.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Administrator,Satış,Sevkiyat")]
+        public async Task<IActionResult> DesingList()
+        {
+            var desings = _db.Designs.ToList();
+
+            return Json(desings);
+        }
+
+        [HttpPost]
         [Authorize(Roles = "Administrator,Satış")]
         public async Task<IActionResult> DeleteAsync([FromBody] DeleteShipmentRequest request)
         {
             try
             {
-                var firm = _db.Firms.FirstOrDefault();
+                var firm = _db.Firms.Where(m => m.Active == true).FirstOrDefault();
                 if (firm == null)
                 {
                     return NotFound("Firma bilgileri bulunamadı.");
@@ -712,7 +897,7 @@ namespace TenderFlow.Controllers
         }
         private async Task PrepareShipmentOrder()
         {
-            var firm = _db.Firms.FirstOrDefault();
+            var firm = _db.Firms.Where(m => m.Active == true).FirstOrDefault();
             if (firm == null)
             {
                 throw new Exception("Firma bilgileri bulunamadı.");
@@ -726,7 +911,7 @@ namespace TenderFlow.Controllers
         }
         private async Task PrepareShipmentCreate(ShipmentRequestModel request, ShipmentModel model)
         {
-            var firm = _db.Firms.FirstOrDefault();
+            var firm = _db.Firms.Where(m => m.Active == true).FirstOrDefault();
             if (firm == null)
             {
                 throw new Exception("Firma bilgileri bulunamadı.");
@@ -800,7 +985,8 @@ namespace TenderFlow.Controllers
                 line.MIKTAR2 = 0;
                 line.STOKKODU = item.STOK_KODU;
                 line.STOKADI = item.STOK_ADI;
-                line.DEPO = 1;
+                line.DEPO = item.DEPO_KODU;
+                line.DEPO_TANIMI = item.DEPO_TANIMI;
                 line.KAYITYAPANKUL = "admin";
                 line.KAYITTARIHI = DateTime.Now;
                 line.DUZELTMEYAPANKUL = null;
@@ -839,6 +1025,47 @@ namespace TenderFlow.Controllers
             </html>";
         }
         private string CurrentUser => User.Identity?.Name ?? "SYSTEM";
+
+
+        public async Task<IActionResult> Print(string sevkNo, string type)
+        {
+            var shipmentPrint = await _db.ShipmentPrints.FirstOrDefaultAsync(sp => sp.ShipmentNo == sevkNo);
+            if (shipmentPrint == null)
+            {
+                shipmentPrint = new ShipmentPrint();
+                shipmentPrint.ShipmentNo = sevkNo;
+                shipmentPrint.PrintCount = 1;
+
+                _db.ShipmentPrints.Add(shipmentPrint);
+                await _db.SaveChangesAsync();
+            }
+            else
+            {
+                shipmentPrint.PrintCount += 1;
+                _db.ShipmentPrints.Update(shipmentPrint);
+                await _db.SaveChangesAsync();
+            }
+
+            var sevkNumaralari = new List<string> { sevkNo.ToString() };
+            var firm = _db.Firms.Where(m => m.Active == true).FirstOrDefault();
+            if (firm == null)
+            {
+                return NotFound("Firma bilgileri bulunamadı.");
+            }
+            using var con = CreateNetsisConnection(firm);
+
+            var shipmentService = new ShipmentManager(con);
+            var shipments = await shipmentService.GetShipmentManagementsByDocumentNumbersAsync(sevkNumaralari);
+            if (shipments.Any())
+            {
+                var shipment = shipments.First();
+                shipment.SevktraList = await shipmentService.GetSevktraList(sevkNo);
+
+                return string.IsNullOrEmpty(type) ? View(shipment) : View("PrintZarf", shipment);
+            }
+
+            return NotFound("Sevk emri bulunamadı.");
+        }
 
     }
 }

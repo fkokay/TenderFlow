@@ -7,5 +7,6 @@ namespace TenderFlow.Models.Picker
         public List<string> SevkEmirNumaralari { get; set; } = new();
         public EWaybillInfo? EWaybillInfo { get; set; }
         public bool EInovice { get; set; }
+        public int DesingNo { get; set; }
     }
 }

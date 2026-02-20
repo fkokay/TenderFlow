@@ -11,9 +11,12 @@ namespace TenderFlow.Core.Domain.Entities
     public class TenderOpex : BaseEntity
     {
         public int TenderId { get; set; }
-        public string OpexName { get; set; }
+        public int TenderAuthorityId { get; set; }
+        public string StockCode { get; set; }
         public int Quantity { get; set; }
         public string Unit { get; set; }
+        public decimal UnitPrice { get; set; }
+        public string Note { get; set; }
         public DateTime CreatedAt { get; set; }
 
         public Tender Tender { get; set; }

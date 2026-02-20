@@ -55,7 +55,7 @@ namespace TenderFlow.Netsis.Models
         public decimal? GENEL_ISKONTO2 { get; set; }
         public decimal? GENEL_ISKONTO3 { get; set; }
 
-        public bool ISKONTO1_ORANMI { get; set; }
+        public string ISKONTO1_ORANMI { get; set; }
 
         public decimal? ISK1 { get; set; }
         public decimal? ISK2 { get; set; }

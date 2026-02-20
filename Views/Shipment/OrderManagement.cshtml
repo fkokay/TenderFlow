@@ -15,6 +15,11 @@
     <div class="card-body pb-2">
         <div class="row g-3">
 
+            <div class="col-md-3">
+                <label class="form-label">Sipariş No</label>
+                <input type="text" id="orderNo" class="form-control">
+            </div>
+
             <!-- Başlangıç Tarihi -->
             <div class="col-md-3">
                 <label class="form-label">Başlangıç Tarihi</label>
@@ -34,8 +39,8 @@
                     <option value="0">Tümü</option>
                     <option value="1">Beklemede</option>
                     <option value="2">Toplamada</option>
-                    <option value="5">Hazır</option>
-                    <option value="6">Tamamlandı</option>
+                    <option value="4">Hazır</option>
+                    <option value="5">Tamamlandı</option>
                 </select>
             </div>
 
@@ -77,6 +82,7 @@
                 <tr>
                     <th>Sevk Emri No.</th>
                     <th>Sipariş No</th>
+                    <th>Oluşan Belgeler</th>
                     <th>Tarih</th>
                     <th>Cari Kodu</th>
                     <th>Cari Adı</th>
@@ -331,6 +337,65 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="DesingModal" tabindex="-1">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">E-Fatura Dizayn Seç</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                <table id="sablonTable" class="table-bordered table-hover table">
+                    <thead>
+                        <tr>
+                            <th>Dizayn No</th>
+                            <th>Dizayn Adı</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="CollectionsModal" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-shipment modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title mb-3">Sevk Emri Toplama Kayıtları</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-0">
+                <table id="TableCollection" class="dt-fixedheader table-bordered dataTable dtr-column table" style="border-top: 1px solid #dbdade;">
+                    <thead>
+                        <tr class="dt-header" role="row">
+                            <th>Id</th>
+                            <th>Kayıt No</th>
+                            <th>Stok Kodu</th>
+                            <th>Stok Adı</th>
+                            <th>Sip. No-Sıra</th>
+                            <th>Sevk Sıra</th>
+                            <th>Depo</th>
+                            <th>Hücre</th>
+                            <th>Fatura/İrsaliye</th>
+                            <th>Miktar</th>
+                            <th>Kayıt Yapan</th>
+                            <th>Kayıt Tarihi</th>
+                            <th>Okutulan Barkod 1</th>
+                            <th>Okutulan Barkod 2</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 @section PageScripts {
     <script src="~/pages/base.js" asp-append-version="true"></script>

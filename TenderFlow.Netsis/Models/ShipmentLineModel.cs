@@ -23,7 +23,8 @@
         public decimal? MIKTAR2 { get; set; }
         public string? STOKKODU { get; set; }
         public string? STOKADI { get; set; }
-        public short? DEPO { get; set; }
+        public int? DEPO { get; set; }
+        public string? DEPO_TANIMI { get; set; }
         public string? KAYITYAPANKUL { get; set; }
         public DateTime? KAYITTARIHI { get; set; }
         public string? DUZELTMEYAPANKUL { get; set; }

@@ -25,9 +25,11 @@ namespace TenderFlow.Core.Domain.Entities
         public string? NetsisPassword { get; set; } = string.Empty;
         public int NetsisCompanyCode { get; set; } = 1;
         public int NetsisBranchCode { get; set; } = 0;
+        public int NetsisWarehouseCode { get; set; } = 0;
         public string? EIRSSeri { get; set; } = string.Empty;
         public string? EFATSeri { get; set; } = string.Empty;
         public string? EARSSeri { get; set; } = string.Empty;
+        public bool Active { get; set; } = true;
         public DateTime CreatedAt { get; set; }
 
         public ICollection<Tender> Tenders { get; set; } = new List<Tender>();

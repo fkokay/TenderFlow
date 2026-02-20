@@ -10,6 +10,7 @@ namespace TenderFlow.Models
 
     public class ShipmentManagementFilter
     {
+        public string? OrderNo { get; set;  }
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
         public int Status { get; set; }

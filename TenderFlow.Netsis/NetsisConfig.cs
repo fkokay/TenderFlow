@@ -7,7 +7,7 @@ namespace TenderFlow.Netsis
     public class NetsisConfig
     {
         public string Server { get; set; } = "192.168.1.100";
-        public string Database { get; set; } = "KABLOTEST2026";
+        public string Database { get; set; } = "MAKROLAB26";
         public string User { get; set; } = "sa";
         public string Password { get; set; } = "sapass";
 

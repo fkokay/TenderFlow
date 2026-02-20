@@ -22,6 +22,7 @@ TenderFlow.OrderManagementList = (function ($) {
                         return JSON.stringify({
                             Grid: d,
                             Filters: {
+                                orderNo: $("#orderNo").val() || null,
                                 startDate: $("#startDate").val() || null,
                                 endDate: $("#endDate").val() || null,
                                 status: $("#status").val() || null,
@@ -30,6 +31,7 @@ TenderFlow.OrderManagementList = (function ($) {
                             }
                         });
                         d.Filters = {
+                            orderNo: $("#orderNo").val() || null,
                             startDate: $("#startDate").val(),
                             endDate: $("#endDate").val(),
                             status: $("#status").val(),
@@ -40,6 +42,13 @@ TenderFlow.OrderManagementList = (function ($) {
                     },
                 },
                 deferLoading: 0,
+                dom: 'Bfrtip', // B = Buttons
+                buttons: [
+                    {
+                        extend: 'colvis',
+                        text: 'Kolon Seç'
+                    }
+                ],
                 columns: [
                     {
                         data: 'BELGE_NO',
@@ -60,6 +69,9 @@ TenderFlow.OrderManagementList = (function ($) {
                             </button>`;
 
                         }
+                    },
+                    {
+                        data: 'OLUSAN_BELGELER',
                     },
                     {
                         data: 'TARIH',
@@ -92,7 +104,26 @@ TenderFlow.OrderManagementList = (function ($) {
                         data: 'EFATURA_CARISI',
                         visible: false
                     },
-                    { data: 'DURUM_ACIKLAMA' },
+                    {
+                        data: 'DURUM_ACIKLAMA',
+                        render: function (data, type, row) {
+                            if (!data) return '';
+
+                            if (data.toLowerCase() === "hazır") {
+                                return `<span class="badge bg-success">${data}</span>`;
+                            }
+
+                            if (data.toLowerCase().includes("toplamada")) {
+                                return `<span class="badge bg-warning text-dark">${data}</span>`;
+                            }
+
+                            if (data.toLowerCase().includes("tamamlandı")) {
+                                return `<span class="badge bg-secondary">${data}</span>`;
+                            }
+
+                            return data;
+                        }
+                    },
                     { data: 'KULLANICI_ADSOYAD' },
                     {
                         data: 'KAPALI',
@@ -138,32 +169,32 @@ TenderFlow.OrderManagementList = (function ($) {
                                     <ul class="dropdown-menu dropdown-menu-end m-0">
 
                                         ${row.TOPLAM_IRS_EDILEN > 0
-                                    ? `<li>
+                                            ? `<li>
                                                    <a href="javascript:;" class="dropdown-item"
                                                       onclick="TenderFlow.OrderManagementList.showDocuments('${row.BELGE_NO}',${row.EFATURA_CARISI == 'E'})">
                                                        <i class="ti ti-eye me-1"></i> Belgeler
                                                    </a>
                                                </li>`
-                                    : ''
-                                }
-
-                                    ${row.TOPLAM_IRS_EDILMEYEN > 0 ? `
-                                        ${CreateShipmentDispatch == 1 ? `
-                                            <li>
-                                                <a href = "javascript:;" class="dropdown-item" onclick = "TenderFlow.OrderManagementList.createDocument('${row.BELGE_NO}')" >
-                                                    <i class="ti ti-plus me-1"></i> İrsaliye Oluştur
-                                                </a>
-                                            </li>`: ''
+                                            : ''
                                         }
-                                        ${CreateShipmentInvoice == 1 ? `
-                                            <li>
-                                                <a href="javascript:;" class="dropdown-item" onclick = "TenderFlow.OrderManagementList.createInvoice('${row.BELGE_NO}',${row.EFATURA_CARISI == 'E'})" >
-                                                    <i class="ti ti-plus me-1"></i> Fatura Oluştur
-                                                </a>
-                                            </li>`: ''
-                                        }`
-                                        : ''
-                                    }
+
+                                        ${row.TOPLAM_IRS_EDILMEYEN > 0 ? `
+                                            ${CreateShipmentDispatch == 1 ? `
+                                                <li>
+                                                    <a href = "javascript:;" class="dropdown-item" onclick = "TenderFlow.OrderManagementList.createDocument('${row.BELGE_NO}')" >
+                                                        <i class="ti ti-plus me-1"></i> İrsaliye Oluştur
+                                                    </a>
+                                                </li>`: ''
+                                            }
+                                            ${CreateShipmentInvoice == 1 ? `
+                                                <li>
+                                                    <a href="javascript:;" class="dropdown-item" onclick = "TenderFlow.OrderManagementList.createInvoice('${row.BELGE_NO}',${row.EFATURA_CARISI == 'E'})" >
+                                                        <i class="ti ti-plus me-1"></i> Fatura Oluştur
+                                                    </a>
+                                                </li>`: ''
+                                            }`
+                                            : ''
+                                        }
 
                                         ${row.TOPLAM_IRS_EDILMEYEN > 0 && row.TOPLAM_IRS_EDILEN > 0 ? `<div class="dropdown-divider"></div>` : ''}
                                         ${userRoles.includes("Admin") || userRoles.includes("Satış") ?
@@ -173,7 +204,29 @@ TenderFlow.OrderManagementList = (function ($) {
                                                 <i class="ti ti-trash me-1"></i> Sil
                                             </a>
                                         </li >`
-                                    : ''}
+                                : ''}
+
+                                ${row.TOPLAM_TOPLANAN > 0 ? `<div class="dropdown-divider"></div>` : ''}
+                                ${row.TOPLAM_TOPLANAN > 0 ? `
+                                                <li>
+                                                    <a href="javascript:;" class="dropdown-item" onclick = "TenderFlow.OrderManagementList.showCollections('${row.BELGE_NO}')" >
+                                                        <i class="ti ti-components me-1"></i> Toplama Kayıtları
+                                                    </a>
+                                                </li>`:''}
+
+                                        <div class="dropdown-divider"></div>
+                                        <li>
+                                            <a href="javascript:;" class="dropdown-item"
+                                                onclick="TenderFlow.OrderManagementList.printShipment('${row.BELGE_NO}','')">
+                                                <i class="ti ti-file me-1"></i> Yazdır
+                                            </a>
+                                        </li >
+                                        <li>
+                                            <a href="javascript:;" class="dropdown-item"
+                                                onclick="TenderFlow.OrderManagementList.printShipment('${row.BELGE_NO}','Zarf')">
+                                                <i class="ti ti-square me-1"></i> Zarf Yazdır
+                                            </a>
+                                        </li >
                                     </ul>
                                 </div>
                             `;
@@ -184,6 +237,10 @@ TenderFlow.OrderManagementList = (function ($) {
                 rowCallback: function (row, data) {
 
                     $(row).removeClass("table-danger");
+
+                    if (parseInt(data.PRINT_COUNT, 10) > 0) {
+                        $(row).addClass("table-warning");
+                    }
 
                     if (!$("#highlightZeroPrice").is(":checked"))
                         return;
@@ -362,7 +419,7 @@ TenderFlow.OrderManagementList = (function ($) {
             btn.html(`<span class="spinner-border spinner-border-sm me-2"></span> Gönderiliyor...`);
 
             const payload = {
-                documentNumber: $("#EIrsaliyeModal").attr("data-document-number"),
+                SevkEmirNumaralari: [$("#EIrsaliyeModal").attr("data-document-number")],
                 eWaybillInfo: {
                     SEVKTAR: $("#sevkTarihi").val() || null,
                     PLAKA: $("#plaka").val() || "",
@@ -413,36 +470,85 @@ TenderFlow.OrderManagementList = (function ($) {
     function createInvoice(documentNumber, einvoice) {
         new bootstrap.Modal(document.getElementById("InvoiceConfirmModal")).show();
 
+        let silentClose = false;
         $("#btnInvoiceConfirm").on("click", function () {
-            const payload = {
-                DocumentNumber: documentNumber,
-                EInovice: einvoice
-            };
-            $.ajax({
-                url: "/Shipment/CreateInvoice",
-                type: "POST",
-                contentType: "application/json",
-                data: JSON.stringify(payload),
-                success: function (res) {
-                    $("#InvoiceConfirmModal").modal("hide");
-                    if (res.success) {
-                        TenderFlow.Table.showToast("E-Fatura başarıyla oluşturuldu", "success");
+            const btn = $(this);
+            const originalText = btn.html();
 
-                        if (table) {
-                            table.ajax.reload(null, false);
-                        }
-                    } else {
-                        TenderFlow.Table.showToast(res.errorMessage, "danger");
-                    }
-                },
-                error: function () {
-                    TenderFlow.Table.showToast("Sunucu hatası oluştu", "danger");
-                },
-                complete: function () {
-                    btn.prop("disabled", false);
-                    btn.html(originalText);
+            btn.prop("disabled", true);
+            btn.html(`<span class="spinner-border spinner-border-sm me-2"></span> Gönderiliyor...`);
+
+            $("#DesingModal").modal("show");
+            $('#DesingModal').on('hidden.bs.modal', function () {
+                if (silentClose) {
+                    silentClose = false;
+                    return;
+                }
+
+                btn.prop("disabled", false);
+                btn.html(originalText);
+            });
+
+            $.ajax({
+                url: "/Shipment/DesingList",
+                type: "POST",
+                success: function (list) {
+                    let html = "";
+                    list.forEach(item => {
+                        html += `
+                        <tr>
+                            <td>${item.DesignNo}</td>
+                            <td>${item.DesignName ?? ""}</td>
+                            <td>
+                                <button class="btn btn-sm btn-primary btnSelectDesing" data-designno="${item.DesignNo}">
+                                    Seç
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                    });
+
+                    $("#sablonTable tbody").html(html);
+
+                    $(document).on("click", ".btnSelectDesing", function () {
+                        silentClose = true;
+                        $("#DesingModal").modal("hide");
+
+                        const payload = {
+                            SevkEmirNumaralari: [documentNumber],
+                            EInovice: einvoice,
+                            DesingNo: $(this).data("designno")
+                        };
+                        $.ajax({
+                            url: "/Shipment/CreateInvoice",
+                            type: "POST",
+                            contentType: "application/json",
+                            data: JSON.stringify(payload),
+                            success: function (res) {
+                                $("#InvoiceConfirmModal").modal("hide");
+                                if (res.success) {
+                                    TenderFlow.Table.showToast("E-Fatura başarıyla oluşturuldu", "success");
+
+                                    if (table) {
+                                        table.ajax.reload(null, false);
+                                    }
+                                } else {
+                                    TenderFlow.Table.showToast(res.errorMessage, "danger");
+                                }
+                            },
+                            error: function () {
+                                TenderFlow.Table.showToast("Sunucu hatası oluştu", "danger");
+                            },
+                            complete: function () {
+                                btn.prop("disabled", false);
+                                btn.html(originalText);
+                            }
+                        });
+                    });
                 }
             });
+
+
 
         });
     }
@@ -498,6 +604,51 @@ TenderFlow.OrderManagementList = (function ($) {
         modal.show();
     }
 
+    function showCollections(shipmentNo) {
+
+        if ($.fn.DataTable.isDataTable('#TableCollection')) {
+            $('#TableCollection').DataTable().clear().destroy();
+        }
+
+        const modal = new bootstrap.Modal(document.getElementById('CollectionsModal'));
+
+        tableDocument = $("#TableCollection").DataTable({
+            language: {
+                paginate: TenderFlow.Table.Language.paginate,
+                url: 'https://cdn.datatables.net/plug-ins/2.3.2/i18n/tr.json'
+            },
+            processing: false,
+            serverSide: false,
+            paging: true,
+            dom: 'tp',
+            ajax: {
+                url: `/Shipment/CollectionList?shipmentNo=${shipmentNo}`,
+                type: 'POST',
+                contentType: 'application/json',
+                dataSrc: ''
+            },
+            columns: [
+                { data: 'ID' },
+                { data: 'SIRA' },
+                { data: 'STOK_KODU' },
+                { data: 'STOK_ADI' },
+                { data: 'SIPARIS_NO' },
+                { data: 'SEVKEMRI_SIRA' },
+                { data: 'DEPO_KODU' },
+                { data: 'HUCRE_KODU' },
+                { data: 'IRSALIYE' },
+                { data: 'MIKTAR' },
+                { data: 'KAYITYAPANKUL' },
+                { data: 'KAYITTARIHI' },
+                { data: 'BARKOD1' },
+                { data: 'BARKOD2' },
+            ],
+            displayLength: 10
+        });
+
+        modal.show();
+    }
+
     function viewDocumentPopup(documentNumber, einvoice, documentType) {
 
         const tick = new Date().getTime();
@@ -524,6 +675,25 @@ TenderFlow.OrderManagementList = (function ($) {
             frame.contentWindow.focus();
             frame.contentWindow.print();
         }
+    }
+
+    function printShipment(sevkNo,type) {
+        const tick = new Date().getTime();
+        const url = `/Shipment/Print?sevkNo=${sevkNo}&type=${type}&_=${tick}`;
+
+        $("#documentFrame").remove();
+        $("#documentFrameContainer").html(`
+            <iframe id="documentFrame" style="width:100%; height:78vh; border:0;"></iframe>
+        `);
+
+        $("#documentLoading").show();
+        $("#documentFrame").attr("src", url);
+
+        $("#documentFrame").on("load", function () {
+            $("#documentLoading").hide();
+        });
+
+        new bootstrap.Modal(document.getElementById('DocumentViewModal')).show();
     }
 
     function deleteShipment(documentNumber) {
@@ -560,6 +730,8 @@ TenderFlow.OrderManagementList = (function ($) {
         showDocuments,
         viewDocumentPopup,
         printDocument,
-        deleteShipment
+        deleteShipment,
+        printShipment,
+        showCollections
     };
 })(jQuery);

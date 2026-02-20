@@ -11,6 +11,7 @@ namespace TenderFlow.Netsis.Models
         public string STOK_KODU { get; set; } = string.Empty;
         public string STOK_ADI { get; set; } = string.Empty;
         public decimal MIKTAR { get; set; }
+        public string OLCBR { get; set; }
         public decimal KALAN { get; set; }
         public decimal FIYAT { get; set; }
         public decimal TUTAR { get; set; }

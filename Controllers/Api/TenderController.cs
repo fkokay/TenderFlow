@@ -23,6 +23,18 @@ namespace TenderFlow.Controllers.Api
             _db = db;
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Init(TenderDeviceModel model)
+        {
+            var tender = await _db.Tenders.FirstOrDefaultAsync(m => m.Id == model.TenderId);
+            if (tender == null)
+            {
+                return Ok(new { status = false, message = "İhale bulunamadı" });
+            }
+
+            return Ok();
+        }
+
 
         [HttpPost]
         public async Task<IActionResult> DocumentAsync(TenderDeviceModel model)
@@ -196,7 +208,7 @@ namespace TenderFlow.Controllers.Api
                 slips.Kalems.Add(new ItemSlipLines
                 {
                     StokKodu = reaktif.StockCode,
-                    STra_GCMIK = Convert.ToDouble((reaktif.TestCount / period )* 2),
+                    STra_GCMIK = Convert.ToDouble((reaktif.TestCount / period) * 2),
                     STra_BF = Convert.ToDouble(reaktif.UnitPrice),
                     DEPO_KODU = 1,
                 });
@@ -211,7 +223,71 @@ namespace TenderFlow.Controllers.Api
         [HttpPost]
         public async Task<IActionResult> OpexAsync(TenderDeviceModel model)
         {
-            return Ok();
+            var tender = await _db.Tenders.FirstOrDefaultAsync(m => m.Id == model.TenderId);
+            if (tender == null)
+            {
+                return Ok(new { status = false, message = "İhale bulunamadı" });
+            }
+
+            var tenderOpexes = _db.TenderOpex.Where(m => m.TenderId == model.TenderId).ToList();
+            if (tenderOpexes.Count == 0)
+            {
+                return Ok(new { status = false, message = "İhaleye ait cihaz bulunamadı" });
+            }
+
+            oAuth2 auth2 = new oAuth2("http://192.168.1.100:7070");
+            var token = await auth2.LoginAsync(new JLogin()
+            {
+                BranchCode = 0,
+                DbName = "TEST2025",
+                DbPassword = "",
+                DbType = JNVTTipi.vtMSSQL,
+                DbUser = "TEMELSET",
+                NetsisUser = "Netsis",
+                NetsisPassword = "net2"
+            });
+
+            foreach (var item in tenderOpexes)
+            {
+                ItemsManager itemsManager = new ItemsManager(auth2);
+                var productData = await itemsManager.GetInternalAsync(new NetOpenX.Rest.Client.Model.SelectFilter()
+                {
+                    Offset = 0,
+                    Limit = 1,
+                    Filter = $"STOK_KODU='{item.StockCode}'"
+                });
+
+
+                ItemSlipsManager itemSlipsManager = new ItemSlipsManager(auth2);
+                ItemSlips slips = new ItemSlips();
+                slips.FaturaTip = NetOpenX.Rest.Client.Model.Enums.JTFaturaTip.ftASip;
+                slips.SeriliHesapla = false;
+                slips.KayitliNumaraOtomatikGuncellensin = true;
+                slips.FatUst = new ItemSlipsHeader();
+                slips.FatUst.TIPI = NetOpenX.Rest.Client.Model.Enums.JTFaturaTipi.ft_Acik;
+                slips.FatUst.CariKod = "320-34-019";
+                slips.FatUst.Tarih = DateTime.Now;
+                slips.FatUst.FIYATTARIHI = DateTime.Now;
+                slips.FatUst.KDV_DAHILMI = true;
+                slips.FatUst.PLA_KODU = tender.TenderCode;
+                slips.FatUst.KOD1 = "L";
+                slips.FatUst.Aciklama = "";
+
+                slips.Kalems = new List<ItemSlipLines>();
+                slips.Kalems.Add(new ItemSlipLines
+                {
+                    StokKodu = item.StockCode,
+                    STra_GCMIK = item.Quantity,
+                    STra_BF = Convert.ToDouble(item.UnitPrice),
+                    DEPO_KODU = 1,
+                });
+
+                var resultSatis = itemSlipsManager.PostInternal(slips);
+            }
+
+
+
+            return Ok(new { status = true });
         }
 
 

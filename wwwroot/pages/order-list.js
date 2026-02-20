@@ -35,6 +35,7 @@ TenderFlow.OrderList = (function ($) {
                     return JSON.stringify({
                         Grid: d,
                         Filters: {
+                            orderNo: $("#filterOrderNo").val() || null,
                             cari: $("#filterCari").val() || null,
                             startDate: startVal || null,
                             endDate: endVal || null,
@@ -74,10 +75,19 @@ TenderFlow.OrderList = (function ($) {
                 data: null,
                 orderable: false,
                 className: "text-center",
-                render: () => `
+                render: function (data, type, row) {
+
+                    // TIPI 3 değilse checkbox YOK
+                    if (row.TIPI !== 2) {
+                        return ''; // boş hücre
+                    }
+
+                    // TIPI = 3 → onaylı → checkbox var
+                    return `
                     <div class="rg-check-area">
                         <input type="checkbox" class="row-checkbox"/>
-                    </div>`
+                    </div>`;
+                }
             },
             { data: 'ID', visible: false },
             { data: 'SIPARIS_NO' },
@@ -91,7 +101,16 @@ TenderFlow.OrderList = (function ($) {
             { data: 'SIPARIS_MIKTAR' },
             { data: 'GONDERILEN_MIKTAR' },
             { data: 'MIKTAR' },
-            { data: 'DEPO_BAKIYE' }
+            { data: 'DEPO_BAKIYE' },
+            {
+                data: 'TIPI',
+                className: "text-center",
+                render: function (data) {
+                    return data === 2
+                        ? '<span class="badge bg-success">Onaylı</span>'
+                        : '<span class="badge bg-secondary">Onaysız</span>';
+                }
+            }
         ];
     }
 

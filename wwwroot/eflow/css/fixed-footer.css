@@ -1,8 +1,0 @@
-﻿@media (min-width: 1025px) {   
-    .kt-footer-relative { height: 50px; background-color: white; bottom: 0px; margin-bottom: 0px; width: 100% }
-
-    .kt-footer-fixed { position: fixed; height: 50px; background-color: white; bottom: 0px; margin-bottom: 0px; width: 100% }
-    .kt-page { margin-bottom: 55px !important; }
-    .page-item.active .page-link { z-index: 0 !important; }
-    .pagination > .active > a { z-index: 0;}
-}

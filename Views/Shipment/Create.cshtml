@@ -92,7 +92,7 @@
                         @Model.ShipmentLines[i].STOKADI<br />
                         @Model.ShipmentLines[i].STOKKODU
                     </td>
-                    <td class="text-center">@Model.ShipmentLines[i].DEPO</td>
+                    <td class="text-center">@Model.ShipmentLines[i].DEPO_TANIMI</td>
                     <td><input type="number" step="1" min="0" max="@Model.ShipmentLines[i].MIKTAR" class="form-control" name="ShipmentLines[@i].MIKTAR" value="@Model.ShipmentLines[i].MIKTAR?.ToString("0.########")" /></td>
                 </tr>
             }

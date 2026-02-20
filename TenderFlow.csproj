@@ -13,18 +13,22 @@
 		<Compile Remove="TenderFlow.Core\**" />
 		<Compile Remove="TenderFlow.Data\**" />
 		<Compile Remove="TenderFlow.Netsis\**" />
+		<Compile Remove="wwwroot\eflow\**" />
 		<Content Remove="TenderFlow.AI\**" />
 		<Content Remove="TenderFlow.Core\**" />
 		<Content Remove="TenderFlow.Data\**" />
 		<Content Remove="TenderFlow.Netsis\**" />
+		<Content Remove="wwwroot\eflow\**" />
 		<EmbeddedResource Remove="TenderFlow.AI\**" />
 		<EmbeddedResource Remove="TenderFlow.Core\**" />
 		<EmbeddedResource Remove="TenderFlow.Data\**" />
 		<EmbeddedResource Remove="TenderFlow.Netsis\**" />
+		<EmbeddedResource Remove="wwwroot\eflow\**" />
 		<None Remove="TenderFlow.AI\**" />
 		<None Remove="TenderFlow.Core\**" />
 		<None Remove="TenderFlow.Data\**" />
 		<None Remove="TenderFlow.Netsis\**" />
+		<None Remove="wwwroot\eflow\**" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -48,10 +52,6 @@
 		<Reference Include="NetOpenX.Rest.Client">
 			<HintPath>bin\Debug\net10.0\NetOpenX.Rest.Client.dll</HintPath>
 		</Reference>
-	</ItemGroup>
-
-	<ItemGroup>
-		<Folder Include="wwwroot\eflow\" />
 	</ItemGroup>
 	<ItemGroup>
 		<Compile Remove="TenderFlow.AI\**" />
